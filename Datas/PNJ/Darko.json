@@ -1,0 +1,20 @@
+{
+  "name": "Darko BELINGS",
+  "race": "Humain",
+  "force": 13,
+  "dexterite": 15,
+  "intelligence": 9,
+  "charisme": 10,
+  "constitution": 16,
+  "sagesse":  10,
+  "vitesse": 5,
+  "pdv": 5,
+  "armes": [
+    {
+      "name": "Epee courte",
+      "degat": "1d8",
+      "test": "force"
+    }
+  ],
+  "inventaire": []
+}
