@@ -11,7 +11,7 @@ doc:
 	sphinx-build -b html docs docs/build
 
 run:
-	python src/main.py
+	python src/__main__.py
 
 exe:
 	python -m auto_py_to_exe
