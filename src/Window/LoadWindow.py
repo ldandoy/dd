@@ -1,6 +1,7 @@
 from tkinter import ttk
 from tkinter.ttk import Progressbar
 from tkinter import *
+import time
 
 from src.Window.MainWindow import MainWindow
 
@@ -52,12 +53,13 @@ class LoadWindow:
         l4.place(x=0, y=210)
 
         r = 0
-        #for i in range(100):
-        #    self.progress['value'] = r
-        #    self.splash.update_idletasks()
-        #    time.sleep(0.03)
-        #    r = r + 1
-        self.loadWindow.destroy()
-        mainWindow = MainWindow()
+        for i in range(100):
+            print('test')
+            self.progress['value'] = r
+            self.loadWindow.update_idletasks()
+            time.sleep(0.03)
+            r = r + 1
+        #self.loadWindow.destroy()
+        #mainWindow = MainWindow()
 
         self.loadWindow.mainloop()

@@ -6,7 +6,7 @@ Start file of the project
 
 from Utils.Perso import Perso
 from Story.initialQuest import InitialQuest
-from Window.LoadWindow import LoadWindow
+from Window.MainWindow import MainWindow
 
 
 if __name__ == '__main__':
@@ -14,6 +14,6 @@ if __name__ == '__main__':
     list_perso = Perso.listPerso()
     print(list_perso)
 
-    mw = LoadWindow()
+    mainWindow = MainWindow()
     # initialQuest = InitialQuest()
     # initialQuest.welcome()

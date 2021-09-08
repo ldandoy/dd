@@ -1,8 +1,6 @@
-from tkinter import ttk
-from tkinter.ttk import Progressbar
 from tkinter import *
-import time
 import os
+from src.Utils.loadJson import LoadJson
 
 
 class MainWindow:
@@ -53,35 +51,59 @@ class MainWindow:
         self.q = Tk()
         self.q.title("Donjon & Dragon")
         self.q.geometry('1024x768')
+        self.q.configure(bg='')
+        # Add no size update
 
         base_folder = os.path.dirname(__file__)
-        image_path = os.path.join(base_folder, '../medias/montagne.png')
+        self.image_path = os.path.join(base_folder, '../medias/montagne.png')
+        self.image2_path = os.path.join(base_folder, '../medias/montagne.png')
 
-        bg = PhotoImage(file=image_path)
-        canvas1 = Canvas(self.q, width=1024, height=768)
+        Button(self.q, command=self.toogle_win, text='Menu', border=0, bg="#12c4c0").place(x=5, y=10)
+
+        TextWelcomeFrame = Frame(self.q, width=1024, height=768)
+        TextWelcomeFrame.place(x=0, y=0)
+        TextWelcomeFrame.lower()
+
+        bg = PhotoImage(file=self.image_path)
+        canvas1 = Canvas(TextWelcomeFrame, width=1024, height=768)
         canvas1.pack(fill="both", expand=True)
 
         # Display image
         canvas1.create_image(0, 0, image=bg, anchor="nw")
 
-        Button(self.q, command=self.toogle_win, text='open', border=0, activebackground='#262626', bg="#262626").place(x=5, y=10)
-
-        TextWelcomeFrame = Frame(self.q, width=624, height=35, bg='#12c4c0')
-        TextWelcomeFrame.place(x=100, y=100)
-
         l1 = Label(TextWelcomeFrame, text="Bienvenue dans Donjon et Dragon", fg='dark grey', bg=None)
         l = ('Calirbi (Body)', 24, 'bold')
         l1.config(font=l)
-        l1.place(x=0, y=0)
+        l1.place(x=200, y=200)
 
         def play():
+            TextWelcomeFrame.pack_forget()
             TextWelcomeFrame.destroy()
 
-            ChoicePersoFrame = Frame(self.q, width=624, height=35, bg='#12c4c0')
+            ChoicePersoFrame = Frame(self.q, width=1024, height=768)
+
+
+            bg2 = PhotoImage(file=self.image2_path)
+            canvas2 = Canvas(ChoicePersoFrame, width=1024, height=768)
+            canvas2.pack(fill="both", expand=True)
+
+            # Display image
+            canvas2.create_image(0, 0, image=bg2, anchor="nw")
+
+            # Get the welcome message
+            json = LoadJson()
+            quest = json.load(os.path.join(base_folder, '../../Datas/Story/initialQuest.json'))
+            print(quest['welcome'])
+
+            lwelcome = Label(ChoicePersoFrame, text=quest['welcome'], fg='dark grey')
+            lwelcomefont = ('Calirbi (Body)', 24, 'bold')
+            lwelcome.config(font=lwelcomefont)
+            lwelcome.place(x=200, y=200)
+
             ChoicePersoFrame.place(x=0, y=0)
             ChoicePersoFrame.lower()
 
-        PlayButton = Button(self.q, text="Jouer", command=play, border=0, activebackground='#12c4c0', bg="#12c4c0").place(x=900, y=700)
+        PlayButton = Button(TextWelcomeFrame, text="Jouer", command=play, border=0, activebackground='#12c4c0', bg="#12c4c0").place(x=900, y=700)
 
         self.q.mainloop()
 
