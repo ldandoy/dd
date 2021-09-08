@@ -1,6 +1,6 @@
 from tkinter import *
 import os
-from src.Utils.loadJson import LoadJson
+from Utils.loadJson import LoadJson
 
 
 class MainWindow:
