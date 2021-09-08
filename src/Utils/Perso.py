@@ -17,5 +17,5 @@ class Perso(DefaultController):
     @staticmethod
     def listPerso():
         """Return the list of the Perso"""
-        list = os.listdir('Datas/Perso')
+        list = os.path.join('Datas', 'Perso')
         return list
