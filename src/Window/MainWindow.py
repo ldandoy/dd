@@ -78,6 +78,16 @@ class MainWindow:
         label_textwelcomeframe.config(font=label_textwelcomeframe_config)
         label_textwelcomeframe.place(x=200, y=200)
 
+        print(os.path.join(self.base_folder, '../../Datas/News/info.json'))
+
+        last_messages_json = LoadJson()
+        last_messages = last_messages_json.load(os.path.join(self.base_folder, '../../Datas/News/info.json'))
+
+        label_textwelcomeframe = Label( textwelcomeframe, text=last_messages[0]['content'], fg='dark grey', bg=None )
+        label_textwelcomeframe_config = ('Calirbi (Body)', 24, 'bold')
+        label_textwelcomeframe.config( font=label_textwelcomeframe_config )
+        label_textwelcomeframe.place( x=400, y=400 )
+
         def play():
             textwelcomeframe.pack_forget()
             textwelcomeframe.destroy()
@@ -130,3 +140,4 @@ class MainWindow:
 
         questframe.place(x=0, y=0)
         questframe.lower()
+
