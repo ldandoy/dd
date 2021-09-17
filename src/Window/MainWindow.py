@@ -1,6 +1,7 @@
 from tkinter import *
 import os
 from Utils.loadJson import LoadJson
+from Rooms.rooms import Room
 
 
 class MainWindow:
@@ -123,7 +124,10 @@ class MainWindow:
         quest = json.load(os.path.join(self.base_folder, '../../Datas/Story/initialQuest.json'))
         print(quest['welcome'])
 
-        lwelcome = Label(questframe, text=quest['welcome'], fg='dark grey')
+        room = Room()
+        print(room.generatedrooms)
+
+        lwelcome = Label(questframe, text=room.generatedrooms, fg='dark grey')
         lwelcomefont = ('Calirbi (Body)', 24, 'bold')
         lwelcome.config(font=lwelcomefont)
         lwelcome.place(x=200, y=200)
