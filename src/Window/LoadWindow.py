@@ -3,7 +3,7 @@ from tkinter.ttk import Progressbar
 from tkinter import *
 import time
 
-from src.Window.MainWindow import MainWindow
+from Window.MainWindow import MainWindow
 
 
 class LoadWindow:
