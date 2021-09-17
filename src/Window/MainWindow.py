@@ -1,7 +1,7 @@
 from tkinter import *
 import os
 from Utils.loadJson import LoadJson
-
+from Utils.GetLastFeatures import GetLastFeatures
 
 class MainWindow:
 
@@ -78,15 +78,20 @@ class MainWindow:
         label_textwelcomeframe.config(font=label_textwelcomeframe_config)
         label_textwelcomeframe.place(x=200, y=200)
 
-        print(os.path.join(self.base_folder, '../../Datas/News/info.json'))
+        #console log Get last feature
+        GetLastFeatures(1, "content")
 
-        last_messages_json = LoadJson()
-        last_messages = last_messages_json.load(os.path.join(self.base_folder, '../../Datas/News/info.json'))
+        label_textinfo1 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragoooooooonnnnnn", fg='dark grey', bg='cyan')
+        label_textinfo1.config(font=label_textwelcomeframe_config)
+        label_textinfo1.place(x=50, y=400)
 
-        label_textwelcomeframe = Label( textwelcomeframe, text=last_messages[0]['content'], fg='dark grey', bg=None )
-        label_textwelcomeframe_config = ('Calirbi (Body)', 24, 'bold')
-        label_textwelcomeframe.config( font=label_textwelcomeframe_config )
-        label_textwelcomeframe.place( x=400, y=400 )
+        label_textinfo2 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragoooooooonnnnnn", fg='dark grey',bg='cyan')
+        label_textinfo2.config(font=label_textwelcomeframe_config)
+        label_textinfo2.place(x=350, y=400)
+
+        label_textinfo3 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragoooooooonnnnnn", fg='dark grey',bg='cyan')
+        label_textinfo3.config(font=label_textwelcomeframe_config)
+        label_textinfo3.place(x=650, y=400)
 
         def play():
             textwelcomeframe.pack_forget()
@@ -140,4 +145,3 @@ class MainWindow:
 
         questframe.place(x=0, y=0)
         questframe.lower()
-
