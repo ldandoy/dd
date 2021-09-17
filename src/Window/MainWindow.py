@@ -78,6 +78,31 @@ class MainWindow:
         label_textwelcomeframe.config(font=label_textwelcomeframe_config)
         label_textwelcomeframe.place(x=200, y=200)
 
+        print(os.path.join(self.base_folder, '../../Datas/News/info.json'))
+
+        last_messages_json = LoadJson()
+        last_messages = last_messages_json.load(os.path.join(self.base_folder, '../../Datas/News/info.json'))
+
+        label_textwelcomeframe = Label( textwelcomeframe, text=last_messages[0]['content'], fg='dark grey', bg=None )
+        label_textwelcomeframe_config = ('Calirbi (Body)', 24, 'bold')
+        label_textwelcomeframe.config( font=label_textwelcomeframe_config )
+        label_textwelcomeframe.place( x=400, y=400 )
+
+        label_textinfo1 = Label(textwelcomeframe, text="Dragoooooooonnnnnn Bienvenue dans Donjon\n et", fg='#17b9eb',
+                                bg='#0483d1', )
+        label_textinfo1.config(font=label_textwelcomeframe_config)
+        label_textinfo1.place(x=50, y=400)
+
+        label_textinfo2 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragoooooooonnnnnn", fg='#17b9eb',
+                                bg='#0483d1')
+        label_textinfo2.config(font=label_textwelcomeframe_config)
+        label_textinfo2.place(x=350, y=500)
+
+        label_textinfo3 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragoooooooonnnnnn", fg='#17b9eb',
+                                bg='#0483d1')
+        label_textinfo3.config(font=label_textwelcomeframe_config)
+        label_textinfo3.place(x=650, y=400)
+
         def play():
             textwelcomeframe.pack_forget()
             textwelcomeframe.destroy()
