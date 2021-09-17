@@ -78,6 +78,18 @@ class MainWindow:
         label_textwelcomeframe.config(font=label_textwelcomeframe_config)
         label_textwelcomeframe.place(x=200, y=200)
 
+        label_textinfo1 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragoooooooonnnnnn", fg='dark grey', bg='cyan')
+        label_textinfo1.config(font=label_textwelcomeframe_config)
+        label_textinfo1.place(x=50, y=400)
+
+        label_textinfo2 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragoooooooonnnnnn", fg='dark grey',bg='cyan')
+        label_textinfo2.config(font=label_textwelcomeframe_config)
+        label_textinfo2.place(x=350, y=400)
+
+        label_textinfo3 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragoooooooonnnnnn", fg='dark grey',bg='cyan')
+        label_textinfo3.config(font=label_textwelcomeframe_config)
+        label_textinfo3.place(x=650, y=400)
+
         def play():
             textwelcomeframe.pack_forget()
             textwelcomeframe.destroy()
