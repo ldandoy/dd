@@ -5,6 +5,8 @@ from Rooms.rooms import Room
 
 
 class MainWindow:
+    rooms = []
+    donjonroom = 0
 
     def toogle_win(self):
         f1 = Frame(self.q, width=300, height=600, bg='#12c4c0')
@@ -127,6 +129,7 @@ class MainWindow:
         def choice():
             questframe.pack_forget()
             questframe.destroy()
+            self.rooms = Room()
 
             self.QuestStartedFrame()
 
@@ -136,29 +139,70 @@ class MainWindow:
         label_textquestframe.config(font=label_textquestframe_config)
         label_textquestframe.place(x=100, y=200)
 
-        QuestButton = Button(questframe, text="Démarrer une quête", command=choice, border=0,
+        questButton = Button(questframe, text="Démarrer une quête", command=choice, border=0,
                              activebackground='#12c4c0', bg="#12c4c0")
-        QuestButton.place(x=490, y=300)
+        questButton.place(x=490, y=300)
 
         questframe.place(x=0, y=0)
         questframe.lower()
 
     def QuestStartedFrame(self):
+
         queststartedframe = Frame(self.q, width=1024, height=600, bg="#FF0000")
 
-        room = Room()
+        def fight():
+            self.donjonroom += 1
+            queststartedframe.pack_forget()
+            queststartedframe.destroy()
+            self.QuestStartedFrame()
+        def bossfight():
+            queststartedframe.pack_forget()
+            queststartedframe.destroy()
+            self.QuestStartedFrame()
+        def runaway():
+            print("test")
+        def exitroom():
+            print("test")
+        def nextroom():
+            self.donjonroom += 1
+            queststartedframe.pack_forget()
+            queststartedframe.destroy()
+            self.QuestStartedFrame()
 
-        donjonroom = 0
-
-        tqueststarted = Label(queststartedframe, text=room.donjon[0]["name"], fg='dark grey')
+        tqueststarted = Label(queststartedframe, text=self.rooms.donjon[self.donjonroom]["name"], fg='dark grey')
         tqueststartedfont = ('Calibri (Body)', 24, 'bold')
         tqueststarted.config(font=tqueststartedfont)
         tqueststarted.place(x=50, y=70)
 
-        lqueststarted = Label(queststartedframe, text=room.donjon[0]["description"], fg='dark grey')
+        lqueststarted = Label(queststartedframe, text=self.rooms.donjon[self.donjonroom]["description"], fg='dark grey')
         lqueststartedfont = ('Calibri (Body)', 18, 'bold')
         lqueststarted.config(font=lqueststartedfont)
         lqueststarted.place(x=50, y=120)
+
+        if self.rooms.donjon[self.donjonroom]["name"] == "Rencontre":
+            fightButton = Button(queststartedframe, text="Combattre !", command=fight, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            fightButton.place(x=750, y=200)
+
+            runButton = Button(queststartedframe, text="Fuir !", command=runaway, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            runButton.place(x=750, y=250)
+        elif self.rooms.donjon[self.donjonroom]["name"] == "Boss":
+            fightButton = Button(queststartedframe, text="Combattre !", command=bossfight, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            fightButton.place(x=750, y=200)
+
+            runButton = Button(queststartedframe, text="Fuir !", command=runaway, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            runButton.place(x=750, y=250)
+        else:
+            continueButton = Button(queststartedframe, text="Continuer", command=nextroom, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            continueButton.place(x=750, y=200)
+
+            exitButton = Button(queststartedframe, text="Sortir", command=exitroom, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            exitButton.place(x=750, y=250)
 
         queststartedframe.place(x=0, y=0)
         queststartedframe.lower()
