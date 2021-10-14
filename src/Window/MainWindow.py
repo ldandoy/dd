@@ -82,6 +82,7 @@ class MainWindow:
 
         print( lastFeaturesObj[ 1 ][ 'content' ] )
 
+
         label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
 
         # text= blabla[content]
