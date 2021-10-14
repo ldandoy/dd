@@ -124,13 +124,34 @@ class MainWindow:
         quest = json.load(os.path.join(self.base_folder, '../../Datas/Story/initialQuest.json'))
         print(quest['welcome'])
 
-        room = Room()
-        print(room.generatedrooms)
+        def choice():
+            questframe.pack_forget()
+            questframe.destroy()
 
-        lwelcome = Label(questframe, text=room.generatedrooms, fg='dark grey')
-        lwelcomefont = ('Calirbi (Body)', 24, 'bold')
-        lwelcome.config(font=lwelcomefont)
-        lwelcome.place(x=200, y=200)
+            self.QuestStartedFrame()
+
+        label_textquestframe = Label(questframe, text="Bienvenue 'INSERER NOM JOUEUR', que souhaitez-vous faire ?",
+                                     fg='dark grey', bg=None)
+        label_textquestframe_config = ('Calibri (Body)', 20, 'bold')
+        label_textquestframe.config(font=label_textquestframe_config)
+        label_textquestframe.place(x=100, y=200)
+
+        QuestButton = Button(questframe, text="Démarrer une quête", command=choice, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+        QuestButton.place(x=490, y=300)
 
         questframe.place(x=0, y=0)
         questframe.lower()
+
+    def QuestStartedFrame(self):
+        queststartedframe = Frame(self.q, width=1024, height=600, bg="#FF0000")
+
+        room = Room()
+
+        lqueststarted = Label(queststartedframe, text=room.generatedrooms, fg='dark grey')
+        lqueststartedfont = ('Calibri (Body)', 24, 'bold')
+        lqueststarted.config(font=lqueststartedfont)
+        lqueststarted.place(x=200, y=200)
+
+        queststartedframe.place(x=0, y=0)
+        queststartedframe.lower()

@@ -8,24 +8,25 @@ class Room:
     generatedrooms = []
 
     def __init__(self):
-        # Generating a number that is going to determinate the number of rooms in the quest
+        # Génération d'un chiffre aléatoires pour déterminer le nombre de salles dans le donjon
         generatenbrooms = randint(3, 10)
 
-        # Generating a number that is going to determinate the type of each room
+        # Génération d'un chiffre aléatoire pour déterminer la nature de chaque salle
         for i in range(generatenbrooms):
             randomtype = randint(1, 4)
             self.generatedrooms.append(randomtype)
 
-    #for i in generatedrooms:
-    #    if (i = 1):
-    #        couloir
-    #        self.data = j.load('Datas/Rooms/')
-    #    if (i = 2):
-    #        trésor
-    #        self.data = j.load('Datas/Rooms/')
-    #    if (i = 3):
-    #        rencontre
-    #        self.data = j.load('Datas/Rooms/')
-    #    if (i = 4):
-    #        rien
-    #        self.data = j.load('Datas/Rooms/')
+        # Chargement de chaque salle
+        #for i in generatedrooms:
+        #    if (i = 1):
+        #        couloir
+        #        self.data = j.load('Datas/Rooms/couloir.json')
+        #    if (i = 2):
+        #        trésor
+        #        self.data = j.load('Datas/Rooms/')
+        #    if (i = 3):
+        #        rencontre
+        #        self.data = j.load('Datas/Rooms/')
+        #    if (i = 4):
+        #        rien
+        #        self.data = j.load('Datas/Rooms/')
