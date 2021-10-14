@@ -5,9 +5,15 @@ from tkinter.tix import ScrolledWindow
 from Utils.loadJson import LoadJson
 from tkinter import ttk
 import tkinter as tk
+from Rooms.rooms import Room
+from src.Perso.PersoActions import submit_new_perso
+from Combat import combat
+
 
 
 class MainWindow:
+    rooms = []
+    donjonroom = 0
 
     def toogle_win(self):
         f1 = Frame(self.q, width=300, height=600, bg='#12c4c0')
@@ -130,6 +136,17 @@ class MainWindow:
         ChoiceButton = Button(choicepersoframe, text="Choisir", command=choice, border=0, activebackground='#12c4c0', bg="#12c4c0", width=27, height=10)
         ChoiceButton.place(x=780, y=420)
 
+        def go_to_new_perso() -> None:
+            choicepersoframe.pack_forget()
+            choicepersoframe.destroy()
+
+            self.new_perso_frame()
+
+        ChoiceButton = Button(choicepersoframe, text="Choisir", command=choice, border=0, activebackground='#12c4c0', bg="#12c4c0")
+        new_button = Button(choicepersoframe, text="Créer un nouveau personnage", command=go_to_new_perso, border=0, activebackground='#12c4c0', bg="#12c4c0")
+        ChoiceButton.place(x=950, y=550)
+        new_button.place(x=775, y=550)
+
         choicepersoframe.place(x=0, y=0)
         choicepersoframe.lower()
 
@@ -139,12 +156,171 @@ class MainWindow:
         # Get the welcome message
         json = LoadJson()
         quest = json.load(os.path.join(self.base_folder, '../../Datas/Story/initialQuest.json'))
-        print(quest['welcome'])
 
-        lwelcome = Label(questframe, text=quest['welcome'], fg='dark grey')
-        lwelcomefont = ('Calirbi (Body)', 24, 'bold')
-        lwelcome.config(font=lwelcomefont)
-        lwelcome.place(x=200, y=200)
+        def choice():
+            questframe.pack_forget()
+            questframe.destroy()
+            self.rooms = Room()
+
+            self.QuestStartedFrame()
+
+        label_textquestframe = Label(questframe, text="Bienvenue 'INSERER NOM JOUEUR', que souhaitez-vous faire ?",
+                                     fg='dark grey', bg=None)
+        label_textquestframe_config = ('Calibri (Body)', 20, 'bold')
+        label_textquestframe.config(font=label_textquestframe_config)
+        label_textquestframe.place(x=100, y=200)
+
+        questButton = Button(questframe, text="Démarrer une quête", command=choice, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+        questButton.place(x=490, y=300)
 
         questframe.place(x=0, y=0)
         questframe.lower()
+
+
+    def QuestStartedFrame(self):
+
+        queststartedframe = Frame(self.q, width=1024, height=600, bg="#FF0000")
+
+        def fight():
+            self.donjonroom += 1
+            queststartedframe.pack_forget()
+            queststartedframe.destroy()
+            self.QuestStartedFrame()
+        def bossfight():
+            queststartedframe.pack_forget()
+            queststartedframe.destroy()
+            self.QuestStartedFrame()
+        def runaway():
+            print("test")
+        def exitroom():
+            print("test")
+        def nextroom():
+            self.donjonroom += 1
+            queststartedframe.pack_forget()
+            queststartedframe.destroy()
+            self.QuestStartedFrame()
+
+        tqueststarted = Label(queststartedframe, text=self.rooms.donjon[self.donjonroom]["name"], fg='dark grey')
+        tqueststartedfont = ('Calibri (Body)', 24, 'bold')
+        tqueststarted.config(font=tqueststartedfont)
+        tqueststarted.place(x=50, y=70)
+
+        lqueststarted = Label(queststartedframe, text=self.rooms.donjon[self.donjonroom]["description"], fg='dark grey')
+        lqueststartedfont = ('Calibri (Body)', 18, 'bold')
+        lqueststarted.config(font=lqueststartedfont)
+        lqueststarted.place(x=50, y=120)
+
+        if self.rooms.donjon[self.donjonroom]["name"] == "Rencontre":
+            fightButton = Button(queststartedframe, text="Combattre !", command=fight, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            fightButton.place(x=750, y=200)
+
+            runButton = Button(queststartedframe, text="Fuir !", command=runaway, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            runButton.place(x=750, y=250)
+        elif self.rooms.donjon[self.donjonroom]["name"] == "Boss":
+            fightButton = Button(queststartedframe, text="Combattre !", command=bossfight, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            fightButton.place(x=750, y=200)
+
+            runButton = Button(queststartedframe, text="Fuir !", command=runaway, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            runButton.place(x=750, y=250)
+        else:
+            continueButton = Button(queststartedframe, text="Continuer", command=nextroom, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            continueButton.place(x=750, y=200)
+
+            exitButton = Button(queststartedframe, text="Sortir", command=exitroom, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            exitButton.place(x=750, y=250)
+
+        queststartedframe.place(x=0, y=0)
+        queststartedframe.lower()
+
+    def new_perso_frame(self):
+        frame = Frame(self.q, width=1024, height=600, bg="#FFF")
+
+        # main message
+        main_message = Label(frame, text='Créer un personnage', fg='dark grey')
+        main_message.config(font=('Calibri (Body)', 24, 'bold'))
+        main_message.place(x=200, y=200)
+
+        # new perso form
+        Label(frame, text="Name").grid(row=0, column=0)
+        Label(frame, text="Age").grid(row=1, column=0)
+        name = Entry(frame).grid(row=0, column=1)
+        age = Entry(frame).grid(row=1, column=1)
+
+        def makeform(root, fields):
+            entries = {}
+            for field in fields:
+                row = Frame(root)
+                lab = Label(row, width=22, text=field + ": ", anchor='w')
+                ent = Entry(row)
+                ent.insert(0, "0")
+                row.pack(side=TOP, fill=X, padx=5, pady=5)
+                lab.pack(side=LEFT)
+                ent.pack(side=RIGHT, expand=YES, fill=X)
+                entries[field] = ent
+            return entries
+
+        fields = ('Name', 'Age')
+        ents = makeform(self.q, fields)
+        print(name)
+
+        def trigger_submit_new_form():
+            submit_new_perso(ents.get('Name'))
+
+        btn = Button(frame, text="Submit", command=submit_new_perso).grid(row=4, column=0)
+
+        frame.place(x=0, y=0)
+        frame.lower()
+
+    def CombatFrame(self):
+        hero = '{"name":"test","hp":20,"attaque":"2d10+0","vit":"5"}'
+        monstre = '{"name": "chauve souris","hp": "30","attaque": "1d5+0","vit":"7"}'
+        Combatframe = Frame(self.q, width=1024, height=600)
+        Combatframe.place(x=0, y=0)
+        Combatframe.lower()
+
+        image_path = os.path.join(self.base_folder, '../medias/combat.png')
+        bg = PhotoImage(file=r'' + image_path)
+        canvas1 = Canvas(Combatframe, width=1024, height=600)
+        canvas1.pack(fill="both", expand=True)
+        canvas1.create_image(0, 0, image=bg, anchor="nw")
+        canvas1.image = bg
+        combat = Combat(hero, monstre)
+        combat.initiative()
+
+        def Attack():
+            combat.monster_get_damaged()
+            combat.monster_is_dead()
+            if combat.monster_is_dead() == 0:
+                print("monster is dead")
+                Combatframe.destroy()
+            else:
+                combat.hero_get_damaged()
+                if combat.hero_is_dead() == 0:
+                    print("hero is dead")
+                    Combatframe.destroy()
+
+        def Inventaire():
+            print("ceci est une ouverture d'inventaire")
+
+        def Fuite():
+            print("Vous tentez de prendre la fuite")
+
+        AttackButton = Button(Combatframe, text="Attack", command=Attack, border=0, activebackground='#12c4c0',
+                              bg="#12c4c0")
+        AttackButton.place(x=750, y=500)
+
+        InventaireButton = Button(Combatframe, text="Inventaire", command=Inventaire, border=0, activebackground='#12c4c0',
+                              bg="#12c4c0")
+        InventaireButton.place(x=850, y=500)
+
+        FuiteButton = Button(Combatframe, text="Fuite", command=Fuite, border=0, activebackground='#12c4c0',
+                              bg="#12c4c0")
+        FuiteButton.place(x=850, y=550)
+
