@@ -78,13 +78,15 @@ class MainWindow:
         label_textwelcomeframe.config(font=label_textwelcomeframe_config)
         label_textwelcomeframe.place(x=200, y=200)
 
-        lastFeaturesObj = GetLastFeatures( 3 )
+        lastFeaturesObj = GetLastFeatures( 4 )
 
         print( lastFeaturesObj[ 1 ][ 'content' ] )
+        print(lastFeaturesObj[ 1 ])
 
-        label_textinfo1 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragoooooooonnnnnn", fg='dark grey', bg='cyan')
+        label_textinfo1 = Label(textwelcomeframe, text= lastFeaturesObj[1]['content'], fg='dark grey', bg='cyan')
         label_textinfo1.config(font=label_textwelcomeframe_config)
         label_textinfo1.place(x=50, y=400)
+
 
 
 
@@ -95,6 +97,8 @@ class MainWindow:
         label_textinfo3 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragoooooooonnnnnn", fg='dark grey',bg='cyan')
         label_textinfo3.config(font=label_textwelcomeframe_config)
         label_textinfo3.place(x=650, y=400)
+
+
 
         def play():
             textwelcomeframe.pack_forget()
