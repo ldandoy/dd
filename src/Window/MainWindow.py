@@ -4,7 +4,7 @@ import os
 from Utils.loadJson import LoadJson
 from Rooms.rooms import Room
 from src.Perso.PersoActions import submit_new_perso
-from Combat import combat
+from Combat.combat import *
 
 
 
@@ -166,11 +166,11 @@ class MainWindow:
             self.donjonroom += 1
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-            self.QuestStartedFrame()
+            self.CombatFrame()
         def bossfight():
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-            self.QuestStartedFrame()
+            self.CombatFrame()
         def runaway():
             print("test")
         def exitroom():
