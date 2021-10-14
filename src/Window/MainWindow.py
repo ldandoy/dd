@@ -3,12 +3,13 @@ import os
 
 from Utils.loadJson import LoadJson
 from Rooms.rooms import Room
-from src.Perso.PersoActions import submit_new_perso
+from Perso.PersoActions import submit_new_perso
 
 
 
 class MainWindow:
     rooms = []
+    
     donjonroom = 0
 
     def toogle_win(self):

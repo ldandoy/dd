@@ -1,6 +1,6 @@
 import os
-from src.Utils.DefaultController import DefaultController
-from src.Utils.logger import debug
+from Utils.DefaultController import DefaultController
+from Utils.logger import debug
 
 
 def choose_skill() -> None:
