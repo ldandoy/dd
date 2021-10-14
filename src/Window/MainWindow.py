@@ -78,8 +78,9 @@ class MainWindow:
         label_textwelcomeframe.config(font=label_textwelcomeframe_config)
         label_textwelcomeframe.place(x=200, y=200)
 
-        #console log Get last feature
-        GetLastFeatures(1, "content")
+        lastFeaturesObj = GetLastFeatures( 3 )
+
+        print( lastFeaturesObj[ 1 ][ 'content' ] )
 
         def play():
             textwelcomeframe.pack_forget()
