@@ -1,6 +1,10 @@
 from tkinter import *
 import os
+from tkinter.tix import ScrolledWindow
+
 from Utils.loadJson import LoadJson
+from tkinter import ttk
+import tkinter as tk
 
 
 class MainWindow:
@@ -89,19 +93,33 @@ class MainWindow:
 
 
     def ChoicePersoFrame(self):
+        """window to choice a character"""
         choicepersoframe = Frame(self.q, width=1024, height=600)
 
-        image2_path = os.path.join(self.base_folder, '../medias/village.png')
+        image2_path = os.path.join(self.base_folder, '../medias/forest.png')
         bg2 = PhotoImage(file=image2_path)
         canvas2 = Canvas(choicepersoframe, width=1024, height=600)
         canvas2.pack(fill="both", expand=True)
         canvas2.create_image(0, 0, image=bg2, anchor="nw")
         canvas2.image = bg2
 
-        lwelcome = Label(choicepersoframe, text="Choissez votre personnage", fg='dark grey')
+
+
+
+        # character area ---------
+        card = Canvas(choicepersoframe, width=110, height=110)
+        card.place(x=105, y=100)
+
+        # About character -------
+        card = Canvas(choicepersoframe, width=650, height=154)
+        card.place(x=105, y=420)
+        # card.create_rectangle(55, 30, 140, 70, fill="blue")
+
+
+        lwelcome = Label(choicepersoframe, text="Choissez votre personnage", fg='white', bg ='black')
         lwelcomefont = ('Calirbi (Body)', 24, 'bold')
         lwelcome.config(font=lwelcomefont)
-        lwelcome.place(x=80, y=100)
+        lwelcome.place(x=105, y=30)
 
         def choice():
             choicepersoframe.pack_forget()
@@ -109,8 +127,8 @@ class MainWindow:
 
             self.QuestFrame()
 
-        ChoiceButton = Button(choicepersoframe, text="Choisir", command=choice, border=0, activebackground='#12c4c0', bg="#12c4c0")
-        ChoiceButton.place(x=950, y=550)
+        ChoiceButton = Button(choicepersoframe, text="Choisir", command=choice, border=0, activebackground='#12c4c0', bg="#12c4c0", width=27, height=10)
+        ChoiceButton.place(x=780, y=420)
 
         choicepersoframe.place(x=0, y=0)
         choicepersoframe.lower()
