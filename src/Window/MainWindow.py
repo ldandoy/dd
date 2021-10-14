@@ -148,10 +148,17 @@ class MainWindow:
 
         room = Room()
 
-        lqueststarted = Label(queststartedframe, text=room.generatedrooms, fg='dark grey')
-        lqueststartedfont = ('Calibri (Body)', 24, 'bold')
+        donjonroom = 0
+
+        tqueststarted = Label(queststartedframe, text=room.donjon[0]["name"], fg='dark grey')
+        tqueststartedfont = ('Calibri (Body)', 24, 'bold')
+        tqueststarted.config(font=tqueststartedfont)
+        tqueststarted.place(x=50, y=70)
+
+        lqueststarted = Label(queststartedframe, text=room.donjon[0]["description"], fg='dark grey')
+        lqueststartedfont = ('Calibri (Body)', 18, 'bold')
         lqueststarted.config(font=lqueststartedfont)
-        lqueststarted.place(x=200, y=200)
+        lqueststarted.place(x=50, y=120)
 
         queststartedframe.place(x=0, y=0)
         queststartedframe.lower()

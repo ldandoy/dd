@@ -6,6 +6,7 @@ class Room:
 
     j = LoadJson()
     generatedrooms = []
+    donjon = []
 
     def __init__(self):
         # Génération d'un chiffre aléatoires pour déterminer le nombre de salles dans le donjon
@@ -17,16 +18,12 @@ class Room:
             self.generatedrooms.append(randomtype)
 
         # Chargement de chaque salle
-        #for i in generatedrooms:
-        #    if (i = 1):
-        #        couloir
-        #        self.data = j.load('Datas/Rooms/couloir.json')
-        #    if (i = 2):
-        #        trésor
-        #        self.data = j.load('Datas/Rooms/')
-        #    if (i = 3):
-        #        rencontre
-        #        self.data = j.load('Datas/Rooms/')
-        #    if (i = 4):
-        #        rien
-        #        self.data = j.load('Datas/Rooms/')
+        for i in self.generatedrooms:
+            if (i == 1):
+                self.donjon.append(self.j.load('Datas/Rooms/couloir.json'))
+            elif (i == 2):
+                self.donjon.append(self.j.load('Datas/Rooms/fight.json'))
+            elif (i == 3):
+                self.donjon.append(self.j.load('Datas/Rooms/nothing.json'))
+            elif (i == 4):
+                self.donjon.append(self.j.load('Datas/Rooms/tresor.json'))
