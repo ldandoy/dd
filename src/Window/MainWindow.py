@@ -74,14 +74,15 @@ class MainWindow:
         canvas1.image=bg
 
         label_textwelcomeframe = Label(textwelcomeframe, text="Bienvenue dans Donjon et Dragon", fg='dark grey', bg=None)
-        label_textwelcomeframe_config = ('Calirbi (Body)', 24, 'bold')
+        label_textwelcomeframe_config = ('Calirbi (Body)', 36, 'bold')
         label_textwelcomeframe.config(font=label_textwelcomeframe_config)
-        label_textwelcomeframe.place(x=200, y=200)
+        label_textwelcomeframe.place(x=250, y=100)
 
         lastFeaturesObj = GetLastFeatures( 4 )
 
         print( lastFeaturesObj[ 1 ][ 'content' ] )
         print(lastFeaturesObj[ 1 ])
+
 
         label_textinfo1 = Label(textwelcomeframe, text= lastFeaturesObj[1]['content'], fg='dark grey', bg='cyan')
         label_textinfo1.config(font=label_textwelcomeframe_config)
@@ -94,9 +95,22 @@ class MainWindow:
         label_textinfo2.config(font=label_textwelcomeframe_config)
         label_textinfo2.place(x=350, y=400)
 
-        label_textinfo3 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragoooooooonnnnnn", fg='dark grey',bg='cyan')
-        label_textinfo3.config(font=label_textwelcomeframe_config)
-        label_textinfo3.place(x=650, y=400)
+
+        # text= blabla[content]
+        label_textinfo1 = Label(textwelcomeframe, text="1234567890123456789\n12345678901234\n1234567890123456789\n12345678901234\n1234567890123456789\n12345678901234\n1234567890123456789\n12345678901234"[0:150], fg='white',
+                                bg='#0483d1', )
+        label_textinfo1.config(font=label_textinfo_config)
+        label_textinfo1.place(x=25, y=250)
+
+        label_textinfo2 = Label(textwelcomeframe, text="Bienvenue Donjon\n et Dragooooooonnn\n1234567890123456789\n12345678901234\n1234567890123456789\n12345678901234"[0:150], fg='white',
+                                bg='#0483d1')
+        label_textinfo2.config(font=label_textinfo_config)
+        label_textinfo2.place(x=350, y=250)
+
+        label_textinfo3 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragooooonnnnn\n1234567890123456789\n12345678901234\n1234567890123456789\n12345678901234\n1234567890123456789\n12345678901234\n1234567890123456789\n12345678901234"[0:150], fg='white',
+                                bg='#0483d1')
+        label_textinfo3.config(font=label_textinfo_config)
+        label_textinfo3.place(x=675, y=250)
 
 
 
