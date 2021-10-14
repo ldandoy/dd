@@ -2,11 +2,12 @@
 
 Start file of the project
 """
-
+import json
 
 from Utils.Perso import Perso
 from Story.initialQuest import InitialQuest
 from Window.MainWindow import MainWindow
+
 
 
 if __name__ == '__main__':
