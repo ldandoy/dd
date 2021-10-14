@@ -78,8 +78,9 @@ class MainWindow:
         label_textwelcomeframe.config(font=label_textwelcomeframe_config)
         label_textwelcomeframe.place(x=200, y=200)
 
-        #console log Get last feature
-        GetLastFeatures(1, "content")
+        lastFeaturesObj = GetLastFeatures( 3 )
+
+        print( lastFeaturesObj[ 1 ][ 'content' ] )
 
         label_textinfo1 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragoooooooonnnnnn", fg='dark grey', bg='cyan')
         label_textinfo1.config(font=label_textwelcomeframe_config)
