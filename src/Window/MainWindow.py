@@ -1,7 +1,10 @@
 from tkinter import *
 import os
+
 from Utils.loadJson import LoadJson
 from Rooms.rooms import Room
+from src.Perso.PersoActions import submit_new_perso
+
 
 
 class MainWindow:
@@ -112,8 +115,16 @@ class MainWindow:
 
             self.QuestFrame()
 
+        def go_to_new_perso() -> None:
+            choicepersoframe.pack_forget()
+            choicepersoframe.destroy()
+
+            self.new_perso_frame()
+
         ChoiceButton = Button(choicepersoframe, text="Choisir", command=choice, border=0, activebackground='#12c4c0', bg="#12c4c0")
+        new_button = Button(choicepersoframe, text="Créer un nouveau personnage", command=go_to_new_perso, border=0, activebackground='#12c4c0', bg="#12c4c0")
         ChoiceButton.place(x=950, y=550)
+        new_button.place(x=775, y=550)
 
         choicepersoframe.place(x=0, y=0)
         choicepersoframe.lower()
@@ -124,7 +135,6 @@ class MainWindow:
         # Get the welcome message
         json = LoadJson()
         quest = json.load(os.path.join(self.base_folder, '../../Datas/Story/initialQuest.json'))
-        print(quest['welcome'])
 
         def choice():
             questframe.pack_forget()
@@ -145,6 +155,7 @@ class MainWindow:
 
         questframe.place(x=0, y=0)
         questframe.lower()
+
 
     def QuestStartedFrame(self):
 
@@ -206,3 +217,43 @@ class MainWindow:
 
         queststartedframe.place(x=0, y=0)
         queststartedframe.lower()
+
+    def new_perso_frame(self):
+        frame = Frame(self.q, width=1024, height=600, bg="#FFF")
+
+        # main message
+        main_message = Label(frame, text='Créer un personnage', fg='dark grey')
+        main_message.config(font=('Calibri (Body)', 24, 'bold'))
+        main_message.place(x=200, y=200)
+
+        # new perso form
+        Label(frame, text="Name").grid(row=0, column=0)
+        Label(frame, text="Age").grid(row=1, column=0)
+        name = Entry(frame).grid(row=0, column=1)
+        age = Entry(frame).grid(row=1, column=1)
+
+        def makeform(root, fields):
+            entries = {}
+            for field in fields:
+                row = Frame(root)
+                lab = Label(row, width=22, text=field + ": ", anchor='w')
+                ent = Entry(row)
+                ent.insert(0, "0")
+                row.pack(side=TOP, fill=X, padx=5, pady=5)
+                lab.pack(side=LEFT)
+                ent.pack(side=RIGHT, expand=YES, fill=X)
+                entries[field] = ent
+            return entries
+
+        fields = ('Name', 'Age')
+        ents = makeform(self.q, fields)
+        print(name)
+
+        def trigger_submit_new_form():
+            submit_new_perso(ents.get('Name'))
+
+        btn = Button(frame, text="Submit", command=submit_new_perso).grid(row=4, column=0)
+
+        frame.place(x=0, y=0)
+        frame.lower()
+
