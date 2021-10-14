@@ -85,6 +85,8 @@ class MainWindow:
         label_textinfo1.config(font=label_textwelcomeframe_config)
         label_textinfo1.place(x=50, y=400)
 
+
+
         label_textinfo2 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragoooooooonnnnnn", fg='dark grey',bg='cyan')
         label_textinfo2.config(font=label_textwelcomeframe_config)
         label_textinfo2.place(x=350, y=400)
