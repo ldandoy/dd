@@ -31,4 +31,3 @@ class Room:
                 self.donjon.append(self.j.load('Datas/Rooms/tresor.json'))
             elif i == 5:
                 self.donjon.append(self.j.load('Datas/Rooms/bossfight.json'))
-                
