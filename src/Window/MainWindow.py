@@ -78,12 +78,23 @@ class MainWindow:
         label_textwelcomeframe.config(font=label_textwelcomeframe_config)
         label_textwelcomeframe.place(x=250, y=100)
 
-        lastFeaturesObj = GetLastFeatures( 3 )
+        lastFeaturesObj = GetLastFeatures( 4 )
 
         print( lastFeaturesObj[ 1 ][ 'content' ] )
+        print(lastFeaturesObj[ 1 ])
 
 
-        label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
+        label_textinfo1 = Label(textwelcomeframe, text= lastFeaturesObj[1]['content'], fg='dark grey', bg='cyan')
+        label_textinfo1.config(font=label_textwelcomeframe_config)
+        label_textinfo1.place(x=50, y=400)
+
+
+
+
+        label_textinfo2 = Label(textwelcomeframe, text="Bienvenue dans Donjon\n et Dragoooooooonnnnnn", fg='dark grey',bg='cyan')
+        label_textinfo2.config(font=label_textwelcomeframe_config)
+        label_textinfo2.place(x=350, y=400)
+
 
         # text= blabla[content]
         label_textinfo1 = Label(textwelcomeframe, text="1234567890123456789\n12345678901234\n1234567890123456789\n12345678901234\n1234567890123456789\n12345678901234\n1234567890123456789\n12345678901234"[0:150], fg='white',
@@ -100,6 +111,8 @@ class MainWindow:
                                 bg='#0483d1')
         label_textinfo3.config(font=label_textinfo_config)
         label_textinfo3.place(x=675, y=250)
+
+
 
         def play():
             textwelcomeframe.pack_forget()
