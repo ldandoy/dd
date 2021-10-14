@@ -1,4 +1,6 @@
 import os
+import random
+from Utils.DefaultController import DefaultController
 from src.Utils.DefaultController import DefaultController
 from src.Utils.logger import debug
 
@@ -44,7 +46,24 @@ class Perso(DefaultController):
     @staticmethod
     def list_perso():
         """Return the list of the Perso"""
-        return os.path.join('Datas', 'Perso')
+        list = os.path.join('Datas', 'Perso')
+        return list
+
+    @staticmethod
+    def dice(jet):
+        bonus_split = jet.split("+")
+        my_split = bonus_split[0].split("d")
+        nb_dice = my_split[0]
+        rand_range = my_split[1]
+        dmg_deal = 0
+        bonus = int(bonus_split[1])
+
+        for x in range(int(nb_dice)):
+            rand = random.randint(1, int(rand_range))
+            dmg_deal = dmg_deal + rand
+        print("dmg dealt : " + str(dmg_deal))
+        return dmg_deal + bonus
+
 
     """
     Verify that allowed points is not 0.

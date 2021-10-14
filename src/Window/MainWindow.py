@@ -4,6 +4,7 @@ import os
 from Utils.loadJson import LoadJson
 from Rooms.rooms import Room
 from src.Perso.PersoActions import submit_new_perso
+from Combat import combat
 
 
 
@@ -256,4 +257,50 @@ class MainWindow:
 
         frame.place(x=0, y=0)
         frame.lower()
+
+    def CombatFrame(self):
+        hero = '{"name":"test","hp":20,"attaque":"2d10+0","vit":"5"}'
+        monstre = '{"name": "chauve souris","hp": "30","attaque": "1d5+0","vit":"7"}'
+        Combatframe = Frame(self.q, width=1024, height=600)
+        Combatframe.place(x=0, y=0)
+        Combatframe.lower()
+
+        image_path = os.path.join(self.base_folder, '../medias/combat.png')
+        bg = PhotoImage(file=r'' + image_path)
+        canvas1 = Canvas(Combatframe, width=1024, height=600)
+        canvas1.pack(fill="both", expand=True)
+        canvas1.create_image(0, 0, image=bg, anchor="nw")
+        canvas1.image = bg
+        combat = Combat(hero, monstre)
+        combat.initiative()
+
+        def Attack():
+            combat.monster_get_damaged()
+            combat.monster_is_dead()
+            if combat.monster_is_dead() == 0:
+                print("monster is dead")
+                Combatframe.destroy()
+            else:
+                combat.hero_get_damaged()
+                if combat.hero_is_dead() == 0:
+                    print("hero is dead")
+                    Combatframe.destroy()
+
+        def Inventaire():
+            print("ceci est une ouverture d'inventaire")
+
+        def Fuite():
+            print("Vous tentez de prendre la fuite")
+
+        AttackButton = Button(Combatframe, text="Attack", command=Attack, border=0, activebackground='#12c4c0',
+                              bg="#12c4c0")
+        AttackButton.place(x=750, y=500)
+
+        InventaireButton = Button(Combatframe, text="Inventaire", command=Inventaire, border=0, activebackground='#12c4c0',
+                              bg="#12c4c0")
+        InventaireButton.place(x=850, y=500)
+
+        FuiteButton = Button(Combatframe, text="Fuite", command=Fuite, border=0, activebackground='#12c4c0',
+                              bg="#12c4c0")
+        FuiteButton.place(x=850, y=550)
 
