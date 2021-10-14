@@ -10,7 +10,7 @@
   "title": "Lancement du projet 2",
   "content": "Voici le lancement du projet 2, c'est incroyable, extraordinaire !",
   "author": "Loïc DANDOY",
-  "picture": "news_1.jpg"
+  "picture": "news_1.png"
 },
   {
   "date": "09/09/2021",
@@ -24,14 +24,14 @@
   "title": "Lancement du projet 4",
   "content": "Voici le lancement du projet 4, c'est incroyable, extraordinaire !",
   "author": "Loïc DANDOY",
-  "picture": "news_1.jpg"
+  "picture": "news_1.png"
 },
   {
     "date": "17/09/2021",
     "content": "Création des news",
     "auteur": "Axel LANYAN",
     "title": "Création des news",
-    "picture": "news_1.jpg"
+    "picture": "news_1.png"
   }
 ]
 
