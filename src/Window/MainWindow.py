@@ -3,11 +3,9 @@ import os
 from tkinter.tix import ScrolledWindow
 
 from Utils.loadJson import LoadJson
-from tkinter import ttk
-import tkinter as tk
 from Rooms.rooms import Room
 from src.Perso.PersoActions import submit_new_perso
-from Combat import combat
+from Combat.combat import *
 
 
 
@@ -113,8 +111,12 @@ class MainWindow:
 
 
         # character area ---------
-        card = Canvas(choicepersoframe, width=110, height=110)
-        card.place(x=105, y=100)
+        def display_champion():
+            card = Canvas(choicepersoframe, width=110, height=110)
+            card.place(x=105, y=100)
+
+
+
 
         # About character -------
         card = Canvas(choicepersoframe, width=650, height=154)
