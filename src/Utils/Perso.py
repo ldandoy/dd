@@ -1,8 +1,7 @@
 import os
-import random
 from Utils.DefaultController import DefaultController
-from src.Utils.DefaultController import DefaultController
-from src.Utils.logger import debug
+from Utils.logger import debug
+import random
 
 
 def choose_skill() -> None:
@@ -46,7 +45,7 @@ class Perso(DefaultController):
     @staticmethod
     def list_perso():
         """Return the list of the Perso"""
-        list = os.path.join('Datas', 'Perso')
+        list = os.listdir(os.path.join('Datas', 'Perso'))
         return list
 
     @staticmethod
