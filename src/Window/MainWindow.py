@@ -5,6 +5,8 @@ from Utils.loadJson import LoadJson
 from Rooms.rooms import Room
 from Perso.PersoActions import submit_new_perso
 from Combat.combat import *
+from Utils.GetLastFeatures import GetLastFeatures
+from functools import partial
 
 
 
@@ -69,22 +71,76 @@ class MainWindow:
 
         self.q.mainloop()
 
-    def TextWelcomeFrame(self):
-        textwelcomeframe = Frame(self.q, width=1024, height=600)
-        textwelcomeframe.place(x=0, y=0)
+    def TextWelcomeFrame( self ):
+        textwelcomeframe = Frame( self.q, width=1024, height=600 )
+        textwelcomeframe.place( x=0, y=0 )
         textwelcomeframe.lower()
 
-        image_path = os.path.join(self.base_folder, '../medias/montagne.png')
-        bg = PhotoImage(file=r''+image_path)
-        canvas1 = Canvas(textwelcomeframe, width=1024, height=600)
-        canvas1.pack(fill="both", expand=True)
-        canvas1.create_image(0, 0, image=bg, anchor="nw")
-        canvas1.image=bg
+        image_path = os.path.join( self.base_folder, '../medias/montagne.png' )
+        bg = PhotoImage( file=r'' + image_path )
+        canvas1 = Canvas( textwelcomeframe, width=1024, height=600 )
+        canvas1.pack( fill="both", expand=True )
+        canvas1.create_image( 0, 0, image=bg, anchor="nw" )
+        canvas1.image = bg
 
-        label_textwelcomeframe = Label(textwelcomeframe, text="Bienvenue dans Donjon et Dragon", fg='dark grey', bg=None)
-        label_textwelcomeframe_config = ('Calirbi (Body)', 24, 'bold')
-        label_textwelcomeframe.config(font=label_textwelcomeframe_config)
-        label_textwelcomeframe.place(x=200, y=200)
+        label_textwelcomeframe = Label( textwelcomeframe, text="Bienvenue dans Donjon et Dragon", fg='dark grey',
+                                        bg=None )
+        label_textwelcomeframe_config = ('Calirbi (Body)', 36, 'bold')
+        label_textwelcomeframe.config( font=label_textwelcomeframe_config )
+        label_textwelcomeframe.place( x=250, y=100 )
+
+        lastFeaturesObj = GetLastFeatures( 3 )
+
+        label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
+
+        label_textinfo_x_position = 25
+        label_showmore_y_position = 100
+
+        def News_show_more_frame( self, feature ):
+            news_show_more_frame = Frame( self.q, width=1024, height=600 )
+
+            image2_path = os.path.join( self.base_folder, '../medias/newsBg/' + feature[ 'picture' ] )
+            bg2 = PhotoImage( file=image2_path )
+            canvas2 = Canvas( news_show_more_frame, width=1024, height=600 )
+            canvas2.pack( fill="both", expand=True )
+            canvas2.create_image( 0, 0, image=bg2, anchor="nw" )
+            canvas2.image = bg2
+
+            for i, info in enumerate( feature ):
+                if(info != 'picture' ):
+                    label_textinfo = Label( news_show_more_frame, text=feature[info], fg='white', bg='#0483d1' )
+                    label_textinfo.config( font=label_textinfo_config )
+                    label_textinfo.place( x=25, y= label_showmore_y_position + (i * 40))
+
+
+            def choice():
+                news_show_more_frame.pack_forget()
+                news_show_more_frame.destroy()
+
+                self.TextWelcomeFrame()
+
+            ChoiceButton = Button( news_show_more_frame, text="retour", command=choice, border=0,
+                                   activebackground='#12c4c0', bg="#12c4c0" )
+            ChoiceButton.place( x=950, y=550 )
+
+            news_show_more_frame.place( x=0, y=0 )
+            news_show_more_frame.lower()
+
+        def show_more( feature ):
+            textwelcomeframe.pack_forget()
+            textwelcomeframe.destroy()
+            News_show_more_frame( self, feature )
+
+        for i, feature in enumerate( lastFeaturesObj ):
+            label_textinfo = Label( textwelcomeframe, text=feature[ 'title' ][ 0:50 ], fg='white',
+                                    bg='#0483d1', )
+            label_textinfo.config( font=label_textinfo_config )
+            label_textinfo.place( x=label_textinfo_x_position + (i * 350), y=250 )
+            news_Button = Button( textwelcomeframe, text="En savoir plus", command=partial( show_more, feature ),
+                                  border=0,
+                                  activebackground='#12c4c0',
+                                  bg="#12c4c0" )
+            news_Button.place( x=label_textinfo_x_position + (i * 350), y=300 )
 
         def play():
             textwelcomeframe.pack_forget()
