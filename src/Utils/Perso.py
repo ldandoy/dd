@@ -41,11 +41,12 @@ class Perso(DefaultController):
         self.sagesse = 0
         self.vitesse = 0
         self.pdv = 0
-
+        
     @staticmethod
     def list_perso():
         """Return the list of the Perso"""
-        list = os.path.join('Datas', 'Perso')
+
+        list = os.listdir(os.path.join('Datas', 'Perso'))
         return list
 
     @staticmethod
@@ -62,7 +63,6 @@ class Perso(DefaultController):
             dmg_deal = dmg_deal + rand
         print("dmg dealt : " + str(dmg_deal))
         return dmg_deal + bonus
-
 
     """
     Verify that allowed points is not 0.
