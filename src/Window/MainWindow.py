@@ -23,11 +23,11 @@ class MainWindow:
             f1.destroy()
 
         def bttn(x, y, text, bcolor, fcolor, cmd):
-            def on_enter(e):
+            def onEnter(e):
                 myButton['background'] = bcolor #ffcc66
                 myButton['foreground'] = '#262626' #000d33
 
-            def on_leaves(e):
+            def onLeaves(e):
                 myButton['background'] = fcolor
                 myButton['foreground'] = '#262626'
 
@@ -42,8 +42,8 @@ class MainWindow:
                 activebackground=bcolor,
                 command=cmd)
 
-            myButton.bind("<Enter>", on_enter)
-            myButton.bind("<Leave>", on_leaves)
+            myButton.bind("<Enter>", onEnter)
+            myButton.bind("<Leave>", onLeaves)
 
             myButton.place(x=x, y=y)
 
@@ -96,7 +96,7 @@ class MainWindow:
         label_textinfo_x_position = 25
         label_showmore_y_position = 100
 
-        def News_show_more_frame( self, feature ):
+        def newsShowMoreFrame( self, feature ):
             news_show_more_frame = Frame( self.q, width=1024, height=600 )
 
             image2_path = os.path.join( self.base_folder, '../medias/newsBg/' + feature[ 'picture' ] )
@@ -126,17 +126,17 @@ class MainWindow:
             news_show_more_frame.place( x=0, y=0 )
             news_show_more_frame.lower()
 
-        def show_more( feature ):
+        def showMore( feature ):
             textwelcomeframe.pack_forget()
             textwelcomeframe.destroy()
-            News_show_more_frame( self, feature )
+            newsShowMoreFrame( self, feature )
 
         for i, feature in enumerate( lastFeaturesObj ):
             label_textinfo = Label( textwelcomeframe, text=feature[ 'title' ][ 0:50 ], fg='white',
                                     bg='#0483d1', )
             label_textinfo.config( font=label_textinfo_config )
             label_textinfo.place( x=label_textinfo_x_position + (i * 350), y=250 )
-            news_Button = Button( textwelcomeframe, text="En savoir plus", command=partial( show_more, feature ),
+            news_Button = Button( textwelcomeframe, text="En savoir plus", command=partial( showMore, feature ),
                                   border=0,
                                   activebackground='#12c4c0',
                                   bg="#12c4c0" )
@@ -172,14 +172,14 @@ class MainWindow:
 
             self.questFrame()
 
-        def go_to_new_perso() -> None:
+        def goToNewPerso() -> None:
             choicepersoframe.pack_forget()
             choicepersoframe.destroy()
 
             self.newPersoFrame()
 
         ChoiceButton = Button(choicepersoframe, text="Choisir", command=choice, border=0, activebackground='#12c4c0', bg="#12c4c0")
-        new_button = Button(choicepersoframe, text="Créer un nouveau personnage", command=go_to_new_perso, border=0, activebackground='#12c4c0', bg="#12c4c0")
+        new_button = Button(choicepersoframe, text="Créer un nouveau personnage", command=goToNewPerso, border=0, activebackground='#12c4c0', bg="#12c4c0")
         ChoiceButton.place(x=950, y=550)
         new_button.place(x=775, y=550)
 
@@ -222,19 +222,19 @@ class MainWindow:
             queststartedframe.pack_forget()
             queststartedframe.destroy()
             self.combatFrame()
-        def bossfight():
+        def bossFight():
             queststartedframe.pack_forget()
             queststartedframe.destroy()
             self.combatFrame()
-        def runaway():
+        def runAway():
             queststartedframe.pack_forget()
             queststartedframe.destroy()
             self.questFrame()
-        def exitroom():
+        def exitRoom():
             queststartedframe.pack_forget()
             queststartedframe.destroy()
             self.questFrame()
-        def nextroom():
+        def nextRoom():
             self.donjonroom += 1
             queststartedframe.pack_forget()
             queststartedframe.destroy()
@@ -255,23 +255,23 @@ class MainWindow:
                              activebackground='#12c4c0', bg="#12c4c0")
             fightButton.place(x=750, y=200)
 
-            runButton = Button(queststartedframe, text="Fuir !", command=runaway, border=0,
+            runButton = Button(queststartedframe, text="Fuir !", command=runAway, border=0,
                              activebackground='#12c4c0', bg="#12c4c0")
             runButton.place(x=750, y=250)
         elif self.rooms.donjon[self.donjonroom]["name"] == "Boss":
-            fightButton = Button(queststartedframe, text="Combattre !", command=bossfight, border=0,
+            fightButton = Button(queststartedframe, text="Combattre !", command=bossFight, border=0,
                              activebackground='#12c4c0', bg="#12c4c0")
             fightButton.place(x=750, y=200)
 
-            runButton = Button(queststartedframe, text="Fuir !", command=runaway, border=0,
+            runButton = Button(queststartedframe, text="Fuir !", command=runAway, border=0,
                              activebackground='#12c4c0', bg="#12c4c0")
             runButton.place(x=750, y=250)
         else:
-            continueButton = Button(queststartedframe, text="Continuer", command=nextroom, border=0,
+            continueButton = Button(queststartedframe, text="Continuer", command=nextRoom, border=0,
                              activebackground='#12c4c0', bg="#12c4c0")
             continueButton.place(x=750, y=200)
 
-            exitButton = Button(queststartedframe, text="Sortir", command=exitroom, border=0,
+            exitButton = Button(queststartedframe, text="Sortir", command=exitRoom, border=0,
                              activebackground='#12c4c0', bg="#12c4c0")
             exitButton.place(x=750, y=250)
 
@@ -292,7 +292,7 @@ class MainWindow:
         name = Entry(frame).grid(row=0, column=1)
         age = Entry(frame).grid(row=1, column=1)
 
-        def makeform(root, fields):
+        def makeForm(root, fields):
             entries = {}
             for field in fields:
                 row = Frame(root)
@@ -306,10 +306,10 @@ class MainWindow:
             return entries
 
         fields = ('Name', 'Age')
-        ents = makeform(self.q, fields)
+        ents = makeForm(self.q, fields)
         print(name)
 
-        def trigger_submit_new_form():
+        def triggerSubmitNewForm():
             submit_new_perso(ents.get('Name'))
 
         btn = Button(frame, text="Submit", command=submit_new_perso).grid(row=4, column=0)
@@ -333,7 +333,7 @@ class MainWindow:
         combat = Combat(hero, monstre)
         combat.initiative()
 
-        def Attack():
+        def attack():
             combat.monster_get_damaged()
             combat.monster_is_dead()
             if combat.monster_is_dead() == 0:
@@ -345,20 +345,20 @@ class MainWindow:
                     print("hero is dead")
                     Combatframe.destroy()
 
-        def Inventaire():
+        def inventaire():
             print("ceci est une ouverture d'inventaire")
 
-        def Fuite():
+        def fuite():
             print("Vous tentez de prendre la fuite")
 
-        AttackButton = Button(Combatframe, text="Attack", command=Attack, border=0, activebackground='#12c4c0',
+        AttackButton = Button(Combatframe, text="Attack", command=attack, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         AttackButton.place(x=750, y=500)
 
-        InventaireButton = Button(Combatframe, text="Inventaire", command=Inventaire, border=0, activebackground='#12c4c0',
+        InventaireButton = Button(Combatframe, text="Inventaire", command=inventaire, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         InventaireButton.place(x=850, y=500)
 
-        FuiteButton = Button(Combatframe, text="Fuite", command=Fuite, border=0, activebackground='#12c4c0',
+        FuiteButton = Button(Combatframe, text="Fuite", command=fuite, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         FuiteButton.place(x=850, y=550)
