@@ -10,9 +10,16 @@ class MainWindow:
     def toogle_win( self ):
         f1 = Frame( self.q, width=300, height=600, bg='#12c4c0' )
         f1.place( x=0, y=0 )
+   #CREATION DU MENU EN DUPLICANT LA FRAME BLEU
+        f2 = Frame( self.q, width=400, height=300, bg='#262626')
+        f2.place( x=320, y=50 )
 
         def dele():
             f1.destroy()
+            f2.destroy()
+
+        def dele_news_frame():
+            f2.destroy()
 
         def bttn( x, y, text, bcolor, fcolor, cmd ):
             def on_enter( e ):
@@ -39,14 +46,17 @@ class MainWindow:
 
             myButton.place( x=x, y=y )
 
-        bttn( 0, 80, 'A C E R', "#0f9d9a", "#12c4c0", None )
-        bttn( 0, 117, 'D E L L', "#0f9d9a", "#12c4c0", None )
-        bttn( 0, 154, 'A P P L E', "#0f9d9a", "#12c4c0", None )
-        bttn( 0, 191, 'A S U S', "#0f9d9a", "#12c4c0", None )
-        bttn( 0, 228, 'A C E R', "#0f9d9a", "#12c4c0", None )
-        bttn( 0, 265, 'S O N Y', "#0f9d9a", "#12c4c0", None )
+        Button( f1, command=dele_news_frame, text='List', border=0, bg="#0f9d9a" ).place( x=0, y=80 )
+        #bttn( 0, 117, 'D E L L', "#0f9d9a", "#12c4c0", None )
+        #bttn( 0, 154, 'A P P L E', "#0f9d9a", "#12c4c0", None )
+        #bttn( 0, 191, 'A S U S', "#0f9d9a", "#12c4c0", None )
+        #bttn( 0, 228, 'A C E R', "#0f9d9a", "#12c4c0", None )
+        #bttn( 0, 265, 'S O N Y', "#0f9d9a", "#12c4c0", None )
 
         Button( f1, text="close", command=dele, border=0, activebackground='#12c4c0', bg="#12c4c0" ).place( x=5, y=10 )
+        Button( f1, text="open", command=open(f2), border=0,activebackground='#12c4c0', bg="#12c4c0" ).place( x=0, y=80 )
+
+
 
     def __init__( self ):
         self.base_folder = os.path.dirname( __file__ )
@@ -57,6 +67,7 @@ class MainWindow:
         # Add no size update
 
         Button( self.q, command=self.toogle_win, text='Menu', border=0, bg="#12c4c0" ).place( x=5, y=10 )
+
 
         self.TextWelcomeFrame()
 
