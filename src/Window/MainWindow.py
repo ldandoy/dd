@@ -65,9 +65,9 @@ class MainWindow:
         self.q.configure(bg='')
         # Add no size update
 
-        Button(self.q, command=self.toogle_win, text='Menu', border=0, bg="#12c4c0").place(x=5, y=10)
+        Button(self.q, command=self.toogleWin, text='Menu', border=0, bg="#12c4c0").place(x=5, y=10)
 
-        self.TextWelcomeFrame()
+        self.textWelcomeFrame()
 
         self.q.mainloop()
 
@@ -146,7 +146,7 @@ class MainWindow:
             textwelcomeframe.pack_forget()
             textwelcomeframe.destroy()
 
-            self.ChoicePersoFrame()
+            self.choicePersoFrame()
 
         PlayButton = Button(textwelcomeframe, text="Jouer", command=play, border=0, activebackground='#12c4c0', bg="#12c4c0")
         PlayButton.place(x=950, y=550)
@@ -170,13 +170,13 @@ class MainWindow:
             choicepersoframe.pack_forget()
             choicepersoframe.destroy()
 
-            self.QuestFrame()
+            self.questFrame()
 
         def go_to_new_perso() -> None:
             choicepersoframe.pack_forget()
             choicepersoframe.destroy()
 
-            self.new_perso_frame()
+            self.newPersoFrame()
 
         ChoiceButton = Button(choicepersoframe, text="Choisir", command=choice, border=0, activebackground='#12c4c0', bg="#12c4c0")
         new_button = Button(choicepersoframe, text="Créer un nouveau personnage", command=go_to_new_perso, border=0, activebackground='#12c4c0', bg="#12c4c0")
@@ -198,7 +198,7 @@ class MainWindow:
             questframe.destroy()
             self.rooms = Room()
 
-            self.QuestStartedFrame()
+            self.questStartedFrame()
 
         label_textquestframe = Label(questframe, text="Bienvenue 'INSERER NOM JOUEUR', que souhaitez-vous faire ?",
                                      fg='dark grey', bg=None)
@@ -221,11 +221,11 @@ class MainWindow:
             self.donjonroom += 1
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-            self.CombatFrame()
+            self.combatFrame()
         def bossfight():
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-            self.CombatFrame()
+            self.combatFrame()
         def runaway():
             print("test")
         def exitroom():
@@ -234,7 +234,7 @@ class MainWindow:
             self.donjonroom += 1
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-            self.QuestStartedFrame()
+            self.questStartedFrame()
 
         tqueststarted = Label(queststartedframe, text=self.rooms.donjon[self.donjonroom]["name"], fg='dark grey')
         tqueststartedfont = ('Calibri (Body)', 24, 'bold')
