@@ -227,13 +227,15 @@ class MainWindow:
             queststartedframe.destroy()
             self.combatFrame()
         def runaway():
+            print('fuir')
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-            self.questStartedFrame()
+            self.questFrame()
         def exitroom():
+            print('exit')
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-            self.questStartedFrame()
+            self.questFrame()
         def nextroom():
             self.donjonroom += 1
             queststartedframe.pack_forget()
