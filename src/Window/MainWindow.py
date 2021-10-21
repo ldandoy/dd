@@ -229,11 +229,11 @@ class MainWindow:
         def runaway():
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-            self.QuestFrame()
+            self.questStartedFrame()
         def exitroom():
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-            self.QuestFrame()
+            self.questStartedFrame()
         def nextroom():
             self.donjonroom += 1
             queststartedframe.pack_forget()
