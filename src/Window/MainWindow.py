@@ -1,16 +1,18 @@
 from tkinter import *
 import os
-from tkinter.tix import ScrolledWindow
 
 from Utils.loadJson import LoadJson
 from Rooms.rooms import Room
-from src.Perso.PersoActions import submit_new_perso
+from Perso.PersoActions import submit_new_perso
 from Combat.combat import *
+
 
 
 
 class MainWindow:
     rooms = []
+    json = LoadJson()
+
     donjonroom = 0
 
     def toogle_win(self):
@@ -111,6 +113,15 @@ class MainWindow:
 
 
         # character area ---------
+        def get_json():
+            data = self.json.load(os.path.join(self.base_folder, '../../Datas/Perso/andolorion.json'))
+            print(data)
+
+        get_json()
+
+        def create_area():
+            ...
+
         def display_champion():
             card = Canvas(choicepersoframe, width=110, height=110)
             card.place(x=105, y=100)
@@ -156,8 +167,7 @@ class MainWindow:
         questframe = Frame(self.q, width=1024, height=600, bg="#FF0000")
 
         # Get the welcome message
-        json = LoadJson()
-        quest = json.load(os.path.join(self.base_folder, '../../Datas/Story/initialQuest.json'))
+        quest = self.json.load(os.path.join(self.base_folder, '../../Datas/Story/initialQuest.json'))
 
         def choice():
             questframe.pack_forget()
@@ -188,11 +198,11 @@ class MainWindow:
             self.donjonroom += 1
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-            self.QuestStartedFrame()
+            self.CombatFrame()
         def bossfight():
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-            self.QuestStartedFrame()
+            self.CombatFrame()
         def runaway():
             print("test")
         def exitroom():
