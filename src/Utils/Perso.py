@@ -44,7 +44,8 @@ class Perso(DefaultController):
     @staticmethod
     def list_perso():
         """Return the list of the Perso"""
-        return os.path.join('Datas', 'Perso')
+        list = os.listdir(os.path.join('Datas', 'Perso'))
+        return list
 
     """
     Verify that allowed points is not 0.
