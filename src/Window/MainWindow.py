@@ -8,6 +8,8 @@ from Combat.combat import *
 from Utils.GetLastFeatures import GetLastFeatures
 from functools import partial
 
+from src.Inventory.Inventory import Inventory
+from src.Perso.Perso import Perso
 
 
 class MainWindow:
@@ -212,6 +214,18 @@ class MainWindow:
 
         questframe.place(x=0, y=0)
         questframe.lower()
+
+        def inventaire():
+            questframe.pack_forget()
+            questframe.destroy()
+            perso = Perso("andolorion.json")
+            inventory = Inventory(perso, self.q)
+            inventory.show()
+            perso.save()
+
+        InventaireButton = Button(questframe, text="Inventaire", command=inventaire, border=0, activebackground='#12c4c0',
+                              bg="#12c4c0")
+        InventaireButton.place(x=850, y=500)
 
     def questStartedFrame(self):
 
