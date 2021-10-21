@@ -6,7 +6,7 @@ import json
 
 from Utils.Perso import Perso
 from Window.MainWindow import MainWindow
-
+from Monster.Monster import Monster
 
 
 if __name__ == '__main__':
@@ -15,3 +15,5 @@ if __name__ == '__main__':
     mainWindow = MainWindow()
     # initialQuest = InitialQuest()
     # initialQuest.welcome()
+
+    monster = Monster('gobelin.json')
