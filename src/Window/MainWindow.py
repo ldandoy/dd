@@ -1,7 +1,9 @@
 from tkinter import *
+import tkinter as tk
 import os
+
+from src.Perso.Person import Person
 from src.Utils.loadJson import LoadJson
-from src.Perso.PersoActions import submit_new_perso
 
 
 class MainWindow:
@@ -110,14 +112,13 @@ class MainWindow:
 
             self.QuestFrame()
 
-        def go_to_new_perso() -> None:
+        def go_to_new_person() -> None:
             choicepersoframe.pack_forget()
             choicepersoframe.destroy()
-
-            self.new_perso_frame()
+            self.new_person_frame()
 
         ChoiceButton = Button(choicepersoframe, text="Choisir", command=choice, border=0, activebackground='#12c4c0', bg="#12c4c0")
-        new_button = Button(choicepersoframe, text="Créer un nouveau personnage", command=go_to_new_perso, border=0, activebackground='#12c4c0', bg="#12c4c0")
+        new_button = Button(choicepersoframe, text="Créer un nouveau personnage", command=go_to_new_person, border=0, activebackground='#12c4c0', bg="#12c4c0")
         ChoiceButton.place(x=950, y=550)
         new_button.place(x=775, y=550)
 
@@ -139,41 +140,202 @@ class MainWindow:
         questframe.place(x=0, y=0)
         questframe.lower()
 
-    def new_perso_frame(self):
+    def new_person_frame(self):
+        """
+        Create new person page
+        """
         frame = Frame(self.q, width=1024, height=600, bg="#FFF")
 
         # main message
-        main_message = Label(frame, text='Créer un personnage', fg='dark grey')
-        main_message.config(font=('Calibri (Body)', 24, 'bold'))
-        main_message.place(x=200, y=200)
+        Label(self.q,
+              text="Créer votre personnage",
+              bg="white",
+              font=('Calibri (Body)', 24, 'bold')).pack()
 
-        # new perso form
-        Label(frame, text="Name").grid(row=0, column=0)
-        Label(frame, text="Age").grid(row=1, column=0)
-        name = Entry(frame).grid(row=0, column=1)
-        age = Entry(frame).grid(row=1, column=1)
+        # main_message = tk.Text(self.q, text='Créer un personnage', fg='black')
+        # main_message.config(font=('Calibri (Body)', 24, 'bold'))
 
-        def makeform(root, fields):
-            entries = {}
-            for field in fields:
-                row = Frame(root)
-                lab = Label(row, width=22, text=field + ": ", anchor='w')
-                ent = Entry(row)
-                ent.insert(0, "0")
-                row.pack(side=TOP, fill=X, padx=5, pady=5)
-                lab.pack(side=LEFT)
-                ent.pack(side=RIGHT, expand=YES, fill=X)
-                entries[field] = ent
-            return entries
+        # name label
+        name_label = tk.StringVar(self.q)
+        name_label.set("Nom")
+        Label(self.q, textvariable=name_label, bg="white").pack()
 
-        fields = ('Name', 'Age')
-        ents = makeform(self.q, fields)
-        print(name)
+        # name entry
+        name = tk.StringVar(self.q)
+        Entry(self.q, textvariable=name, width=100, bd=3).pack()
 
-        def trigger_submit_new_form():
-            submit_new_perso(ents.get('Name'))
+        # age label
+        age_label = tk.StringVar(self.q)
+        age_label.set("Age")
+        Label(self.q, textvariable=age_label, bg="white").pack()
 
-        btn = Button(frame, text="Submit", command=submit_new_perso).grid(row=4, column=0)
+        # age entry
+        age = tk.IntVar(self.q)
+        Entry(self.q, textvariable=age, width=100, bd=3).pack()
+
+        # eyes label
+        eyes_label = tk.StringVar(self.q)
+        eyes_label.set("Yeux")
+        Label(self.q, textvariable=eyes_label, bg="white").pack()
+
+        # eyes entry
+        eyes = tk.StringVar(self.q)
+        Entry(self.q, textvariable=eyes, width=100, bd=3).pack()
+
+        # height label
+        height_label = tk.StringVar(self.q)
+        height_label.set("Taille (en centimètres)")
+        Label(self.q, textvariable=height_label, bg="white").pack()
+
+        # height entry
+        height = tk.IntVar(self.q)
+        Entry(self.q, textvariable=height, width=100, bd=3).pack()
+
+        # weight label
+        weight_label = tk.StringVar(self.q)
+        weight_label.set("Poids (en Kilogrammes)")
+        Label(self.q, textvariable=weight_label, bg="white").pack()
+
+        # weight entry
+        weight = tk.IntVar(self.q)
+        Entry(self.q, textvariable=weight, width=100, bd=3).pack()
+
+        # skin label
+        skin_label = tk.StringVar(self.q)
+        skin_label.set("Couleur de peau")
+        Label(self.q, textvariable=skin_label, bg="white").pack()
+
+        # skin entry
+        skin = tk.StringVar(self.q)
+        Entry(self.q, textvariable=skin, width=100, bd=3).pack()
+
+        # race label
+        race_label = tk.StringVar(self.q)
+        race_label.set("Origine ethnique")
+        Label(self.q, textvariable=race_label, bg="white").pack()
+
+        # race entry
+        race = tk.StringVar(self.q)
+        Entry(self.q, textvariable=race, width=100, bd=3).pack()
+
+        # class label
+        class_label = tk.StringVar(self.q)
+        class_label.set("Classe")
+        Label(self.q, textvariable=class_label, bg="white").pack()
+
+        # class entry
+        class_entry = tk.StringVar(self.q)
+        Entry(self.q, textvariable=class_entry, width=100, bd=3).pack()
+
+        # alignment label
+        alignment_label = tk.StringVar(self.q)
+        alignment_label.set("Alignement")
+        Label(self.q, textvariable=alignment_label, bg="white").pack()
+
+        # alignment entry
+        alignment = tk.StringVar(self.q)
+        Entry(self.q, textvariable=alignment, width=100, bd=3).pack()
+
+        # pe label
+        pe_label = tk.StringVar(self.q)
+        pe_label.set("PE")
+        Label(self.q, textvariable=pe_label, bg="white").pack()
+
+        # pe entry
+        pe = tk.IntVar(self.q)
+        Entry(self.q, textvariable=pe, width=100, bd=3).pack()
+
+        # strength label
+        strength_label = tk.StringVar(self.q)
+        strength_label.set("Force")
+        Label(self.q, textvariable=pe_label, bg="white").pack()
+
+        # strength entry
+        strength = tk.IntVar(self.q)
+        Entry(self.q, textvariable=strength, width=100, bd=3).pack()
+
+        # dexterity label
+        dexterity_label = tk.StringVar(self.q)
+        dexterity_label.set("Dextérité")
+        Label(self.q, textvariable=dexterity_label, bg="white").pack()
+
+        # dexterity entry
+        dexterity = tk.IntVar(self.q)
+        Entry(self.q, textvariable=dexterity, width=100, bd=3).pack()
+
+        # intelligence label
+        intelligence_label = tk.StringVar(self.q)
+        intelligence_label.set("Intelligence")
+        Label(self.q, textvariable=intelligence_label, bg="white").pack()
+
+        # intelligence entry
+        intelligence = tk.IntVar(self.q)
+        Entry(self.q, textvariable=intelligence, width=100, bd=3).pack()
+
+        # charisma label
+        charisma_label = tk.StringVar(self.q)
+        charisma_label.set("Charisme")
+        Label(self.q, textvariable=charisma_label, bg="white").pack()
+
+        # charisma entry
+        charisma = tk.IntVar(self.q)
+        Entry(self.q, textvariable=charisma, width=100, bd=3).pack()
+
+        # constitution label
+        constitution_label = tk.StringVar(self.q)
+        constitution_label.set("Constitution")
+        Label(self.q, textvariable=constitution_label, bg="white").pack()
+
+        # constitution entry
+        constitution = tk.IntVar(self.q)
+        Entry(self.q, textvariable=constitution, width=100, bd=3).pack()
+
+        # wisdom label
+        wisdom_label = tk.StringVar(self.q)
+        wisdom_label.set("Sagesse")
+        Label(self.q, textvariable=constitution_label, bg="white").pack()
+
+        # wisdom entry
+        wisdom = tk.IntVar(self.q)
+        Entry(self.q, textvariable=wisdom, width=100, bd=3).pack()
+
+        # speed label
+        speed_label = tk.StringVar(self.q)
+        speed_label.set("Vitesse")
+        Label(self.q, textvariable=speed_label, bg="white").pack()
+
+        # speed entry
+        speed = tk.IntVar(self.q)
+        Entry(self.q, textvariable=speed, width=100, bd=3).pack()
+
+        # function executed when form submitted
+        def create_person():
+            person = Person(name,
+                            age,
+                            eyes,
+                            height,
+                            weight,
+                            skin,
+                            race,
+                            class_entry,
+                            alignment,
+                            pe,
+                            strength,
+                            dexterity,
+                            intelligence,
+                            charisma,
+                            constitution,
+                            wisdom,
+                            speed
+                            )
+            person.save()
+
+        # submit button
+        tk.Button(self.q,
+                  text='Créer',
+                  height=1,
+                  width=10,
+                  command=create_person).pack()
 
         frame.place(x=0, y=0)
         frame.lower()
