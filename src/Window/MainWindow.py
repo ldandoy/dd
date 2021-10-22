@@ -2,6 +2,7 @@ from tkinter import *
 import os
 
 from Utils.loadJson import LoadJson
+from Utils.Perso import Perso
 from Rooms.rooms import Room
 from Perso.PersoActions import submit_new_perso
 from Combat.combat import *
@@ -12,7 +13,8 @@ from functools import partial
 
 class MainWindow:
     rooms = []
-    
+    json = LoadJson()
+
     donjonroom = 0
 
     def toogleWin(self):
@@ -151,40 +153,98 @@ class MainWindow:
         PlayButton = Button(textwelcomeframe, text="Jouer", command=play, border=0, activebackground='#12c4c0', bg="#12c4c0")
         PlayButton.place(x=950, y=550)
 
-    def choicePersoFrame(self):
-        choicepersoframe = Frame(self.q, width=1024, height=600)
 
-        image2_path = os.path.join(self.base_folder, '../medias/village.png')
+    def choicePersoFrame(self):
+        """window to choice a character"""
+        choicePersoFrame = Frame(self.q, width=1024, height=600)
+
+        image2_path = os.path.join(self.base_folder, '../medias/forest.png')
         bg2 = PhotoImage(file=image2_path)
-        canvas2 = Canvas(choicepersoframe, width=1024, height=600)
+        canvas2 = Canvas(choicePersoFrame, width=1024, height=600)
         canvas2.pack(fill="both", expand=True)
         canvas2.create_image(0, 0, image=bg2, anchor="nw")
         canvas2.image = bg2
 
-        lwelcome = Label(choicepersoframe, text="Choissez votre personnage", fg='dark grey')
+        # About character -------
+        card = Canvas(choicePersoFrame, width=650, height=154)
+        card.place(x=105, y=420)
+        # card.create_rectangle(55, 30, 140, 70, fill="blue")
+
+
+        lwelcome = Label(choicePersoFrame, text="Choissez votre personnage", fg='white', bg ='black')
         lwelcomefont = ('Calirbi (Body)', 24, 'bold')
         lwelcome.config(font=lwelcomefont)
-        lwelcome.place(x=80, y=100)
+        lwelcome.place(x=105, y=30)
+
+        #select champion
+        def selected():
+            ChoiceButton['state'] = NORMAL
+
 
         def choice():
-            choicepersoframe.pack_forget()
-            choicepersoframe.destroy()
+            choicePersoFrame.pack_forget()
+            choicePersoFrame.destroy()
 
             self.questFrame()
 
+        selectButton = Button(choicePersoFrame, text="Selectionné", command=selected, border=0, activebackground='#12c4c0', bg="#12c4c0")
+        ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice, state=DISABLED, border=0, activebackground='#12c4c0', bg="#12c4c0", width=27, height=10)
+        ChoiceButton.place(x=780, y=420)
+
+
+        # character area ---------
+        def getJson():
+            persoList = []
+            persoJson = Perso().listPerso()
+            for i in persoJson:
+                persoList.append(i)
+            return persoList
+
+        def getJsonSelected(perso):
+            return self.json.load(os.path.join(self.base_folder, '../../Datas/Perso/' + perso))
+
+        def getNamePerso(perso):
+            for persoJson in getJson():
+                if perso == persoJson:
+                    data = getJsonSelected(perso)
+                    name = data["name"]
+                    return name
+                else:
+                    print('no name')
+
+
+        getJson()
+
+        def displayChampion():
+            for perso in getJson():
+                print(perso)
+                x = 105
+                selectButton['text'] = getNamePerso(perso)
+                selectButton.place(x=x, y=100, width=110, height=110, )
+
+                print(x)
+                x += 20
+
+        def displayChampionInformation():
+            pass
+
+        displayChampion()
+
+
         def goToNewPerso() -> None:
-            choicepersoframe.pack_forget()
-            choicepersoframe.destroy()
+            choicePersoFrame.pack_forget()
+            choicePersoFrame.destroy()
 
             self.newPersoFrame()
 
-        ChoiceButton = Button(choicepersoframe, text="Choisir", command=choice, border=0, activebackground='#12c4c0', bg="#12c4c0")
-        new_button = Button(choicepersoframe, text="Créer un nouveau personnage", command=goToNewPerso, border=0, activebackground='#12c4c0', bg="#12c4c0")
-        ChoiceButton.place(x=950, y=550)
+        #Button in choicePersoFrame window
+        #ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice, border=0, activebackground='#12c4c0', bg="#12c4c0")
+        new_button = Button(choicePersoFrame, text="Créer un nouveau personnage", command=goToNewPerso, border=0, activebackground='#12c4c0', bg="#12c4c0")
+        #ChoiceButton.place(x=950, y=550)
         new_button.place(x=775, y=550)
 
-        choicepersoframe.place(x=0, y=0)
-        choicepersoframe.lower()
+        choicePersoFrame.place(x=0, y=0)
+        choicePersoFrame.lower()
 
     def questFrame(self):
         questframe = Frame(self.q, width=1024, height=600, bg="#FF0000")
@@ -362,3 +422,4 @@ class MainWindow:
         FuiteButton = Button(Combatframe, text="Fuite", command=fuite, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         FuiteButton.place(x=850, y=550)
+
