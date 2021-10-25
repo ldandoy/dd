@@ -1,6 +1,5 @@
 from tkinter import *
 import os
-from Inventory.Inventory import Inventory
 
 from Utils.loadJson import LoadJson
 from Utils.Perso import Perso
@@ -9,6 +8,8 @@ from Perso.PersoActions import submit_new_perso
 from Combat.combat import *
 from Utils.GetLastFeatures import GetLastFeatures
 from functools import partial
+from Inventory.Inventory import Inventory
+
 
 
 
@@ -274,6 +275,18 @@ class MainWindow:
         questframe.place(x=0, y=0)
         questframe.lower()
 
+        def inventaire():
+            questframe.pack_forget()
+            questframe.destroy()
+            perso = Perso("andolorion.json")
+            inventory = Inventory(perso, self.q)
+            inventory.show()
+            perso.save()
+        
+        InventaireButton = Button(questframe, text="Inventaire", command=inventaire, border=0, activebackground='#12c4c0',
+                                bg="#12c4c0")
+        InventaireButton.place(x=850, y=500)
+
     def questStartedFrame(self):
 
         queststartedframe = Frame(self.q, width=1024, height=600, bg="#FF0000")
@@ -414,8 +427,29 @@ class MainWindow:
                     Combatframe.destroy()
                     self.deadFrame()
 
-        def inventaire():
-            print("ceci est une ouverture d'inventaire")
+        #  Test frame inventaire en combat
+        # 
+        #     Combatframe.destroy()
+        #     self.inventoryFrame() 
+        
+        # def inventoryFrame(self): 
+        #     inventoryFrame =Frame(self.q, width=1024, height=600)
+        #     inventoryFrame.place(x=0, y=0)
+        #     inventoryFrame.lower()
+        #     image_path = os.path.join(self.base_folder, '../medias/combat.png')
+        #     bg = PhotoImage(file=r'' + image_path)
+        #     canvas1 = Canvas(inventoryFrame, width=1024, height=600)
+        #     canvas1.pack(fill="both", expand=True)
+        #     canvas1.create_image(0, 0, image=bg, anchor="nw")
+        #     canvas1.image = bg
+
+        # def use_Potion_de_vie():
+        #     Inventory.inventory(1)
+
+        # HealthPotionButton = Button(inventoryFrame, text="Potion de vie", command=use_Potion_de_vie, border=0, activebackground='#12c4c0',
+        #                   bg="#12c4c0")
+        # HealthPotionButton.place(x=850, y=550)
+
 
         def fuite():
             print("Vous tentez de prendre la fuite")
