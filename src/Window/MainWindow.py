@@ -1,19 +1,21 @@
 from tkinter import *
 import os
+import tkinter as tk
 
 from Utils.loadJson import LoadJson
-from Utils.Perso import Perso
+from Perso.Person import Person
 from Rooms.rooms import Room
-from Perso.PersoActions import submit_new_perso
 from Combat.combat import *
 from Utils.GetLastFeatures import GetLastFeatures
 from functools import partial
 
+from Combat.combat import Combat
 
 
 class MainWindow:
     rooms = []
     json = LoadJson()
+    perso = None
 
     donjonRoom = 0
     actualMonster = 0
@@ -177,10 +179,6 @@ class MainWindow:
         lwelcome.config(font=lwelcomefont)
         lwelcome.place(x=105, y=30)
 
-        #select champion
-        def selected():
-            ChoiceButton['state'] = NORMAL
-
 
         def choice():
             choicePersoFrame.pack_forget()
@@ -188,55 +186,68 @@ class MainWindow:
 
             self.questFrame()
 
-        selectButton = Button(choicePersoFrame, text="Selectionné", command=selected, border=0, activebackground='#12c4c0', bg="#12c4c0")
-        ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice, state=DISABLED, border=0, activebackground='#12c4c0', bg="#12c4c0", width=27, height=10)
+        ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice, state=DISABLED, border=0,
+                              activebackground='#12c4c0', bg="#12c4c0", width=27, height=10)
         ChoiceButton.place(x=780, y=420)
 
+        #select champion
+        def selected(perso, count):
+            ChoiceButton['state'] = NORMAL
+            self.perso = Person.perso_choose(perso)
 
-        # character area ---------
-        def getJson():
-            persoList = []
-            persoJson = Perso().listPerso()
-            for i in persoJson:
-                persoList.append(i)
-            return persoList
-
-        def getJsonSelected(perso):
-            return self.json.load(os.path.join(self.base_folder, '../../Datas/Perso/' + perso))
-
-        def getNamePerso(perso):
-            for persoJson in getJson():
-                if perso == persoJson:
-                    data = getJsonSelected(perso)
-                    name = data["name"]
-                    return name
-                else:
-                    print('no name')
+        selectButton = []
+        persoJson = Person.list_person()
+        x = 105
+        for count, perso in enumerate(persoJson):
+            selectButton.insert(count, Button(choicePersoFrame, text=perso, command=lambda perso=perso, count=count: selected(perso,count), border=0, activebackground='#12c4c0', bg="#12c4c0"))
+            selectButton[count].place(x=x, y=100, width=110, height=110, )
+            x += 200
 
 
-        getJson()
-
-        def displayChampion():
-            for perso in getJson():
-                print(perso)
-                x = 105
-                selectButton['text'] = getNamePerso(perso)
-                selectButton.place(x=x, y=100, width=110, height=110, )
-
-                print(x)
-                x += 20
-
-        def displayChampionInformation():
-            pass
-
-        displayChampion()
+        # # character area ---------
+        # def getJson():
+        #     persoList = []
+        #     persoJson = Person.list_person()
+        #     for i in persoJson:
+        #         persoList.append(i)
+        #     return persoList
+        #
+        # def getJsonSelected(perso):
+        #     return self.json.load(os.path.join(self.base_folder, '../../Datas/Perso/' + perso))
+        #
+        # def getNamePerso(perso):
+        #     for persoJson in getJson():
+        #         if perso == persoJson:
+        #             data = getJsonSelected(perso)
+        #             name = data["name"]
+        #             return name
+        #         else:
+        #             print('no name')
+        #
+        #
+        # getJson()
+        #
+        # def displayChampion():
+        #     for perso in getJson():
+        #         print(perso)
+        #         x = 105
+        #         selectButton['text'] = getNamePerso(perso)
+        #         selectButton.place(x=x, y=100, width=110, height=110, )
+        #
+        #         print(x)
+        #         x += 20
+        #
+        # def displayChampionInformation():
+        #     pass
+        #
+        # displayChampion()
 
 
         def goToNewPerso() -> None:
             choicePersoFrame.pack_forget()
             choicePersoFrame.destroy()
 
-            self.newPersoFrame()
+            self.new_person_frame()
 
         #Button in choicePersoFrame window
         #ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice, border=0, activebackground='#12c4c0', bg="#12c4c0")
@@ -249,6 +260,8 @@ class MainWindow:
 
     def questFrame(self):
         questFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+
+        print(self.perso)
 
         # Get the welcome message
         json = LoadJson()
@@ -339,44 +352,45 @@ class MainWindow:
         questStartedFrame.place(x=0, y=0)
         questStartedFrame.lower()
 
-    def newPersoFrame(self):
-        frame = Frame(self.q, width=1024, height=600, bg="#FFF")
+    ## Frame jamais utiliser Illies confirme suppression 
+    # def newPersoFrame(self):
+    #     frame = Frame(self.q, width=1024, height=600, bg="#FFF")
 
-        # main message
-        main_message = Label(frame, text='Créer un personnage', fg='dark grey')
-        main_message.config(font=('Calibri (Body)', 24, 'bold'))
-        main_message.place(x=200, y=200)
+    #     # main message
+    #     main_message = Label(frame, text='Créer un personnage', fg='dark grey')
+    #     main_message.config(font=('Calibri (Body)', 24, 'bold'))
+    #     main_message.place(x=200, y=200)
 
-        # new perso form
-        Label(frame, text="Name").grid(row=0, column=0)
-        Label(frame, text="Age").grid(row=1, column=0)
-        name = Entry(frame).grid(row=0, column=1)
-        age = Entry(frame).grid(row=1, column=1)
+    #     # new perso form
+    #     Label(frame, text="Name").grid(row=0, column=0)
+    #     Label(frame, text="Age").grid(row=1, column=0)
+    #     name = Entry(frame).grid(row=0, column=1)
+    #     age = Entry(frame).grid(row=1, column=1)
 
-        def makeForm(root, fields):
-            entries = {}
-            for field in fields:
-                row = Frame(root)
-                lab = Label(row, width=22, text=field + ": ", anchor='w')
-                ent = Entry(row)
-                ent.insert(0, "0")
-                row.pack(side=TOP, fill=X, padx=5, pady=5)
-                lab.pack(side=LEFT)
-                ent.pack(side=RIGHT, expand=YES, fill=X)
-                entries[field] = ent
-            return entries
+    #     def makeForm(root, fields):
+    #         entries = {}
+    #         for field in fields:
+    #             row = Frame(root)
+    #             lab = Label(row, width=22, text=field + ": ", anchor='w')
+    #             ent = Entry(row)
+    #             ent.insert(0, "0")
+    #             row.pack(side=TOP, fill=X, padx=5, pady=5)
+    #             lab.pack(side=LEFT)
+    #             ent.pack(side=RIGHT, expand=YES, fill=X)
+    #             entries[field] = ent
+    #         return entries
 
-        fields = ('Name', 'Age')
-        ents = makeForm(self.q, fields)
-        print(name)
+    #     fields = ('Name', 'Age')
+    #     ents = makeForm(self.q, fields)
+    #     print(name)
 
-        def triggerSubmitNewForm():
-            submit_new_perso(ents.get('Name'))
+    #     def triggerSubmitNewForm():
+    #         submit_new_perso(ents.get('Name'))
 
-        btn = Button(frame, text="Submit", command=submit_new_perso).grid(row=4, column=0)
+    #     btn = Button(frame, text="Submit", command=submit_new_perso).grid(row=4, column=0)
 
-        frame.place(x=0, y=0)
-        frame.lower()
+    #     frame.place(x=0, y=0)
+    #     frame.lower()
 
     def CombatFrame(self,isBoss):
         if isBoss == 1:
@@ -454,3 +468,204 @@ class MainWindow:
         retryButton = Button(deadFrame, text="Retry", command=Retry, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         retryButton.place(x=500, y=300)
+
+
+    def new_person_frame(self):
+        """
+        Create new person page
+        """
+        frame = Frame(self.q, width=1024, height=600, bg="#FFF")
+
+        # main message
+        Label(self.q,
+              text="Créer votre personnage",
+              bg="white",
+              font=('Calibri (Body)', 24, 'bold')).pack()
+
+        # main_message = tk.Text(self.q, text='Créer un personnage', fg='black')
+        # main_message.config(font=('Calibri (Body)', 24, 'bold'))
+
+        # name label
+        name_label = tk.StringVar(self.q)
+        name_label.set("Nom")
+        Label(self.q, textvariable=name_label, bg="white").pack()
+
+        # name entry
+        name = tk.StringVar(self.q)
+        Entry(self.q, textvariable=name, width=100, bd=3).pack()
+
+        # age label
+        age_label = tk.StringVar(self.q)
+        age_label.set("Age")
+        Label(self.q, textvariable=age_label, bg="white").pack()
+
+        # age entry
+        age = tk.IntVar(self.q)
+        Entry(self.q, textvariable=age, width=100, bd=3).pack()
+
+        # eyes label
+        eyes_label = tk.StringVar(self.q)
+        eyes_label.set("Yeux")
+        Label(self.q, textvariable=eyes_label, bg="white").pack()
+
+        # eyes entry
+        eyes = tk.StringVar(self.q)
+        Entry(self.q, textvariable=eyes, width=100, bd=3).pack()
+
+        # height label
+        height_label = tk.StringVar(self.q)
+        height_label.set("Taille (en centimètres)")
+        Label(self.q, textvariable=height_label, bg="white").pack()
+
+        # height entry
+        height = tk.IntVar(self.q)
+        Entry(self.q, textvariable=height, width=100, bd=3).pack()
+
+        # weight label
+        weight_label = tk.StringVar(self.q)
+        weight_label.set("Poids (en Kilogrammes)")
+        Label(self.q, textvariable=weight_label, bg="white").pack()
+
+        # weight entry
+        weight = tk.IntVar(self.q)
+        Entry(self.q, textvariable=weight, width=100, bd=3).pack()
+
+        # skin label
+        skin_label = tk.StringVar(self.q)
+        skin_label.set("Couleur de peau")
+        Label(self.q, textvariable=skin_label, bg="white").pack()
+
+        # skin entry
+        skin = tk.StringVar(self.q)
+        Entry(self.q, textvariable=skin, width=100, bd=3).pack()
+
+        # race label
+        race_label = tk.StringVar(self.q)
+        race_label.set("Origine ethnique")
+        Label(self.q, textvariable=race_label, bg="white").pack()
+
+        # race entry
+        race = tk.StringVar(self.q)
+        Entry(self.q, textvariable=race, width=100, bd=3).pack()
+
+        # class label
+        class_label = tk.StringVar(self.q)
+        class_label.set("Classe")
+        Label(self.q, textvariable=class_label, bg="white").pack()
+
+        # class entry
+        class_entry = tk.StringVar(self.q)
+        Entry(self.q, textvariable=class_entry, width=100, bd=3).pack()
+
+        # alignment label
+        alignment_label = tk.StringVar(self.q)
+        alignment_label.set("Alignement")
+        Label(self.q, textvariable=alignment_label, bg="white").pack()
+
+        # alignment entry
+        alignment = tk.StringVar(self.q)
+        Entry(self.q, textvariable=alignment, width=100, bd=3).pack()
+
+        # pe label
+        pe_label = tk.StringVar(self.q)
+        pe_label.set("PE")
+        Label(self.q, textvariable=pe_label, bg="white").pack()
+
+        # pe entry
+        pe = tk.IntVar(self.q)
+        Entry(self.q, textvariable=pe, width=100, bd=3).pack()
+
+        # strength label
+        strength_label = tk.StringVar(self.q)
+        strength_label.set("Force")
+        Label(self.q, textvariable=pe_label, bg="white").pack()
+
+        # strength entry
+        strength = tk.IntVar(self.q)
+        Entry(self.q, textvariable=strength, width=100, bd=3).pack()
+
+        # dexterity label
+        dexterity_label = tk.StringVar(self.q)
+        dexterity_label.set("Dextérité")
+        Label(self.q, textvariable=dexterity_label, bg="white").pack()
+
+        # dexterity entry
+        dexterity = tk.IntVar(self.q)
+        Entry(self.q, textvariable=dexterity, width=100, bd=3).pack()
+
+        # intelligence label
+        intelligence_label = tk.StringVar(self.q)
+        intelligence_label.set("Intelligence")
+        Label(self.q, textvariable=intelligence_label, bg="white").pack()
+
+        # intelligence entry
+        intelligence = tk.IntVar(self.q)
+        Entry(self.q, textvariable=intelligence, width=100, bd=3).pack()
+
+        # charisma label
+        charisma_label = tk.StringVar(self.q)
+        charisma_label.set("Charisme")
+        Label(self.q, textvariable=charisma_label, bg="white").pack()
+
+        # charisma entry
+        charisma = tk.IntVar(self.q)
+        Entry(self.q, textvariable=charisma, width=100, bd=3).pack()
+
+        # constitution label
+        constitution_label = tk.StringVar(self.q)
+        constitution_label.set("Constitution")
+        Label(self.q, textvariable=constitution_label, bg="white").pack()
+
+        # constitution entry
+        constitution = tk.IntVar(self.q)
+        Entry(self.q, textvariable=constitution, width=100, bd=3).pack()
+
+        # wisdom label
+        wisdom_label = tk.StringVar(self.q)
+        wisdom_label.set("Sagesse")
+        Label(self.q, textvariable=constitution_label, bg="white").pack()
+
+        # wisdom entry
+        wisdom = tk.IntVar(self.q)
+        Entry(self.q, textvariable=wisdom, width=100, bd=3).pack()
+
+        # speed label
+        speed_label = tk.StringVar(self.q)
+        speed_label.set("Vitesse")
+        Label(self.q, textvariable=speed_label, bg="white").pack()
+
+        # speed entry
+        speed = tk.IntVar(self.q)
+        Entry(self.q, textvariable=speed, width=100, bd=3).pack()
+
+        # function executed when form submitted
+        def create_person():
+            person = Person(name,
+                            age,
+                            eyes,
+                            height,
+                            weight,
+                            skin,
+                            race,
+                            class_entry,
+                            alignment,
+                            pe,
+                            strength,
+                            dexterity,
+                            intelligence,
+                            charisma,
+                            constitution,
+                            wisdom,
+                            speed
+                            )
+            person.save()
+
+        # submit button
+        tk.Button(self.q,
+                  text='Créer',
+                  height=1,
+                  width=10,
+                  command=create_person).pack()
+
+        frame.place(x=0, y=0)
+        frame.lower()
