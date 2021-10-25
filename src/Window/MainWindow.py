@@ -24,14 +24,13 @@ class MainWindow:
         lastFeaturesObj = getLastFeatures( )
         print(lastFeaturesObj)
         label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
-        label_textinfo_x_position = 25
 
         for i, feature in enumerate( lastFeaturesObj ):
             label_textinfo = Label( f2, text=feature[ 'title' ][ 0:50 ], fg='white',
-                                    bg='#0483d1', )
+                                    bg='#000000', )
             label_textinfo.config( font=label_textinfo_config )
-            label_textinfo.place( x=label_textinfo_x_position + (i * 350), y=250 )
-            # news_Button = Button( newsToggle, text="En savoir plus", command=partial( showMore, feature ),
+            label_textinfo.place( x=25, y=50 + (i * 40) )
+            # news_Button = Button( f2, text="En savoir plus", command=partial( , feature ),
             #                       border=0,
             #                       activebackground='#12c4c0',
             #                       bg="#12c4c0" )
