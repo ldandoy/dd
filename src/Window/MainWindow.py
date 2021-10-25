@@ -279,7 +279,7 @@ class MainWindow:
         def inventaire():
             questframe.pack_forget()
             questframe.destroy()
-            perso = Perso("andolorion.json")
+            perso = Person("andolorion.json")
             inventory = Inventory(perso, self.q)
             inventory.show()
             perso.save()
