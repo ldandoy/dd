@@ -6,7 +6,7 @@ from Utils.Perso import Perso
 from Rooms.rooms import Room
 from Perso.PersoActions import submit_new_perso
 from Combat.combat import *
-from Utils.GetLastFeatures import GetLastFeatures
+from Utils.GetLastFeatures import getLastFeatures
 from functools import partial
 
 
@@ -21,7 +21,7 @@ class MainWindow:
         f2 = Frame( self.q, width=764, height=600, bg='#FFFFFF' )
         f2.place( x=300, y=0 )
 
-        lastFeaturesObj = GetLastFeatures( 3 )
+        lastFeaturesObj = getLastFeatures( )
         print(lastFeaturesObj)
         label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
         label_textinfo_x_position = 25
@@ -113,7 +113,7 @@ class MainWindow:
         label_textwelcomeframe.config( font=label_textwelcomeframe_config )
         label_textwelcomeframe.place( x=250, y=100 )
 
-        lastFeaturesObj = GetLastFeatures( 3 )
+        lastFeaturesObj = getLastFeatures( 3 )
 
         label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
 
