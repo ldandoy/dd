@@ -4,12 +4,12 @@ import json
 class Combat:
     def __init__(self, hero, monster):
         ## load my hero and monster data
-        self.hero = json.loads(hero)
+        self.hero = hero
         self.monster = json.loads(monster)
         #Hero var
         self.hero_damage = self.hero.get('attaque')
-        self.hero_hp = self.hero.get('hp')
-        self.hero_vit = self.hero.get('vit')
+        self.hero_hp = self.hero.get('pdv')
+        self.hero_vit = self.hero.get('vitesse')
         self.hero_for = self.hero.get('force')
         self.hero_int = self.hero.get('intellignce')
         self.hero_dex = self.hero.get('dexterite')
@@ -25,13 +25,14 @@ class Combat:
         self.monster_vit = self.monster.get('vit')
         self.monster_hp = self.monster.get('hp')
 
-    def selectedWeapon(self,weaponSelected):
+    def selectedWeapon(self, weapon_selected):
         for x in range(len(self.hero_weapon)):
-            if self.hero_weapon[x].get('name') == weaponSelected:
-                self.hero_weapon_attaque = self.hero_weapon[x].get('attaque')
+            if str(self.hero_weapon[x].get('name')) == str(weapon_selected):
+                self.hero_weapon_attaque = self.hero_weapon[x].get('degat')
                 self.hero_weapon_test = self.hero_weapon[x].get('test')
-            else:
-                print('no such weapon found')
+                print('weapon updated')
+        print(self.hero_weapon_attaque)
+        print(self.hero_weapon_test)
 
     def createDice(self):
         if self.hero_weapon_test == 'force':
@@ -42,7 +43,7 @@ class Combat:
             return str(self.hero_weapon_attaque)+"+"+str(Person.bonus(self.hero_int))
 
     def initiative(self):
-        self.hero_vit = Person.dice("1d"+str(self.hero_vit)+"+0")
+        self.hero_vit = Person.dice("1d"+str(self.hero_vit)+"+110")
         self.monster_vit = Person.dice("1d"+str(self.monster_vit)+"+0")
         print("Monster jet init : " + str(self.monster_vit))
         print("Hero jet init : " + str(self.hero_vit))
@@ -64,12 +65,13 @@ class Combat:
 
     def hero_get_damaged(self):
         print('hero will get hit')
-        self.hero_hp = self.hero_hp - Person.dice(self.monster_damage)
+        self.hero_hp = int(self.hero_hp) - int(Person.dice(self.monster_damage))
         print("hero hp : " + str(self.hero_hp))
         return self.hero_hp
 
-    def monster_get_damaged(self):
+    def monster_get_damaged(self, weapon_selected):
         print('monster will get hit')
+        self.selectedWeapon(weapon_selected)
         my_dice = self.createDice()
         self.monster_hp = int(self.monster_hp) - int(Person.dice(my_dice))
         print("monster hp : " + str(self.monster_hp))

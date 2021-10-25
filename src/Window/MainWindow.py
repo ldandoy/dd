@@ -400,7 +400,7 @@ class MainWindow:
             monstre = '{"name": "chauve souris","hp": "30","attaque": "1d5+0","vit":"7"}'
 
         #hero = '{"name":"test","hp":20,"attaque":"2d10+0","vit":"5"}'
-        hero = os.path.join('Datas', 'Perso', 'andolorison.json')
+        hero = self.perso
         Combatframe = Frame(self.q, width=1024, height=600)
         Combatframe.place(x=0, y=0)
         Combatframe.lower()
@@ -415,7 +415,7 @@ class MainWindow:
         combat.initiative()
 
         def attack():
-            combat.monster_get_damaged()
+            combat.monster_get_damaged("Arc Long")
             combat.monster_is_dead()
             if combat.monster_is_dead() == 0:
                 print("monster is dead")
