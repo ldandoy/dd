@@ -281,23 +281,11 @@ class MainWindow:
             self.donjonroom += 1
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-<<<<<<< HEAD
             self.CombatFrame(0)
-        def bossfight():
-            queststartedframe.pack_forget()
-            queststartedframe.destroy()
-            self.CombatFrame(1)
-        def runaway():
-            print("test")
-        def exitroom():
-            print("test")
-        def nextroom():
-=======
-            self.combatFrame()
         def bossFight():
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-            self.combatFrame()
+            self.CombatFrame(1)
         def runAway():
             queststartedframe.pack_forget()
             queststartedframe.destroy()
@@ -307,7 +295,6 @@ class MainWindow:
             queststartedframe.destroy()
             self.questFrame()
         def nextRoom():
->>>>>>> 37ee1ec1b98e3dc30856b668729e098a0bb8fb82
             self.donjonroom += 1
             queststartedframe.pack_forget()
             queststartedframe.destroy()
@@ -390,7 +377,6 @@ class MainWindow:
         frame.place(x=0, y=0)
         frame.lower()
 
-<<<<<<< HEAD
     def CombatFrame(self,isBoss):
         if isBoss == 1:
             print("boss FIGHT")
@@ -399,9 +385,6 @@ class MainWindow:
             print("normal FIGHT")
             monstre = '{"name": "chauve souris","hp": "30","attaque": "1d5+0","vit":"7"}'
 
-=======
-    def combatFrame(self):
->>>>>>> 37ee1ec1b98e3dc30856b668729e098a0bb8fb82
         hero = '{"name":"test","hp":20,"attaque":"2d10+0","vit":"5"}'
         Combatframe = Frame(self.q, width=1024, height=600)
         Combatframe.place(x=0, y=0)
@@ -422,7 +405,7 @@ class MainWindow:
             if combat.monster_is_dead() == 0:
                 print("monster is dead")
                 Combatframe.destroy()
-                self.QuestStartedFrame()
+                self.questStartedFrame()
             else:
                 combat.hero_get_damaged()
                 if combat.hero_is_dead() == 0:
@@ -463,7 +446,7 @@ class MainWindow:
         def Retry():
             self.donjonroom = 0
             deadFrame.destroy()
-            self.TextWelcomeFrame()
+            self.textWelcomeFrame()
 
         retryButton = Button(deadFrame, text="Retry", command=Retry, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
