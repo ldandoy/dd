@@ -17,12 +17,29 @@ class MainWindow:
 
     donjonroom = 0
 
+    def newsToggle( self ):
+        f2 = Frame( self.q, width=764, height=600, bg='#FFFFFF' )
+        f2.place( x=300, y=0 )
+
+        lastFeaturesObj = GetLastFeatures( 3 )
+        print(lastFeaturesObj)
+        label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
+        label_textinfo_x_position = 25
+
+        for i, feature in enumerate( lastFeaturesObj ):
+            label_textinfo = Label( f2, text=feature[ 'title' ][ 0:50 ], fg='white',
+                                    bg='#0483d1', )
+            label_textinfo.config( font=label_textinfo_config )
+            label_textinfo.place( x=label_textinfo_x_position + (i * 350), y=250 )
+            # news_Button = Button( newsToggle, text="En savoir plus", command=partial( showMore, feature ),
+            #                       border=0,
+            #                       activebackground='#12c4c0',
+            #                       bg="#12c4c0" )
+            # news_Button.place( x=label_textinfo_x_position + (i * 350), y=300 )
+
     def toogleWin(self):
         f1 = Frame(self.q, width=300, height=600, bg='#12c4c0')
         f1.place(x=0, y=0)
-        f2 = Frame( self.q, width=1024, height=600, bg='#12c4c0' )
-        f2.place( x=300, y=600 )
-
 
         def dele():
             f1.destroy()
@@ -37,22 +54,22 @@ class MainWindow:
                 myButton['foreground'] = '#262626'
 
             myButton = Button(f1,
-                text=text,
-                width=42,
-                height=2,
-                fg="#262626",
-                bg=fcolor,
-                border=0,
-                activeforeground="#262626",
-                activebackground=bcolor,
-                command=cmd)
+                              text=text,
+                              width=42,
+                              height=2,
+                              fg="#262626",
+                              bg=fcolor,
+                              border=0,
+                              activeforeground="#262626",
+                              activebackground=bcolor,
+                              command=cmd)
 
             myButton.bind("<Enter>", onEnter)
             myButton.bind("<Leave>", onLeaves)
 
             myButton.place(x=x, y=y)
 
-        bttn(0, 80, 'News', "#0f9d9a", "#12c4c0", None)
+        bttn(0, 80, 'News', "#0f9d9a", "#12c4c0", self.newsToggle)
         bttn(0, 117, 'D E L L', "#0f9d9a", "#12c4c0", None)
         bttn(0, 154, 'A P P L E', "#0f9d9a", "#12c4c0", None)
         bttn(0, 191, 'A S U S', "#0f9d9a", "#12c4c0", None)
@@ -75,6 +92,8 @@ class MainWindow:
         self.textWelcomeFrame()
 
         self.q.mainloop()
+
+
 
     def textWelcomeFrame( self ):
         textwelcomeframe = Frame( self.q, width=1024, height=600 )
@@ -315,27 +334,27 @@ class MainWindow:
 
         if self.rooms.donjon[self.donjonroom]["name"] == "Rencontre":
             fightButton = Button(queststartedframe, text="Combattre !", command=fight, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
+                                 activebackground='#12c4c0', bg="#12c4c0")
             fightButton.place(x=750, y=200)
 
             runButton = Button(queststartedframe, text="Fuir !", command=runAway, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
+                               activebackground='#12c4c0', bg="#12c4c0")
             runButton.place(x=750, y=250)
         elif self.rooms.donjon[self.donjonroom]["name"] == "Boss":
             fightButton = Button(queststartedframe, text="Combattre !", command=bossFight, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
+                                 activebackground='#12c4c0', bg="#12c4c0")
             fightButton.place(x=750, y=200)
 
             runButton = Button(queststartedframe, text="Fuir !", command=runAway, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
+                               activebackground='#12c4c0', bg="#12c4c0")
             runButton.place(x=750, y=250)
         else:
             continueButton = Button(queststartedframe, text="Continuer", command=nextRoom, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
+                                    activebackground='#12c4c0', bg="#12c4c0")
             continueButton.place(x=750, y=200)
 
             exitButton = Button(queststartedframe, text="Sortir", command=exitRoom, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
+                                activebackground='#12c4c0', bg="#12c4c0")
             exitButton.place(x=750, y=250)
 
         queststartedframe.place(x=0, y=0)
@@ -427,11 +446,11 @@ class MainWindow:
         AttackButton.place(x=750, y=500)
 
         InventaireButton = Button(Combatframe, text="Inventaire", command=inventaire, border=0, activebackground='#12c4c0',
-                              bg="#12c4c0")
+                                  bg="#12c4c0")
         InventaireButton.place(x=850, y=500)
 
         FuiteButton = Button(Combatframe, text="Fuite", command=fuite, border=0, activebackground='#12c4c0',
-                              bg="#12c4c0")
+                             bg="#12c4c0")
         FuiteButton.place(x=850, y=550)
 
     def deadFrame(self):
@@ -452,5 +471,5 @@ class MainWindow:
             self.textWelcomeFrame()
 
         retryButton = Button(deadFrame, text="Retry", command=Retry, border=0, activebackground='#12c4c0',
-                              bg="#12c4c0")
+                             bg="#12c4c0")
         retryButton.place(x=500, y=300)
