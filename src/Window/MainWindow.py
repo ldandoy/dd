@@ -274,7 +274,7 @@ class MainWindow:
 
             self.questStartedFrame()
 
-        labelTextQuestFrame = Label(questFrame, text="Bienvenue 'INSERER NOM JOUEUR', que souhaitez-vous faire ?",
+        labelTextQuestFrame = Label(questFrame, text="Bienvenue " + self.perso["name"] + ", que souhaitez-vous faire ?",
                                      fg='dark grey', bg=None)
         labelTextQuestFrame_config = ('Calibri (Body)', 20, 'bold')
         labelTextQuestFrame.config(font=labelTextQuestFrame_config)
