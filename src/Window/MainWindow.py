@@ -339,44 +339,45 @@ class MainWindow:
         queststartedframe.place(x=0, y=0)
         queststartedframe.lower()
 
-    def newPersoFrame(self):
-        frame = Frame(self.q, width=1024, height=600, bg="#FFF")
+    ## Frame jamais utiliser Illies confirme suppression 
+    # def newPersoFrame(self):
+    #     frame = Frame(self.q, width=1024, height=600, bg="#FFF")
 
-        # main message
-        main_message = Label(frame, text='Créer un personnage', fg='dark grey')
-        main_message.config(font=('Calibri (Body)', 24, 'bold'))
-        main_message.place(x=200, y=200)
+    #     # main message
+    #     main_message = Label(frame, text='Créer un personnage', fg='dark grey')
+    #     main_message.config(font=('Calibri (Body)', 24, 'bold'))
+    #     main_message.place(x=200, y=200)
 
-        # new perso form
-        Label(frame, text="Name").grid(row=0, column=0)
-        Label(frame, text="Age").grid(row=1, column=0)
-        name = Entry(frame).grid(row=0, column=1)
-        age = Entry(frame).grid(row=1, column=1)
+    #     # new perso form
+    #     Label(frame, text="Name").grid(row=0, column=0)
+    #     Label(frame, text="Age").grid(row=1, column=0)
+    #     name = Entry(frame).grid(row=0, column=1)
+    #     age = Entry(frame).grid(row=1, column=1)
 
-        def makeForm(root, fields):
-            entries = {}
-            for field in fields:
-                row = Frame(root)
-                lab = Label(row, width=22, text=field + ": ", anchor='w')
-                ent = Entry(row)
-                ent.insert(0, "0")
-                row.pack(side=TOP, fill=X, padx=5, pady=5)
-                lab.pack(side=LEFT)
-                ent.pack(side=RIGHT, expand=YES, fill=X)
-                entries[field] = ent
-            return entries
+    #     def makeForm(root, fields):
+    #         entries = {}
+    #         for field in fields:
+    #             row = Frame(root)
+    #             lab = Label(row, width=22, text=field + ": ", anchor='w')
+    #             ent = Entry(row)
+    #             ent.insert(0, "0")
+    #             row.pack(side=TOP, fill=X, padx=5, pady=5)
+    #             lab.pack(side=LEFT)
+    #             ent.pack(side=RIGHT, expand=YES, fill=X)
+    #             entries[field] = ent
+    #         return entries
 
-        fields = ('Name', 'Age')
-        ents = makeForm(self.q, fields)
-        print(name)
+    #     fields = ('Name', 'Age')
+    #     ents = makeForm(self.q, fields)
+    #     print(name)
 
-        def triggerSubmitNewForm():
-            submit_new_perso(ents.get('Name'))
+    #     def triggerSubmitNewForm():
+    #         submit_new_perso(ents.get('Name'))
 
-        btn = Button(frame, text="Submit", command=submit_new_perso).grid(row=4, column=0)
+    #     btn = Button(frame, text="Submit", command=submit_new_perso).grid(row=4, column=0)
 
-        frame.place(x=0, y=0)
-        frame.lower()
+    #     frame.place(x=0, y=0)
+    #     frame.lower()
 
     def CombatFrame(self,isBoss):
         if isBoss == 1:
