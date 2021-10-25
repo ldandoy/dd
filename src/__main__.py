@@ -11,8 +11,6 @@ from Monster.Monster import Monster
 
 if __name__ == '__main__':
     print("Bienvenue dans Donjon & Dragon")
-    list_perso = Perso.list_perso()
-    print(list_perso)
 
     mainWindow = MainWindow()
     # initialQuest = InitialQuest()

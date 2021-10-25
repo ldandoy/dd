@@ -38,13 +38,13 @@ class Combat:
     def hero_get_damaged(self):
         print('hero will get hit')
         self.hero_hp = self.hero_hp - Perso.dice(self.monster_damage)
-        print(self.hero_hp)
+        print("hero hp : " + str(self.hero_hp))
         return self.hero_hp
 
     def monster_get_damaged(self):
         print('monster will get hit')
         self.monster_hp = int(self.monster_hp) - int(Perso.dice(self.hero_damage))
-        print(self.monster_hp)
+        print("monster hp : " + str(self.monster_hp))
         return self.monster_hp
 
     ##functiopn test déroulement du combat
