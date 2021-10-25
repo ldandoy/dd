@@ -61,7 +61,7 @@ class Person(DefaultController):
     @staticmethod
     def list_person() -> list:
         """Return the list of all person"""
-        folder = os.path.join('..', 'Datas', 'Perso')
+        folder = os.path.join('Datas', 'Perso')
         return os.listdir(folder)
 
     def save(self):
