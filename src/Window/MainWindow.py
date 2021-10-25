@@ -5,6 +5,7 @@ from Utils.loadJson import LoadJson
 from Rooms.rooms import Room
 from Perso.PersoActions import submit_new_perso
 from Combat.combat import *
+from Inventory.Inventory import *
 
 
 
@@ -287,7 +288,8 @@ class MainWindow:
                     Combatframe.destroy()
 
         def Inventaire():
-            print("ceci est une ouverture d'inventaire")
+            Combatframe.destroy()
+            self.inventoryFrame() 
 
         def Fuite():
             print("Vous tentez de prendre la fuite")
@@ -303,4 +305,22 @@ class MainWindow:
         FuiteButton = Button(Combatframe, text="Fuite", command=Fuite, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         FuiteButton.place(x=850, y=550)
+
+    def inventoryFrame(self): 
+        inventoryFrame =Frame(self.q, width=1024, height=600)
+        inventoryFrame.place(x=0, y=0)
+        inventoryFrame.lower()
+        image_path = os.path.join(self.base_folder, '../medias/combat.png')
+        bg = PhotoImage(file=r'' + image_path)
+        canvas1 = Canvas(inventoryFrame, width=1024, height=600)
+        canvas1.pack(fill="both", expand=True)
+        canvas1.create_image(0, 0, image=bg, anchor="nw")
+        canvas1.image = bg
+
+        def use_Potion_de_vie():
+            Inventory.inventory(1)
+
+        HealthPotionButton = Button(inventoryFrame, text="Potion de vie", command=use_Potion_de_vie, border=0, activebackground='#12c4c0',
+                          bg="#12c4c0")
+        HealthPotionButton.place(x=850, y=550)
 
