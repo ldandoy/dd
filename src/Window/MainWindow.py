@@ -15,6 +15,7 @@ from Combat.combat import Combat
 class MainWindow:
     rooms = []
     json = LoadJson()
+    perso = None
 
     donjonroom = 0
 
@@ -177,10 +178,6 @@ class MainWindow:
         lwelcome.config(font=lwelcomefont)
         lwelcome.place(x=105, y=30)
 
-        #select champion
-        def selected():
-            ChoiceButton['state'] = NORMAL
-
 
         def choice():
             choicePersoFrame.pack_forget()
@@ -188,48 +185,61 @@ class MainWindow:
 
             self.questFrame()
 
-        selectButton = Button(choicePersoFrame, text="Selectionné", command=selected, border=0, activebackground='#12c4c0', bg="#12c4c0")
-        ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice, state=DISABLED, border=0, activebackground='#12c4c0', bg="#12c4c0", width=27, height=10)
+        ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice, state=DISABLED, border=0,
+                              activebackground='#12c4c0', bg="#12c4c0", width=27, height=10)
         ChoiceButton.place(x=780, y=420)
 
+        #select champion
+        def selected(perso, count):
+            ChoiceButton['state'] = NORMAL
+            self.perso = Person.perso_choose(perso)
 
-        # character area ---------
-        def getJson():
-            persoList = []
-            persoJson = Person.list_person()
-            for i in persoJson:
-                persoList.append(i)
-            return persoList
-
-        def getJsonSelected(perso):
-            return self.json.load(os.path.join(self.base_folder, '../../Datas/Perso/' + perso))
-
-        def getNamePerso(perso):
-            for persoJson in getJson():
-                if perso == persoJson:
-                    data = getJsonSelected(perso)
-                    name = data["name"]
-                    return name
-                else:
-                    print('no name')
+        selectButton = []
+        persoJson = Person.list_person()
+        x = 105
+        for count, perso in enumerate(persoJson):
+            selectButton.insert(count, Button(choicePersoFrame, text=perso, command=lambda perso=perso, count=count: selected(perso,count), border=0, activebackground='#12c4c0', bg="#12c4c0"))
+            selectButton[count].place(x=x, y=100, width=110, height=110, )
+            x += 200
 
 
-        getJson()
-
-        def displayChampion():
-            for perso in getJson():
-                print(perso)
-                x = 105
-                selectButton['text'] = getNamePerso(perso)
-                selectButton.place(x=x, y=100, width=110, height=110, )
-
-                print(x)
-                x += 20
-
-        def displayChampionInformation():
-            pass
-
-        displayChampion()
+        # # character area ---------
+        # def getJson():
+        #     persoList = []
+        #     persoJson = Person.list_person()
+        #     for i in persoJson:
+        #         persoList.append(i)
+        #     return persoList
+        #
+        # def getJsonSelected(perso):
+        #     return self.json.load(os.path.join(self.base_folder, '../../Datas/Perso/' + perso))
+        #
+        # def getNamePerso(perso):
+        #     for persoJson in getJson():
+        #         if perso == persoJson:
+        #             data = getJsonSelected(perso)
+        #             name = data["name"]
+        #             return name
+        #         else:
+        #             print('no name')
+        #
+        #
+        # getJson()
+        #
+        # def displayChampion():
+        #     for perso in getJson():
+        #         print(perso)
+        #         x = 105
+        #         selectButton['text'] = getNamePerso(perso)
+        #         selectButton.place(x=x, y=100, width=110, height=110, )
+        #
+        #         print(x)
+        #         x += 20
+        #
+        # def displayChampionInformation():
+        #     pass
+        #
+        # displayChampion()
 
 
         def goToNewPerso() -> None:
@@ -249,6 +259,8 @@ class MainWindow:
 
     def questFrame(self):
         questframe = Frame(self.q, width=1024, height=600, bg="#FF0000")
+
+        print(self.perso)
 
         # Get the welcome message
         json = LoadJson()

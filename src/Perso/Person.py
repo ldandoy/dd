@@ -4,6 +4,7 @@ from re import sub
 from json import dump
 import random
 
+from Utils.loadJson import LoadJson
 from Utils.DefaultController import DefaultController
 from Utils.logger import debug
 
@@ -63,6 +64,10 @@ class Person(DefaultController):
         """Return the list of all person"""
         folder = os.path.join('Datas', 'Perso')
         return os.listdir(folder)
+
+    def perso_choose(filename):
+        json = LoadJson()
+        return json.load(os.path.join('Datas', 'Perso', filename))
 
     def save(self):
         transformed_name = self.__get_transformed_name()
