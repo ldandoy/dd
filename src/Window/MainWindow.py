@@ -2,14 +2,14 @@ from tkinter import *
 import os
 import tkinter as tk
 
-from src.Utils.loadJson import LoadJson
-from src.Perso.Person import Person
-from src.Rooms.rooms import Room
-from src.Combat.combat import *
-from src.Utils.GetLastFeatures import GetLastFeatures
+from Utils.loadJson import LoadJson
+from Perso.Person import Person
+from Rooms.rooms import Room
+from Combat.combat import *
+from Utils.GetLastFeatures import GetLastFeatures
 from functools import partial
 
-from src.Combat.combat import Combat
+from Combat.combat import Combat
 
 
 class MainWindow:

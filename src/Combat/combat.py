@@ -1,6 +1,6 @@
 import json
 
-from src.Perso.Person import Person
+from Perso.Person import Person
 import json
 
 class Combat:

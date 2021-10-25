@@ -4,8 +4,8 @@ from re import sub
 from json import dump
 import random
 
-from src.Utils.DefaultController import DefaultController
-from src.Utils.logger import debug
+from Utils.DefaultController import DefaultController
+from Utils.logger import debug
 
 
 class Person(DefaultController):
@@ -107,9 +107,10 @@ class Person(DefaultController):
                 ],
                 'inventaire': []
             }
-            json_file_path = os.path.join('..', 'Datas', 'Perso', f'{transformed_name}.json')
 
-            with open(json_file_path, 'w') as outfile:
+            json_file_path = os.path.join('Datas', 'Perso', f'{transformed_name}.json')
+
+            with open(json_file_path, 'w+') as outfile:
                 dump(json_to_save, outfile, indent=2)
             debug(f'{json_file_path} Successfully saved')
 
