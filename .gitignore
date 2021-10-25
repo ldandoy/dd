@@ -1,1 +1,5 @@
-__pychache__
+**/__pycache__
+.idea
+**/**/__pycache__
+/venv
+src/medias/.DS_Store
