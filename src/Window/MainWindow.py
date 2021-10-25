@@ -11,7 +11,7 @@ from functools import partial
 
 from Combat.combat import Combat
 
-from src.Window.NewsFrame import newsShowMoreFrame
+from Window.NewsFrame import newsShowMoreFrame
 
 
 class MainWindow:
@@ -101,22 +101,6 @@ class MainWindow:
         label_textinfo_x_position = 25
         label_showmore_y_position = 100
 
-
-        def showMore( feature ):
-            textwelcomeframe.pack_forget()
-            textwelcomeframe.destroy()
-            newsShowMoreFrame( self, feature, label_textinfo_config, label_showmore_y_position)
-
-        for i, feature in enumerate( lastFeaturesObj ):
-            label_textinfo = Label( textwelcomeframe, text=feature[ 'title' ][ 0:50 ], fg='white',
-                                    bg='#0483d1', )
-            label_textinfo.config( font=label_textinfo_config )
-            label_textinfo.place( x=label_textinfo_x_position + (i * 350), y=250 )
-            news_Button = Button( textwelcomeframe, text="En savoir plus", command=partial( showMore, feature ),
-                                  border=0,
-                                  activebackground='#12c4c0',
-                                  bg="#12c4c0" )
-            news_Button.place( x=label_textinfo_x_position + (i * 350), y=300 )
 
         def play():
             textwelcomeframe.pack_forget()
