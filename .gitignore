@@ -2,3 +2,4 @@
 .idea
 **/**/__pycache__
 /venv
+src/medias/.DS_Store

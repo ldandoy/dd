@@ -43,9 +43,9 @@ class Perso(DefaultController):
         self.pdv = 0
 
     @staticmethod
-    def list_perso():
+    def listPerso():
         """Return the list of the Perso"""
-        list = os.path.join('Datas', 'Perso')
+        list = os.listdir(os.path.join('Datas', 'Perso'))
         return list
 
     @staticmethod
