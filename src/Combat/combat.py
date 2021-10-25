@@ -1,18 +1,45 @@
-import json
-
 from Perso.Person import Person
 import json
 
 class Combat:
     def __init__(self, hero, monster):
+        ## load my hero and monster data
         self.hero = json.loads(hero)
         self.monster = json.loads(monster)
+        #Hero var
         self.hero_damage = self.hero.get('attaque')
-        self.monster_hp = self.monster.get('hp')
-        self.monster_damage = self.monster.get('attaque')
         self.hero_hp = self.hero.get('hp')
         self.hero_vit = self.hero.get('vit')
+        self.hero_for = self.hero.get('force')
+        self.hero_int = self.hero.get('intellignce')
+        self.hero_dex = self.hero.get('dexterite')
+        self.hero_cha = self.hero.get('charisme')
+        self.hero_con = self.hero.get('constitution')
+        self.hero_sag = self.hero.get('sagesse')
+        #Hero weapon
+        self.hero_weapon = self.hero.get('armes')
+        self.hero_weapon_attaque = self.hero_weapon[1].get('attaque')
+        self.hero_weapon_test = self.hero_weapon[1].get('test')
+        #Monster var
+        self.monster_damage = self.monster.get('attaque')
         self.monster_vit = self.monster.get('vit')
+        self.monster_hp = self.monster.get('hp')
+
+    def selectedWeapon(self,weaponSelected):
+        for x in range(len(self.hero_weapon)):
+            if self.hero_weapon[x].get('name') == weaponSelected:
+                self.hero_weapon_attaque = self.hero_weapon[x].get('attaque')
+                self.hero_weapon_test = self.hero_weapon[x].get('test')
+            else:
+                print('no such weapon found')
+
+    def createDice(self):
+        if self.hero_weapon_test == 'force':
+            return str(self.hero_weapon_attaque)+"+"+str(Person.bonus(self.hero_for))
+        if self.hero_weapon_test == 'dexterite':
+            return str(self.hero_weapon_attaque)+"+"+str(Person.bonus(self.hero_dex))
+        if self.hero_weapon_test == 'intelligence':
+            return str(self.hero_weapon_attaque)+"+"+str(Person.bonus(self.hero_int))
 
     def initiative(self):
         self.hero_vit = Person.dice("1d"+str(self.hero_vit)+"+0")
@@ -43,7 +70,8 @@ class Combat:
 
     def monster_get_damaged(self):
         print('monster will get hit')
-        self.monster_hp = int(self.monster_hp) - int(Person.dice(self.hero_damage))
+        my_dice = self.createDice()
+        self.monster_hp = int(self.monster_hp) - int(Person.dice(my_dice))
         print("monster hp : " + str(self.monster_hp))
         return self.monster_hp
 
