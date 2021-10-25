@@ -282,11 +282,11 @@ class MainWindow:
             self.donjonroom += 1
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-            self.combatFrame()
+            self.CombatFrame(0)
         def bossFight():
             queststartedframe.pack_forget()
             queststartedframe.destroy()
-            self.combatFrame()
+            self.CombatFrame(1)
         def runAway():
             queststartedframe.pack_forget()
             queststartedframe.destroy()
@@ -378,9 +378,15 @@ class MainWindow:
         frame.place(x=0, y=0)
         frame.lower()
 
-    def combatFrame(self):
+    def CombatFrame(self,isBoss):
+        if isBoss == 1:
+            print("boss FIGHT")
+            monstre = '{"name": "chauve souris","hp": "50","attaque": "3d10+0","vit":"7"}'
+        else:
+            print("normal FIGHT")
+            monstre = '{"name": "chauve souris","hp": "30","attaque": "1d5+0","vit":"7"}'
+
         hero = '{"name":"test","hp":20,"attaque":"2d10+0","vit":"5"}'
-        monstre = '{"name": "chauve souris","hp": "30","attaque": "1d5+0","vit":"7"}'
         Combatframe = Frame(self.q, width=1024, height=600)
         Combatframe.place(x=0, y=0)
         Combatframe.lower()
@@ -400,11 +406,13 @@ class MainWindow:
             if combat.monster_is_dead() == 0:
                 print("monster is dead")
                 Combatframe.destroy()
+                self.questStartedFrame()
             else:
                 combat.hero_get_damaged()
                 if combat.hero_is_dead() == 0:
                     print("hero is dead")
                     Combatframe.destroy()
+                    self.deadFrame()
 
         def inventaire():
             print("ceci est une ouverture d'inventaire")
@@ -424,21 +432,23 @@ class MainWindow:
                               bg="#12c4c0")
         FuiteButton.place(x=850, y=550)
 
-    def inventoryFrame(self): 
-        inventoryFrame =Frame(self.q, width=1024, height=600)
-        inventoryFrame.place(x=0, y=0)
-        inventoryFrame.lower()
-        image_path = os.path.join(self.base_folder, '../medias/combat.png')
+    def deadFrame(self):
+        deadFrame = Frame(self.q, width=1024, height=600)
+        deadFrame.place(x=0, y=0)
+        deadFrame.lower()
+
+        image_path = os.path.join(self.base_folder, '../medias/dead.png')
         bg = PhotoImage(file=r'' + image_path)
-        canvas1 = Canvas(inventoryFrame, width=1024, height=600)
+        canvas1 = Canvas(deadFrame, width=1024, height=600)
         canvas1.pack(fill="both", expand=True)
         canvas1.create_image(0, 0, image=bg, anchor="nw")
         canvas1.image = bg
 
-        def use_Potion_de_vie():
-            Inventory.inventory(1)
+        def Retry():
+            self.donjonroom = 0
+            deadFrame.destroy()
+            self.textWelcomeFrame()
 
-        HealthPotionButton = Button(inventoryFrame, text="Potion de vie", command=use_Potion_de_vie, border=0, activebackground='#12c4c0',
-                          bg="#12c4c0")
-        HealthPotionButton.place(x=850, y=550)
-
+        retryButton = Button(deadFrame, text="Retry", command=Retry, border=0, activebackground='#12c4c0',
+                              bg="#12c4c0")
+        retryButton.place(x=500, y=300)
