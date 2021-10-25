@@ -119,7 +119,7 @@ class MainWindow:
                 news_show_more_frame.pack_forget()
                 news_show_more_frame.destroy()
 
-                self.TextWelcomeFrame()
+                self.textWelcomeFrame()
 
             ChoiceButton = Button( news_show_more_frame, text="retour", command=choice, border=0,
                                    activebackground='#12c4c0', bg="#12c4c0" )
