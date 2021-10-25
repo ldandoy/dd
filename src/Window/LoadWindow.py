@@ -3,8 +3,6 @@ from tkinter.ttk import Progressbar
 from tkinter import *
 import time
 
-from Window.MainWindow import MainWindow
-
 
 class LoadWindow:
     progress = None

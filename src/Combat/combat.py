@@ -1,6 +1,6 @@
 import json
 
-from Utils.Perso import Perso
+from Perso.Person import Person
 import json
 
 class Combat:
@@ -15,8 +15,8 @@ class Combat:
         self.monster_vit = self.monster.get('vit')
 
     def initiative(self):
-        self.hero_vit = Perso.dice("1d"+str(self.hero_vit)+"+0")
-        self.monster_vit = Perso.dice("1d"+str(self.monster_vit)+"+0")
+        self.hero_vit = Person.dice("1d"+str(self.hero_vit)+"+0")
+        self.monster_vit = Person.dice("1d"+str(self.monster_vit)+"+0")
         print("Monster jet init : " + str(self.monster_vit))
         print("Hero jet init : " + str(self.hero_vit))
         if self.hero_vit < self.monster_vit:
@@ -37,13 +37,13 @@ class Combat:
 
     def hero_get_damaged(self):
         print('hero will get hit')
-        self.hero_hp = self.hero_hp - Perso.dice(self.monster_damage)
+        self.hero_hp = self.hero_hp - Person.dice(self.monster_damage)
         print("hero hp : " + str(self.hero_hp))
         return self.hero_hp
 
     def monster_get_damaged(self):
         print('monster will get hit')
-        self.monster_hp = int(self.monster_hp) - int(Perso.dice(self.hero_damage))
+        self.monster_hp = int(self.monster_hp) - int(Person.dice(self.hero_damage))
         print("monster hp : " + str(self.monster_hp))
         return self.monster_hp
 
