@@ -5,7 +5,6 @@ import tkinter as tk
 from Utils.loadJson import LoadJson
 from Perso.Person import Person
 from Rooms.rooms import Room
-from Perso.PersoActions import submit_new_perso
 from Combat.combat import *
 from Utils.GetLastFeatures import getLastFeatures
 from functools import partial
