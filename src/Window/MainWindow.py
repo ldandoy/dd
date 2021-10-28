@@ -2,16 +2,14 @@ from tkinter import *
 import os
 import tkinter as tk
 
+from Window.TextWelcomeFrame import textWelcomeFrame
+from Window.NewsFrame import lastNews
 from Utils.loadJson import LoadJson
 from Perso.Person import Person
 from Rooms.rooms import Room
 from Combat.combat import *
-from Utils.GetLastFeatures import GetLastFeatures
-from functools import partial
 
 from Combat.combat import Combat
-
-from Window.NewsFrame import newsShowMoreFrame
 
 
 class MainWindow:
@@ -72,44 +70,11 @@ class MainWindow:
 
         Button(self.q, command=self.toogleWin, text='Menu', border=0, bg="#12c4c0").place(x=5, y=10)
 
-        self.textWelcomeFrame()
+        textWelcomeFrame(self.q)
 
         self.q.mainloop()
 
-    def textWelcomeFrame( self ):
-        textwelcomeframe = Frame( self.q, width=1024, height=600 )
-        textwelcomeframe.place( x=0, y=0 )
-        textwelcomeframe.lower()
 
-        image_path = os.path.join( self.base_folder, '../medias/montagne.png' )
-        bg = PhotoImage( file=r'' + image_path )
-        canvas1 = Canvas( textwelcomeframe, width=1024, height=600 )
-        canvas1.pack( fill="both", expand=True )
-        canvas1.create_image( 0, 0, image=bg, anchor="nw" )
-        canvas1.image = bg
-
-        label_textwelcomeframe = Label( textwelcomeframe, text="Bienvenue dans Donjon et Dragon", fg='dark grey',
-                                        bg=None )
-        label_textwelcomeframe_config = ('Calirbi (Body)', 36, 'bold')
-        label_textwelcomeframe.config( font=label_textwelcomeframe_config )
-        label_textwelcomeframe.place( x=250, y=100 )
-
-        lastFeaturesObj = GetLastFeatures( 3 )
-
-        label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
-
-        label_textinfo_x_position = 25
-        label_showmore_y_position = 100
-
-
-        def play():
-            textwelcomeframe.pack_forget()
-            textwelcomeframe.destroy()
-
-            self.choicePersoFrame()
-
-        PlayButton = Button(textwelcomeframe, text="Jouer", command=play, border=0, activebackground='#12c4c0', bg="#12c4c0")
-        PlayButton.place(x=950, y=550)
 
 
     def choicePersoFrame(self):
