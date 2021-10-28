@@ -20,31 +20,51 @@ class MainWindow:
 
     donjonroom = 0
 
-    def newsToggle( self ):
-        f2 = Frame( self.q, width=764, height=600, bg='#FFFFFF' )
-        f2.place( x=300, y=0 )
 
-        lastFeaturesObj = getLastFeatures( )
-        print(lastFeaturesObj)
+    newsToggleFrameOpen = False
+    newsToggleFrame = None
+
+    def newsToggle( self ):
+        self.newsToggleFrameOpen = True
+        self.newsToggleFrame = Frame( self.q, width=764, height=600, bg='#FFFFFF' )
+        self.newsToggleFrame.place( x=300, y=0 )
+        label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
+
+        label_textinfo_x_position = 25
+        label_showmore_y_position = 100
+        lastFeaturesObj = getLastFeatures()
         label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
 
         for i, feature in enumerate( lastFeaturesObj ):
-            label_textinfo = Label( f2, text=feature[ 'title' ][ 0:50 ], fg='white',
+            label_textinfo = Label( self.newsToggleFrame, text=feature[ 'title' ][ 0:50 ], fg='white',
                                     bg='#000000', )
             label_textinfo.config( font=label_textinfo_config )
-            label_textinfo.place( x=25, y=50 + (i * 40) )
-            # news_Button = Button( f2, text="En savoir plus", command=partial( , feature ),
-            #                       border=0,
-            #                       activebackground='#12c4c0',
-            #                       bg="#12c4c0" )
-            # news_Button.place( x=label_textinfo_x_position + (i * 350), y=300 )
+            label_textinfo.place( x=100, y=50 + (i * 40) )
+            news_Button = Button( self.newsToggleFrame, text="En savoir plus",
+                                  border=0,
+                                  activebackground='#12c4c0',
+                                  bg="#12c4c0" )
+            news_Button.place( x=5, y=50 + (i * 40))
+
+        def newsToggleClose():
+            self.newsToggleFrame.pack_forget()
+            self.newsToggleFrame.destroy()
+
+        Button( self.newsToggleFrame, text="close", command=newsToggleClose, border=0, activebackground='#12c4c0',
+                bg="#12c4c0" ).place(x=650, y=10)
+
 
     def toogleWin(self):
         f1 = Frame(self.q, width=300, height=600, bg='#12c4c0')
         f1.place(x=0, y=0)
 
         def dele():
+            f1.pack_forget()
             f1.destroy()
+            if(self.newsToggleFrameOpen):
+                self.newsToggleFrame.pack_forget()
+                self.newsToggleFrame.destroy()
+
 
         def bttn(x, y, text, bcolor, fcolor, cmd):
             def onEnter(e):
@@ -122,6 +142,7 @@ class MainWindow:
 
 
         def showMore( feature ):
+            self.newsShowMoreFrameOpen = True
             textwelcomeframe.pack_forget()
             textwelcomeframe.destroy()
             newsShowMoreFrame( self, feature, label_textinfo_config, label_showmore_y_position)
