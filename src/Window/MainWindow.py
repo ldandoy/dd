@@ -263,7 +263,12 @@ class MainWindow:
     def questFrame(self):
         questFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
 
-        print(self.perso)
+        image_path = os.path.join(self.base_folder, '../medias/entrance.png')
+        bg = PhotoImage(file=r'' + image_path)
+        canvas = Canvas(questFrame, width=1024, height=600)
+        canvas.pack(fill="both", expand=True)
+        canvas.create_image(0, 0, image=bg, anchor="nw")
+        canvas.image = bg
 
         # Get the welcome message
         json = LoadJson()
@@ -276,7 +281,7 @@ class MainWindow:
 
             self.questStartedFrame()
 
-        labelTextQuestFrame = Label(questFrame, text="Bienvenue 'INSERER NOM JOUEUR', que souhaitez-vous faire ?",
+        labelTextQuestFrame = Label(questFrame, text="Bienvenue " + self.perso["name"] + ", que souhaitez-vous faire ?",
                                      fg='dark grey', bg=None)
         labelTextQuestFrame_config = ('Calibri (Body)', 20, 'bold')
         labelTextQuestFrame.config(font=labelTextQuestFrame_config)
@@ -290,8 +295,6 @@ class MainWindow:
         questFrame.lower()
 
     def questStartedFrame(self):
-
-        questStartedFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
 
         def fight():
 
@@ -316,6 +319,89 @@ class MainWindow:
             questStartedFrame.destroy()
             self.questStartedFrame()
 
+        if self.rooms.donjon[self.donjonRoom]["name"] == "Rencontre":
+            questStartedFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+            questStartedFrame.place(x=0, y=0)
+            questStartedFrame.lower()
+
+            image_path = os.path.join(self.base_folder, '../medias/encounter.png')
+            bg = PhotoImage(file=r'' + image_path)
+            canvas = Canvas(questStartedFrame, width=1024, height=600)
+            canvas.pack(fill="both", expand=True)
+            canvas.create_image(0, 0, image=bg, anchor="nw")
+            canvas.image = bg
+
+            fightButton = Button(questStartedFrame, text="Combattre !", command=fight, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            fightButton.place(x=750, y=200)
+
+            runButton = Button(questStartedFrame, text="Fuir !", command=runAway, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            runButton.place(x=750, y=250)
+        elif self.rooms.donjon[self.donjonRoom]["name"] == "Boss":
+            questStartedFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+            questStartedFrame.place(x=0, y=0)
+            questStartedFrame.lower()
+
+            image_path = os.path.join(self.base_folder, '../medias/boss.png')
+            bg = PhotoImage(file=r'' + image_path)
+            canvas = Canvas(questStartedFrame, width=1024, height=600)
+            canvas.pack(fill="both", expand=True)
+            canvas.create_image(0, 0, image=bg, anchor="nw")
+            canvas.image = bg
+
+            fightButton = Button(questStartedFrame, text="Combattre !", command=bossFight, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            fightButton.place(x=750, y=200)
+
+        elif self.rooms.donjon[self.donjonRoom]["name"] == "Trésor":
+            questStartedFrame = Frame(self.q, width=1024, height=600)
+            questStartedFrame.place(x=0, y=0)
+            questStartedFrame.lower()
+
+            image_path = os.path.join(self.base_folder, '../medias/treasure.png')
+            bg = PhotoImage(file=r'' + image_path)
+            canvas = Canvas(questStartedFrame, width=1024, height=600)
+            canvas.pack(fill="both", expand=False)
+            canvas.create_image(0, 0, image=bg, anchor="nw")
+            canvas.image = bg
+
+            continueButton = Button(questStartedFrame, text="Continuer", command=nextRoom, border=0,
+                                    activebackground='#12c4c0', bg="#12c4c0")
+            continueButton.place(x=750, y=200)
+
+        elif self.rooms.donjon[self.donjonRoom]["name"] == "Couloir":
+            questStartedFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+            questStartedFrame.place(x=0, y=0)
+            questStartedFrame.lower()
+
+            image_path = os.path.join(self.base_folder, '../medias/corridor.png')
+            bg = PhotoImage(file=r'' + image_path)
+            canvas = Canvas(questStartedFrame, width=1024, height=600)
+            canvas.pack(fill="both", expand=True)
+            canvas.create_image(0, 0, image=bg, anchor="nw")
+            canvas.image = bg
+
+            continueButton = Button(questStartedFrame, text="Continuer", command=nextRoom, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            continueButton.place(x=750, y=200)
+
+        elif self.rooms.donjon[self.donjonRoom]["name"] == "Rien":
+            questStartedFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+            questStartedFrame.place(x=0, y=0)
+            questStartedFrame.lower()
+
+            image_path = os.path.join(self.base_folder, '../medias/nothing.png')
+            bg = PhotoImage(file=r'' + image_path)
+            canvas = Canvas(questStartedFrame, width=1024, height=600)
+            canvas.pack(fill="both", expand=True)
+            canvas.create_image(0, 0, image=bg, anchor="nw")
+            canvas.image = bg
+
+            continueButton = Button(questStartedFrame, text="Continuer", command=nextRoom, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            continueButton.place(x=750, y=200)
+
         tQuestStarted = Label(questStartedFrame, text=self.rooms.donjon[self.donjonRoom]["name"], fg='dark grey')
         tQuestStartedFont = ('Calibri (Body)', 24, 'bold')
         tQuestStarted.config(font=tQuestStartedFont)
@@ -325,34 +411,6 @@ class MainWindow:
         lQuestStartedFont = ('Calibri (Body)', 18, 'bold')
         lQuestStarted.config(font=lQuestStartedFont)
         lQuestStarted.place(x=50, y=120)
-
-        if self.rooms.donjon[self.donjonRoom]["name"] == "Rencontre":
-            fightButton = Button(questStartedFrame, text="Combattre !", command=fight, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
-            fightButton.place(x=750, y=200)
-
-            runButton = Button(questStartedFrame, text="Fuir !", command=runAway, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
-            runButton.place(x=750, y=250)
-        elif self.rooms.donjon[self.donjonRoom]["name"] == "Boss":
-            fightButton = Button(questStartedFrame, text="Combattre !", command=bossFight, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
-            fightButton.place(x=750, y=200)
-
-            runButton = Button(questStartedFrame, text="Fuir !", command=runAway, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
-            runButton.place(x=750, y=250)
-        else:
-            continueButton = Button(questStartedFrame, text="Continuer", command=nextRoom, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
-            continueButton.place(x=750, y=200)
-
-            exitButton = Button(questStartedFrame, text="Sortir", command=exitRoom, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
-            exitButton.place(x=750, y=250)
-
-        questStartedFrame.place(x=0, y=0)
-        questStartedFrame.lower()
 
     ## Frame jamais utiliser Illies confirme suppression 
     # def newPersoFrame(self):
