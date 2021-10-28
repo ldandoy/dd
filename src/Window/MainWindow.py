@@ -11,7 +11,7 @@ from functools import partial
 
 from Combat.combat import Combat
 
-from src.Window.NewsFrame import newsShowMoreFrame
+from Window.NewsFrame import newsShowMoreFrame
 
 
 class MainWindow:
