@@ -1,3 +1,6 @@
 {
-  "name": "Orc"
+  "name": "Orc",
+  "pdv": "30",
+  "attaque":"1d10+3",
+  "vitesse": "1"
 }

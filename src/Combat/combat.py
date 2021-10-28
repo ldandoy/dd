@@ -1,11 +1,14 @@
 from Perso.Person import Person
-import json
+from Utils.loadJson import LoadJson
 
 class Combat:
-    def __init__(self, hero, monster):
+    j = LoadJson()
+    def __init__(self, hero, monstre):
         ## load my hero and monster data
         self.hero = hero
-        self.monster = json.loads(monster)
+        print(str(monstre)+'.json')
+        self.monster = self.j.load('Datas/Monsters/'+monstre+'.json')
+        print(self.monster)
         #Hero var
         self.hero_damage = self.hero.get('attaque')
         self.hero_hp = self.hero.get('pdv')
@@ -22,8 +25,8 @@ class Combat:
         self.hero_weapon_test = self.hero_weapon[1].get('test')
         #Monster var
         self.monster_damage = self.monster.get('attaque')
-        self.monster_vit = self.monster.get('vit')
-        self.monster_hp = self.monster.get('hp')
+        self.monster_vit = self.monster.get('vitesse')
+        self.monster_hp = self.monster.get('pdv')
 
     def selectedWeapon(self, weapon_selected):
         for x in range(len(self.hero_weapon)):
@@ -43,7 +46,7 @@ class Combat:
             return str(self.hero_weapon_attaque)+"+"+str(Person.bonus(self.hero_int))
 
     def initiative(self):
-        self.hero_vit = Person.dice("1d"+str(self.hero_vit)+"+110")
+        self.hero_vit = Person.dice("1d"+str(self.hero_vit)+"+0")
         self.monster_vit = Person.dice("1d"+str(self.monster_vit)+"+0")
         print("Monster jet init : " + str(self.monster_vit))
         print("Hero jet init : " + str(self.hero_vit))
