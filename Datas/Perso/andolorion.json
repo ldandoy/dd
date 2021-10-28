@@ -28,5 +28,9 @@
       "test": "dexterite"
     }
   ],
-  "inventaire": []
+  "inventaire": [
+    "potion",
+    "sword",
+    "bones"
+  ]
 }
