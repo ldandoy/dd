@@ -42,5 +42,4 @@ class Room:
 
         for i in self.randomMonsters:
             self.monsters.append(self.monstersList[i])
-
-        print(self.generatedRooms, self.monsters)
+    
