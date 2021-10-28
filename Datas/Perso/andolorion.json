@@ -29,8 +29,19 @@
     }
   ],
   "inventaire": [
-    "potion",
-    "sword",
-    "bones"
+      {
+        "name": "potion",
+        "amount": 5
+      },
+      {
+        "name": "super-potion",
+        "amount": 3
+
+      },
+      {
+        "name": "mega-potion",
+        "amount": 2
+
+      }
   ]
 }
