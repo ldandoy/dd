@@ -37,6 +37,7 @@ class MainWindow:
         lastFeaturesObj = getLastFeatures()
         label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
 
+
         for i, feature in enumerate( lastFeaturesObj ):
             label_textinfo = Label( self.newsToggleFrame, text=feature[ 'title' ][ 0:50 ], fg='white',
                                     bg='#000000', )
