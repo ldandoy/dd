@@ -36,6 +36,11 @@ class MainWindow:
             #                       activebackground='#12c4c0',
             #                       bg="#12c4c0" )
             # news_Button.place( x=label_textinfo_x_position + (i * 350), y=300 )
+            def dele():
+                f2.destroy()
+            Button(f2, text="close").place(x=600, y=500)
+
+
 
     def toogleWin(self):
         f1 = Frame(self.q, width=300, height=600, bg='#12c4c0')
@@ -43,6 +48,7 @@ class MainWindow:
 
         def dele():
             f1.destroy()
+
 
         def bttn(x, y, text, bcolor, fcolor, cmd):
             def onEnter(e):
