@@ -1,3 +1,4 @@
+import json
 import time
 from tkinter import *
 import pygame
@@ -11,6 +12,8 @@ from Rooms.rooms import Room
 from Combat.combat import *
 from Utils.GetLastFeatures import GetLastFeatures
 from functools import partial
+from Inventory.Inventory import Inventory
+
 
 from Combat.combat import Combat
 
@@ -624,7 +627,7 @@ class MainWindow:
                 initLabel.config(text="Le monstre gagne le jet d'initiative")
                 dmg = startHp - initHp
                 updateLabel(startHp, dmg, False)
-                heroHpLabel.config(text=str(initHp))
+                heroHpLabel.config(text=str(initHp)  + '/' + str(heroHp))
 
         def updateLabel(hp,dmg,isHero):
             if isHero:
@@ -634,7 +637,7 @@ class MainWindow:
             else:
                 monsterDmgLabel.place(x=300, y=300)
                 monsterDmgLabel.config(text="monster deal : " + str(dmg))
-                heroHpLabel.config(text=str(hp))
+                heroHpLabel.config(text=str(hp) + '/' + str(heroHp))
 
         def attack(selectWeapon,button):
             AttackButton.place(x=750, y=500)
@@ -648,6 +651,8 @@ class MainWindow:
             updateLabel(monsterHp, herodmgDeal, True)
             if combat.monster_is_dead() == 0:
                 print("monster is dead")
+                hero["pdv"] = combat.hero_hp
+                Person.update(hero.get('name'), hero)
                 Combatframe.destroy()
                 self.winFrame(isBoss)
             else:
@@ -669,23 +674,79 @@ class MainWindow:
             for count, weapon in enumerate(weaponList):
                 print(weaponList[count].get('name'))
                 selectButton.insert(count, Button(Combatframe, text=weapon.get('name'),
-                                                  command=lambda weapon=weapon, count=count: attack(weapon.get('name'),selectButton),
-                                                  border=0, activebackground='#12c4c0', bg="#12c4c0"))
+                                                command=lambda weapon=weapon, count=count: attack(weapon.get('name'),selectButton),
+                                                border=0, activebackground='#12c4c0', bg="#12c4c0"))
                 selectButton[count].place(x=x, y=500)
                 x += 100
 
-        def inventaire():
-            print("ceci est une ouverture d'inventaire")
-
         def fuite():
             print("Vous tentez de prendre la fuite")
+
+
+        ## Début -> Inventaire 
+        #
+        #
+        def inventory():
+            perso = self.perso
+            itemTab = []
+            inventory = Inventory(perso)
+            getItems = perso.get('inventaire')    
+
+            # Afficher mes objets sous forme de liste
+            for i, item in enumerate(getItems):
+                itemTab.insert(i,Button(Combatframe, 
+                                        text=getItems[i].get('name'), 
+                                        command=lambda name=getItems[i].get('name'), amount=getItems[i].get('amount'), hp=combat.hero_hp: healHero(name, amount, hp),
+                                        fg='black', 
+                                        border=0, 
+                                        activebackground='#12c4c0', 
+                                        bg="#12c4c0"))
+                itemTab[i].place(x=850, y= 500 + (i*25))
+            
+            # Faire disparaître les anciens boutons de la frame combat
+            AttackButton.place_forget()
+            InventaireButton.place_forget()
+            FuiteButton.place_forget()
+
+            # Utiliser une potion
+            def healHero(name, amount, hp):
+                initHp = combat.hero_hp
+                
+                combat.hero_hp = inventory.useItem(name, amount, hp)
+                
+                back()
+
+                return updateLabel(combat.hero_hp, initHp, False)
+
+            # Sortir de l'inventaire
+            def back():
+                for i, lbl in enumerate(itemTab):
+                    itemTab[i].place_forget()
+
+                returnButton.place_forget()
+                AttackButton.place(x=750, y=500)
+                InventaireButton.place(x=850, y=500)
+                FuiteButton.place(x=850, y=550)
+
+            # Bouton pour sortir de l'inventaire
+            returnButton = Button(  Combatframe, 
+                                    text="Retour", 
+                                    command=back, 
+                                    border=0, 
+                                    activebackground='#12c4c0', 
+                                    bg="#12c4c0" )
+            returnButton.place( x=750, y=500 )
+                     
+            #
+            #
+            ## Fin -> Inventaire
 
 
         AttackButton = Button(Combatframe, text="Attack", command=selectWeapon, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         AttackButton.place(x=750, y=500)
 
-        InventaireButton = Button(Combatframe, text="Inventaire", command=inventaire, border=0, activebackground='#12c4c0',
+        InventaireButton = Button(Combatframe, text="Inventaire", command=inventory, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         InventaireButton.place(x=850, y=500)
 
@@ -703,7 +764,7 @@ class MainWindow:
         monsterDmgLabel.config(font=monsterDmgLabelfont)
 
 
-        heroHpLabel = Label(Combatframe, text=str(hero.get('pdv')), fg='white', bg='black')
+        heroHpLabel = Label(Combatframe, text=(str(hero.get('pdv')) + '/' + str(heroHp)), fg='white', bg='black')
         heroHpLabelfont = ('Calirbi (Body)', 24, 'bold')
         heroHpLabel.config(font=heroHpLabelfont)
         heroHpLabel.place(x=30, y=30)
@@ -717,8 +778,13 @@ class MainWindow:
         initLabelfont = ('Calirbi (Body)', 24, 'bold')
         initLabel.config(font=initLabelfont)
         initLabel.place(x=200, y=150)
+        if isBoss == 1:
+            nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.boss),
+                              fg='white', bg='black')
+        else:
+            nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.monsters[self.actualMonster]),
+                              fg='white', bg='black')
 
-        nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.monsters[self.actualMonster]), fg='white', bg='black')
         nameLabelfont = ('Calirbi (Body)', 24, 'bold')
         nameLabel.config(font=nameLabelfont)
         nameLabel.place(x=100, y=100)
