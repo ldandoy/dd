@@ -465,9 +465,7 @@ class MainWindow:
             perso = self.perso
             itemTab = []
             inventory = Inventory(perso)
-            getItems = perso.get('inventaire')
-            print('inventory : ', inventory)
-    
+            getItems = perso.get('inventaire')    
 
             # Afficher mes objets sous forme de liste
             for i, item in enumerate(getItems):
