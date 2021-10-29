@@ -159,8 +159,23 @@ class Person(DefaultController):
         for x in range(int(nb_dice)):
             rand = random.randint(1, int(rand_range))
             dmg_deal = dmg_deal + rand
-        print("dmg dealt : " + str(dmg_deal))
+        print("dmg dealt : " + str(dmg_deal + bonus))
         return dmg_deal + bonus
+
+    @staticmethod
+    def bonus(carac):
+        if carac < 10:
+            return 0
+        if carac >= 10 & carac < 15:
+            return 1
+        if carac >= 15 & carac < 20:
+            return 2
+        if carac >= 20 & carac < 25:
+            return 3
+        if carac >= 25 & carac < 40:
+            return 4
+        else:
+            return 5
 
     def add_one_point_to_force(self) -> None:
         if self.__verify_allowed_points__():

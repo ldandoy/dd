@@ -7,10 +7,10 @@ class Room:
     j = LoadJson()
     generatedRooms = []
     donjon = []
-    monstersList = ["Gobelin", "Orc", "Bouftou"]
+    monstersList = ["gobelin", "orc", "bouftou"]
     randomMonsters = []
     monsters = []
-    bossList = ["Meulou", "Crocabulia", "Moon"]
+    bossList = ["meulou", "crocabulia", "moon"]
     randomBoss = randint(0, 2)
     boss = None;
 
