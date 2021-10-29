@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "1",
   "age": 150,
   "yeux": "vert",
   "taille": 0,
@@ -16,7 +16,7 @@
   "constitution": 2,
   "sagesse": 2,
   "vitesse": 2,
-  "pdv": 100,
+  "pdv": 82,
   "armes": [
     {
       "name": "Epee courte",

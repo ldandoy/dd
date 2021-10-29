@@ -1,3 +1,4 @@
+import json
 import time
 from tkinter import *
 import pygame
@@ -620,6 +621,8 @@ class MainWindow:
             updateLabel(monsterHp, herodmgDeal, True)
             if combat.monster_is_dead() == 0:
                 print("monster is dead")
+                hero["pdv"] = combat.hero_hp
+                Person.update(hero.get('name'), hero)
                 Combatframe.destroy()
                 self.winFrame(isBoss)
             else:
@@ -689,8 +692,13 @@ class MainWindow:
         initLabelfont = ('Calirbi (Body)', 24, 'bold')
         initLabel.config(font=initLabelfont)
         initLabel.place(x=200, y=150)
+        if isBoss == 1:
+            nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.boss),
+                              fg='white', bg='black')
+        else:
+            nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.monsters[self.actualMonster]),
+                              fg='white', bg='black')
 
-        nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.monsters[self.actualMonster]), fg='white', bg='black')
         nameLabelfont = ('Calirbi (Body)', 24, 'bold')
         nameLabel.config(font=nameLabelfont)
         nameLabel.place(x=100, y=100)
