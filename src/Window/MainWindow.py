@@ -351,7 +351,7 @@ class MainWindow:
                 questStarame.destroy()
                 print("Vous vous etes fait agro")
                 self.CombatFrame(0)
-            if difficult < 5:
+            if difficult <= 5:
                 questStartedFrame.pack_forget()
                 questStartedFrame.destroy()
                 print("Fuyez vite")
