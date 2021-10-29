@@ -97,8 +97,8 @@ class MainWindow:
         canvas1.create_image( 0, 0, image=bg, anchor="nw" )
         canvas1.image = bg
 
-        label_textwelcomeframe = Label( textwelcomeframe, text="Bienvenue dans Donjon et Dragon", fg='dark grey',
-                                        bg=None )
+        label_textwelcomeframe = Label( textwelcomeframe, text="Bienvenue dans Donjon et Dragon", fg='black',
+                                        bg="white" )
         label_textwelcomeframe_config = ('Calirbi (Body)', 36, 'bold')
         label_textwelcomeframe.config( font=label_textwelcomeframe_config )
         label_textwelcomeframe.place( x=250, y=100 )
@@ -325,6 +325,11 @@ class MainWindow:
             self.rooms = Room()
             self.questStartedFrame()
 
+        def SellerChoice():
+            cityFrame.pack_forget()
+            cityFrame.destroy()
+            self.SellerFrame()
+
         questCharPath = PhotoImage(file=os.path.join( self.base_folder, '../medias/questGiverChar.png'))
         questIconButton = Button( cityFrame,
                                text="test",
@@ -343,7 +348,8 @@ class MainWindow:
         sellerIcon = PhotoImage(file=os.path.join( self.base_folder, '../medias/sellerChar.png'))
         sellerIconButton = Button( cityFrame,
                                text="test",
-                               image=sellerIcon
+                               image=sellerIcon,
+                               command=SellerChoice
                                )
         sellerIconButton.image = sellerIcon
         sellerIconButton.place( x=650, y=150, width=250, height=250, )
@@ -356,6 +362,64 @@ class MainWindow:
 
         cityFrame.place(x=0, y=0)
         cityFrame.lower()
+
+    def SellerFrame(self):
+        sellerFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+
+        image_path = os.path.join(self.base_folder, '../medias/sellerBackground.png')
+        bg = PhotoImage(file=r'' + image_path)
+        canvas = Canvas(sellerFrame, width=1024, height=600)
+        canvas.pack(fill="both", expand=True)
+        canvas.create_image(0, 0, image=bg, anchor="nw")
+        canvas.image = bg
+
+        def goTown():
+            sellerFrame.pack_forget()
+            sellerFrame.destroy()
+            self.cityFrame()
+
+        BackButton = Button(sellerFrame, text="Retourner en ville", command=goTown, border=0,activebackground='#12c4c0',bg="#12c4c0")
+        BackButton.place(x=850, y=550)
+
+
+        perso = self.perso
+        json = LoadJson()
+        sellerItems = json.load(os.path.join(self.base_folder, '../../Datas/PNJ/AmbroseSeller.json'))
+
+        sellerFrame.place( x=0, y=0 )
+        sellerFrame.lower()
+
+
+        for i, item in enumerate( sellerItems["inventaire"] ):
+            print( item )
+            label_itemName = Label( sellerFrame, text=item["name"], fg='white', bg='black' )
+            label_itemName.config( font=('Calirbi (Body)', 24, 'bold') )
+            label_itemName.place( x=25, y=125 + (i * 40) )
+
+
+            print("name",label_itemName.winfo_reqwidth())
+
+            label_itemQuantite = Label( sellerFrame, text=item["quantite"], fg='white', bg='black' )
+            label_itemQuantite.config( font=('Calirbi (Body)', 24, 'bold') )
+            label_itemQuantite.place( x=label_itemName.winfo_reqwidth() + 50, y=125 + (i * 40) )
+
+            print("quantite",label_itemQuantite.winfo_reqwidth())
+
+            label_itemPrix = Label( sellerFrame, text=item[ "prix" ], fg='white', bg='black' )
+            label_itemPrix.config( font=('Calirbi (Body)', 24, 'bold') )
+            label_itemPrix.place( x=label_itemName.winfo_reqwidth() + label_itemQuantite.winfo_reqwidth()+75,
+                                  y=125 + (i * 40) )
+            print("lTotal,",label_itemName.winfo_reqwidth() + label_itemName.winfo_reqwidth())
+            # itemTab.insert( i, Button( Combatframe,
+            #                            text=sellerItems[ i ].get( 'name' ),
+            #                            command=lambda name=sellerItems[ i ].get( 'name' ),
+            #                                           amount=sellerItems[ i ].get( 'amount' ), hp=combat.hero_hp: healHero(
+            #                                name, amount, hp ),
+            #                            fg='black',
+            #                            border=0,
+            #                            activebackground='#12c4c0',
+            #                            bg="#12c4c0" ) )
+            # itemTab[ i ].place( x=850, y=500 + (i * 25) )
 
     def questFrame(self):
         questFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
