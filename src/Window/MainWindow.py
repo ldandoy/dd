@@ -455,12 +455,14 @@ class MainWindow:
     def CombatFrame(self,isBoss):
         if isBoss == 1:
             print("boss FIGHT")
-            monstre = '{"name": "chauve souris","hp": "50","attaque": "3d10+0","vit":"7"}'
+            monstre = self.rooms.boss
+            image_path = os.path.join(self.base_folder, '../medias/bestiaire/'+ str(self.rooms.boss)+'.png')
         else:
             print("normal FIGHT")
             # List des monstres générés pour le donjon : self.rooms.monsters[self.actualMonster]
             # Ajouter +1 à "actualMonster" pour passer au prochain monstre
             monstre = self.rooms.monsters[self.actualMonster]
+            image_path = os.path.join(self.base_folder, '../medias/bestiaire/' + str(self.rooms.monsters[self.actualMonster]) + '.png')
 
         selectButton = []
         hero = self.perso
@@ -469,13 +471,12 @@ class MainWindow:
         Combatframe.place(x=0, y=0)
         Combatframe.lower()
 
-        image_path = os.path.join(self.base_folder, '../medias/combat.png')
         bg = PhotoImage(file=r'' + image_path)
         canvas1 = Canvas(Combatframe, width=1024, height=600)
         canvas1.pack(fill="both", expand=True)
         canvas1.create_image(0, 0, image=bg, anchor="nw")
         canvas1.image = bg
-        combat = Combat(hero, monstre)
+        combat = Combat(hero, monstre,isBoss)
         combat.initiative()
 
         def whoStart(startHp,initHp):
@@ -580,6 +581,11 @@ class MainWindow:
         initLabelfont = ('Calirbi (Body)', 24, 'bold')
         initLabel.config(font=initLabelfont)
         initLabel.place(x=200, y=150)
+
+        nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.monsters[self.actualMonster]), fg='white', bg='black')
+        nameLabelfont = ('Calirbi (Body)', 24, 'bold')
+        nameLabel.config(font=nameLabelfont)
+        nameLabel.place(x=100, y=100)
 
         whoStart(heroHp,combat.hero_hp)
 

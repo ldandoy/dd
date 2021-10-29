@@ -3,11 +3,14 @@ from Utils.loadJson import LoadJson
 
 class Combat:
     j = LoadJson()
-    def __init__(self, hero, monstre):
+    def __init__(self, hero, monstre,isBoss):
         ## load my hero and monster data
         self.hero = hero
         print(str(monstre)+'.json')
-        self.monster = self.j.load('Datas/Monsters/'+monstre+'.json')
+        if isBoss == 1:
+            self.monster = self.j.load('Datas/Boss/'+monstre+'.json')
+        else:
+            self.monster = self.j.load('Datas/Monsters/'+monstre+'.json')
         print(self.monster)
         #Hero var
         self.hero_damage = self.hero.get('attaque')
