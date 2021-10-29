@@ -3,6 +3,7 @@ from tkinter import *
 import pygame
 import os
 import tkinter as tk
+from random import *
 
 from Utils.loadJson import LoadJson
 from Perso.Person import Person
@@ -21,6 +22,9 @@ class MainWindow:
 
     donjonRoom = 0
     actualMonster = 0
+    difficultFactor = 0
+
+
 
     def toogleWin(self):
         f1 = Frame(self.q, width=300, height=600, bg='#12c4c0')
@@ -398,9 +402,21 @@ class MainWindow:
             questStartedFrame.destroy()
             self.CombatFrame(1)
         def runAway():
-            questStartedFrame.pack_forget()
-            questStartedFrame.destroy()
-            self.questFrame()
+            difficult = randint(1, 10) + self.difficultFactor
+            if difficult >= 6:
+                questStartedFrame.pack_forget()
+                questStarame.destroy()
+                print("Vous vous etes fait agro")
+                self.CombatFrame(0)
+            if difficult <= 5:
+                questStartedFrame.pack_forget()
+                questStartedFrame.destroy()
+                print("Fuyez vite")
+                self.questFrame()
+                self.difficultFactor += 1
+            print(difficult)
+            print(self.difficultFactor)
+
         def exitRoom():
             questStartedFrame.pack_forget()
             questStartedFrame.destroy()
@@ -605,7 +621,7 @@ class MainWindow:
             if combat.monster_is_dead() == 0:
                 print("monster is dead")
                 Combatframe.destroy()
-                self.winFrame()
+                self.winFrame(isBoss)
             else:
                 heroHpbeforeHit = combat.hero_hp
                 heroHp = combat.hero_get_damaged()
@@ -702,12 +718,15 @@ class MainWindow:
                               bg="#12c4c0")
         retryButton.place(x=500, y=300)
 
-    def winFrame(self):
+    def winFrame(self,isBoss):
         winFrame = Frame(self.q, width=1024, height=600)
         winFrame.place(x=0, y=0)
         winFrame.lower()
+        if isBoss == 1:
+            image_path = os.path.join(self.base_folder, '../medias/sortie.png')
+        else:
+            image_path = os.path.join(self.base_folder, '../medias/treasure.png')
 
-        image_path = os.path.join(self.base_folder, '../medias/win.png')
         bg = PhotoImage(file=r'' + image_path)
         canvas1 = Canvas(winFrame, width=1024, height=600)
         canvas1.pack(fill="both", expand=True)
@@ -716,15 +735,21 @@ class MainWindow:
 
         def next():
             winFrame.destroy()
-            self.donjonRoom += 1
-            self.actualMonster += 1
-            self.questStartedFrame()
+            if isBoss == 1:
+                self.textWelcomeFrame()
+            else:
+                self.donjonRoom += 1
+                self.actualMonster += 1
+                self.questStartedFrame()
 
         nextButton = Button(winFrame, text="next", command=next, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         nextButton.place(x=500, y=300)
-
-        winLabel = Label(winFrame, text="bravo vous avez vaincu "+str(self.rooms.monsters[self.actualMonster]), fg='white', bg='black')
+        if isBoss == 1:
+            winLabel = Label(winFrame, text="bravo vous avez vaincu "+str(self.rooms.boss) +" ici s'achève votre aventure", fg='white', bg='black')
+        else:
+            winLabel = Label(winFrame, text="bravo vous avez vaincu " + str(self.rooms.monsters[self.actualMonster]),
+                             fg='white', bg='black')
         winLabelfont = ('Calirbi (Body)', 24, 'bold')
         winLabel.config(font=winLabelfont)
         winLabel.place(x=200, y=150)
