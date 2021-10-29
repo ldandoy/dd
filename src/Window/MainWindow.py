@@ -94,8 +94,8 @@ class MainWindow:
         canvas1.create_image( 0, 0, image=bg, anchor="nw" )
         canvas1.image = bg
 
-        label_textwelcomeframe = Label( textwelcomeframe, text="Bienvenue dans Donjon et Dragon", fg='dark grey',
-                                        bg=None )
+        label_textwelcomeframe = Label( textwelcomeframe, text="Bienvenue dans Donjon et Dragon", fg='black',
+                                        bg="white" )
         label_textwelcomeframe_config = ('Calirbi (Body)', 36, 'bold')
         label_textwelcomeframe.config( font=label_textwelcomeframe_config )
         label_textwelcomeframe.place( x=250, y=100 )
@@ -322,6 +322,11 @@ class MainWindow:
             self.rooms = Room()
             self.questStartedFrame()
 
+        def SellerChoice():
+            cityFrame.pack_forget()
+            cityFrame.destroy()
+            self.SellerFrame()
+
         questCharPath = PhotoImage(file=os.path.join( self.base_folder, '../medias/questGiverChar.png'))
         questIconButton = Button( cityFrame,
                                text="test",
@@ -340,7 +345,8 @@ class MainWindow:
         sellerIcon = PhotoImage(file=os.path.join( self.base_folder, '../medias/sellerChar.png'))
         sellerIconButton = Button( cityFrame,
                                text="test",
-                               image=sellerIcon
+                               image=sellerIcon,
+                               command=SellerChoice
                                )
         sellerIconButton.image = sellerIcon
         sellerIconButton.place( x=650, y=150, width=250, height=250, )
@@ -353,6 +359,28 @@ class MainWindow:
 
         cityFrame.place(x=0, y=0)
         cityFrame.lower()
+
+    def SellerFrame(self):
+        sellerFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+
+        image_path = os.path.join(self.base_folder, '../medias/sellerBackground.png')
+        bg = PhotoImage(file=r'' + image_path)
+        canvas = Canvas(sellerFrame, width=1024, height=600)
+        canvas.pack(fill="both", expand=True)
+        canvas.create_image(0, 0, image=bg, anchor="nw")
+        canvas.image = bg
+
+        def goTown():
+            sellerFrame.pack_forget()
+            sellerFrame.destroy()
+            self.cityFrame()
+
+        BackButton = Button(sellerFrame, text="Retourner en ville", command=goTown, border=0,activebackground='#12c4c0',bg="#12c4c0")
+        BackButton.place(x=850, y=550)
+
+        sellerFrame.place( x=0, y=0 )
+        sellerFrame.lower()
+
 
     def questFrame(self):
         questFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
