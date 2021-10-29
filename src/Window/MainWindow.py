@@ -384,6 +384,23 @@ class MainWindow:
         sellerFrame.place( x=0, y=0 )
         sellerFrame.lower()
 
+        perso = self.perso
+        json = LoadJson()
+        sellerItems = json.load(os.path.join(self.base_folder, '../../Datas/PNJ/AmbroseSeller.json'))
+
+        # Afficher mes objets sous forme de liste
+        for i, item in enumerate( sellerItems["inventaire"] ):
+            print( item )
+            # itemTab.insert( i, Button( Combatframe,
+            #                            text=sellerItems[ i ].get( 'name' ),
+            #                            command=lambda name=sellerItems[ i ].get( 'name' ),
+            #                                           amount=sellerItems[ i ].get( 'amount' ), hp=combat.hero_hp: healHero(
+            #                                name, amount, hp ),
+            #                            fg='black',
+            #                            border=0,
+            #                            activebackground='#12c4c0',
+            #                            bg="#12c4c0" ) )
+            # itemTab[ i ].place( x=850, y=500 + (i * 25) )
 
     def questFrame(self):
         questFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")

@@ -1,0 +1,18 @@
+{
+  "inventaire": [
+    {
+      "potion": {
+        "quantité": 3,
+        "prix": 4
+      },
+      "bonus attack": {
+        "quantité": 3,
+        "prix": 7
+      },
+      "bonus défense": {
+        "quantité": 3,
+        "prix": 18
+      }
+    }
+  ]
+}
