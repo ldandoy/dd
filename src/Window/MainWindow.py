@@ -160,9 +160,8 @@ class MainWindow:
 
 
     def choicePersoFrame(self):
-        """window to choice a character"""
-        choicePersoFrame = Frame(self.q, width=1024, height=600)
 
+        choicePersoFrame = Frame(self.q, width=1024, height=600)
         image2_path = os.path.join(self.base_folder, '../medias/forest.png')
         bg2 = PhotoImage(file=image2_path)
         canvas2 = Canvas(choicePersoFrame, width=1024, height=600)
@@ -173,9 +172,8 @@ class MainWindow:
         # About character -------
         card = Canvas(choicePersoFrame, width=650, height=154)
         card.place(x=105, y=420)
-        # card.create_rectangle(55, 30, 140, 70, fill="blue")
 
-
+        # Title of window -------
         lwelcome = Label(choicePersoFrame, text="Choissez votre personnage", fg='white', bg ='black')
         lwelcomefont = ('Calirbi (Body)', 24, 'bold')
         lwelcome.config(font=lwelcomefont)
@@ -183,13 +181,14 @@ class MainWindow:
 
         pygame.mixer.init()
 
-        def play():
+        def playSong():
             pygame.mixer.music.load(os.path.join(self.base_folder, '../medias/audio/epic.mp3'))
-            pygame.mixer.music.play(loops=0)
-        play()
+            pygame.mixer.music.playMusic(loops=0)
+
+        playSong()
 
 
-        def choice():
+        def choice() -> None:
             choicePersoFrame.pack_forget()
             choicePersoFrame.destroy()
 
@@ -199,34 +198,28 @@ class MainWindow:
                               activebackground='#12c4c0', bg="#12c4c0", width=27, height=7)
         ChoiceButton.place(x=780, y=420)
 
-        #select champion
+        #select champion ------
         def selected(perso, count):
             ChoiceButton['state'] = NORMAL
             self.perso = Person.perso_choose(perso)
+            displayChampionInformation()
 
         selectButton = []
         persoJson = Person.list_person()
         print(persoJson)
         x = 105
         y=100
-
         count_character = 1
+
         for count, perso in enumerate(persoJson):
-
-            print(y)
-
             if count == 4:
                 x=105
                 y=250
                 print("this is " + str(x))
 
             file = os.path.join(os.path.dirname(__file__), "..", 'medias', 'characters', f'{count_character}.png').replace("\\", '/')
-
             count_character += 1
-
             imageCharacter = PhotoImage(file=file)
-            print(file)
-
             perso_button = Button(choicePersoFrame,
                                               text=perso,
                                               command=lambda perso=perso, count=count: selected(perso,count),
@@ -240,44 +233,9 @@ class MainWindow:
             choicePersoFrame.lower()
             x += 200
 
-
-        # # character area ---------
-        # def getJson():
-        #     persoList = []
-        #     persoJson = Person.list_person()
-        #     for i in persoJson:
-        #         persoList.append(i)
-        #     return persoList
-        #
-        # def getJsonSelected(perso):
-        #     return self.json.load(os.path.join(self.base_folder, '../../Datas/Perso/' + perso))
-        #
-        # def getNamePerso(perso):
-        #     for persoJson in getJson():
-        #         if perso == persoJson:
-        #             data = getJsonSelected(perso)
-        #             name = data["name"]
-        #             return name
-        #         else:
-        #             print('no name')
-        #
-        #
-        # getJson()
-        #
-        # def displayChampion():
-        #     for perso in getJson():
-        #         print(perso)
-        #         x = 105
-        #         selectButton['text'] = getNamePerso(perso)
-        #         selectButton.place(x=x, y=100, width=110, height=110, )
-        #
-        #         print(x)
-        #         x += 20
-        #
         def displayChampionInformation():
-            pass
-        #
-        # displayChampion()
+            ...
+
 
 
         def goToNewPerso() -> None:
