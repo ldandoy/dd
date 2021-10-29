@@ -1,7 +1,9 @@
 import time
 from tkinter import *
+import pygame
 import os
 import tkinter as tk
+from random import *
 
 from Utils.loadJson import LoadJson
 from Perso.Person import Person
@@ -20,6 +22,9 @@ class MainWindow:
 
     donjonRoom = 0
     actualMonster = 0
+    difficultFactor = 0
+
+
 
     def toogleWin(self):
         f1 = Frame(self.q, width=300, height=600, bg='#12c4c0')
@@ -180,6 +185,13 @@ class MainWindow:
         lwelcome.config(font=lwelcomefont)
         lwelcome.place(x=105, y=30)
 
+        pygame.mixer.init()
+
+        def play():
+            pygame.mixer.music.load(os.path.join(self.base_folder, '../medias/audio/epic.mp3'))
+            pygame.mixer.music.play(loops=0)
+        play()
+
 
         def choice():
             choicePersoFrame.pack_forget()
@@ -188,7 +200,7 @@ class MainWindow:
             self.questFrame()
 
         ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice, state=DISABLED, border=0,
-                              activebackground='#12c4c0', bg="#12c4c0", width=27, height=10)
+                              activebackground='#12c4c0', bg="#12c4c0", width=27, height=7)
         ChoiceButton.place(x=780, y=420)
 
         #select champion
@@ -200,9 +212,36 @@ class MainWindow:
         persoJson = Person.list_person()
         print(persoJson)
         x = 105
+        y=100
+
+        count_character = 1
         for count, perso in enumerate(persoJson):
-            selectButton.insert(count, Button(choicePersoFrame, text=perso, command=lambda perso=perso, count=count: selected(perso,count), border=0, activebackground='#12c4c0', bg="#12c4c0"))
-            selectButton[count].place(x=x, y=100, width=110, height=110, )
+
+            print(y)
+
+            if count == 4:
+                x=105
+                y=250
+                print("this is " + str(x))
+
+            file = os.path.join(os.path.dirname(__file__), "..", 'medias', 'characters', f'{count_character}.png').replace("\\", '/')
+
+            count_character += 1
+
+            imageCharacter = PhotoImage(file=file)
+            print(file)
+
+            perso_button = Button(choicePersoFrame,
+                                              text=perso,
+                                              command=lambda perso=perso, count=count: selected(perso,count),
+                                              image=imageCharacter
+                                              )
+            perso_button.image = imageCharacter
+
+            selectButton.insert(count, perso_button)
+            selectButton[count].place(x=x, y=y, width=110, height=110, )
+
+            choicePersoFrame.lower()
             x += 200
 
 
@@ -239,8 +278,8 @@ class MainWindow:
         #         print(x)
         #         x += 20
         #
-        # def displayChampionInformation():
-        #     pass
+        def displayChampionInformation():
+            pass
         #
         # displayChampion()
 
@@ -253,9 +292,9 @@ class MainWindow:
 
         #Button in choicePersoFrame window
         #ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice, border=0, activebackground='#12c4c0', bg="#12c4c0")
-        new_button = Button(choicePersoFrame, text="Créer un nouveau personnage", command=goToNewPerso, border=0, activebackground='#12c4c0', bg="#12c4c0")
+        new_button = Button(choicePersoFrame, text="Créer un nouveau personnage", command=goToNewPerso, border=0, activebackground='#12c4c0', bg="#12c4c0", width=27)
         #ChoiceButton.place(x=950, y=550)
-        new_button.place(x=775, y=550)
+        new_button.place(x=780, y=550)
 
         choicePersoFrame.place(x=0, y=0)
         choicePersoFrame.lower()
@@ -306,9 +345,21 @@ class MainWindow:
             questStartedFrame.destroy()
             self.CombatFrame(1)
         def runAway():
-            questStartedFrame.pack_forget()
-            questStartedFrame.destroy()
-            self.questFrame()
+            difficult = randint(1, 10) + self.difficultFactor
+            if difficult >= 6:
+                questStartedFrame.pack_forget()
+                questStarame.destroy()
+                print("Vous vous etes fait agro")
+                self.CombatFrame(0)
+            if difficult < 5:
+                questStartedFrame.pack_forget()
+                questStartedFrame.destroy()
+                print("Fuyez vite")
+                self.questFrame()
+                self.difficultFactor += 1
+            print(difficult)
+            print(self.difficultFactor)
+
         def exitRoom():
             questStartedFrame.pack_forget()
             questStartedFrame.destroy()
