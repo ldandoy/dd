@@ -111,7 +111,20 @@ class Person(DefaultController):
                         'test': 'dexterite'
                     }
                 ],
-                'inventaire': []
+                'inventaire': [
+                    {
+                        "name": "potion",
+                        "amount": 1
+                    },
+                    {
+                        "name": "super-potion",
+                        "amount": 1
+                    },
+                    {
+                        "name": "mega-potion",
+                        "amount": 1
+                    }
+                ]
             }
 
             json_file_path = os.path.join('Datas', 'Perso', f'{transformed_name}.json')
