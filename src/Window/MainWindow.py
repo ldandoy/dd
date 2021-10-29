@@ -3,6 +3,7 @@ from tkinter import *
 import pygame
 import os
 import tkinter as tk
+from random import *
 
 from Utils.loadJson import LoadJson
 from Perso.Person import Person
@@ -21,6 +22,9 @@ class MainWindow:
 
     donjonRoom = 0
     actualMonster = 0
+    difficultFactor = 0
+
+
 
     def toogleWin(self):
         f1 = Frame(self.q, width=300, height=600, bg='#12c4c0')
@@ -341,9 +345,21 @@ class MainWindow:
             questStartedFrame.destroy()
             self.CombatFrame(1)
         def runAway():
-            questStartedFrame.pack_forget()
-            questStartedFrame.destroy()
-            self.questFrame()
+            difficult = randint(1, 10) + self.difficultFactor
+            if difficult >= 6:
+                questStartedFrame.pack_forget()
+                questStarame.destroy()
+                print("Vous vous etes fait agro")
+                self.CombatFrame(0)
+            if difficult < 5:
+                questStartedFrame.pack_forget()
+                questStartedFrame.destroy()
+                print("Fuyez vite")
+                self.questFrame()
+                self.difficultFactor += 1
+            print(difficult)
+            print(self.difficultFactor)
+
         def exitRoom():
             questStartedFrame.pack_forget()
             questStartedFrame.destroy()
