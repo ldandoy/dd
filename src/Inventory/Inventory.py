@@ -7,26 +7,23 @@ class Inventory:
     def __init__(self, perso):
         self.__items = perso
 
-    def useItem(self, name, amount):
-        print('NAME : ', name)
-        print('AMOUNT : ', amount)
+    def useItem(self, name, amount, hp):
         if( name == 'potion'):
-            amount -= 1
-            print('x1 ' + name + ' utilisé')
-            return amount
+            if (hp + 5 > 20):
+                hp = 20
+                return hp
+            else: return hp + 5
+            
 
         elif( name == 'super-potion'):
-            amount -= 1
-            print('x1 ' + name + ' utilisé')
-            return amount
+            if (hp + 10 > 20):
+                hp = 20
+                return hp
+            else: return hp + 10
             
         elif( name == 'mega-potion'):
-            print('x1 ' + name + ' utilisé')
-            amount -= 1
-            return amount
-    
-
-        
+            hp = 20
+            return hp
 
 
 

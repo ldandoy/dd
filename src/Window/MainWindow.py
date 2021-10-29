@@ -1,3 +1,4 @@
+from json import dump
 import time
 from tkinter import *
 import os
@@ -490,7 +491,7 @@ class MainWindow:
                 initLabel.config(text="Le monstre gagne le jet d'initiative")
                 dmg = startHp - initHp
                 updateLabel(startHp, dmg, False)
-                heroHpLabel.config(text=str(initHp))
+                heroHpLabel.config(text=str(initHp)  + '/' + str(heroHp))
 
         def updateLabel(hp,dmg,isHero):
             if isHero:
@@ -500,7 +501,7 @@ class MainWindow:
             else:
                 monsterDmgLabel.place(x=300, y=300)
                 monsterDmgLabel.config(text="monster deal : " + str(dmg))
-                heroHpLabel.config(text=str(hp))
+                heroHpLabel.config(text=str(hp) + '/' + str(heroHp))
 
         def attack(selectWeapon,button):
             AttackButton.place(x=750, y=500)
@@ -535,38 +536,15 @@ class MainWindow:
             for count, weapon in enumerate(weaponList):
                 print(weaponList[count].get('name'))
                 selectButton.insert(count, Button(Combatframe, text=weapon.get('name'),
-                                                  command=lambda weapon=weapon, count=count: attack(weapon.get('name'),selectButton),
-                                                  border=0, activebackground='#12c4c0', bg="#12c4c0"))
+                                                command=lambda weapon=weapon, count=count: attack(weapon.get('name'),selectButton),
+                                                border=0, activebackground='#12c4c0', bg="#12c4c0"))
                 selectButton[count].place(x=x, y=500)
                 x += 100
 
-        #  Test frame inventaire en combat
-        # 
-        #     Combatframe.destroy()
-        #     self.inventoryFrame() 
-        
-        # def inventoryFrame(self): 
-        #     inventoryFrame =Frame(self.q, width=1024, height=600)
-        #     inventoryFrame.place(x=0, y=0)
-        #     inventoryFrame.lower()
-        #     image_path = os.path.join(self.base_folder, '../medias/combat.png')
-        #     bg = PhotoImage(file=r'' + image_path)
-        #     canvas1 = Canvas(inventoryFrame, width=1024, height=600)
-        #     canvas1.pack(fill="both", expand=True)
-        #     canvas1.create_image(0, 0, image=bg, anchor="nw")
-        #     canvas1.image = bg
-
-        # def use_Potion_de_vie():
-        #     Inventory.inventory(1)
-
-        # HealthPotionButton = Button(inventoryFrame, text="Potion de vie", command=use_Potion_de_vie, border=0, activebackground='#12c4c0',
-        #                   bg="#12c4c0")
-        # HealthPotionButton.place(x=850, y=550)
         def fuite():
             print("Vous tentez de prendre la fuite")
 
 
-<<<<<<< HEAD
         ## Début -> Inventaire 
         #
         #
@@ -580,19 +558,27 @@ class MainWindow:
             for i, item in enumerate(getItems):
                 itemTab.insert(i,Button(Combatframe, 
                                         text=getItems[i].get('name'), 
-                                        command=lambda name=getItems[i].get('name'), amount=getItems[i].get('amount'): inventory.useItem(name,amount),
+                                        command=lambda name=getItems[i].get('name'), amount=getItems[i].get('amount'), hp=combat.hero_hp: healHero(name, amount, hp),
                                         fg='black', 
                                         border=0, 
                                         activebackground='#12c4c0', 
                                         bg="#12c4c0"))
                 itemTab[i].place(x=850, y= 500 + (i*25))
-
-
             
             # Faire disparaître les anciens boutons de la frame combat
             AttackButton.place_forget()
             InventaireButton.place_forget()
             FuiteButton.place_forget()
+
+            # Utiliser une potion
+            def healHero(name, amount, hp):
+                initHp = combat.hero_hp
+                
+                combat.hero_hp = inventory.useItem(name, amount, hp)
+                
+                back()
+
+                return updateLabel(combat.hero_hp, initHp, False)
 
             # Sortir de l'inventaire
             def back():
@@ -612,15 +598,13 @@ class MainWindow:
                                     activebackground='#12c4c0', 
                                     bg="#12c4c0" )
             returnButton.place( x=750, y=500 )
+                     
             #
             #
             ## Fin -> Inventaire
 
 
-        AttackButton = Button(Combatframe, text="Attack", command=attack, border=0, activebackground='#12c4c0',
-=======
         AttackButton = Button(Combatframe, text="Attack", command=selectWeapon, border=0, activebackground='#12c4c0',
->>>>>>> cf398aaa38c3f0efa545a5989dbc2a54c5ec3a8b
                               bg="#12c4c0")
         AttackButton.place(x=750, y=500)
 
@@ -632,9 +616,6 @@ class MainWindow:
                               bg="#12c4c0")
         FuiteButton.place(x=850, y=550)
 
-<<<<<<< HEAD
-    
-=======
         heroDmgLabel = Label(Combatframe, text="",fg='white', bg='black')
         heroDmgLabelfont = ('Calirbi (Body)', 24, 'bold')
         heroDmgLabel.config(font=heroDmgLabelfont)
@@ -645,7 +626,7 @@ class MainWindow:
         monsterDmgLabel.config(font=monsterDmgLabelfont)
 
 
-        heroHpLabel = Label(Combatframe, text=str(hero.get('pdv')), fg='white', bg='black')
+        heroHpLabel = Label(Combatframe, text=(str(hero.get('pdv')) + '/' + str(heroHp)), fg='white', bg='black')
         heroHpLabelfont = ('Calirbi (Body)', 24, 'bold')
         heroHpLabel.config(font=heroHpLabelfont)
         heroHpLabel.place(x=30, y=30)
@@ -666,7 +647,6 @@ class MainWindow:
         nameLabel.place(x=100, y=100)
 
         whoStart(heroHp,combat.hero_hp)
->>>>>>> cf398aaa38c3f0efa545a5989dbc2a54c5ec3a8b
 
     def deadFrame(self):
         deadFrame = Frame(self.q, width=1024, height=600)
