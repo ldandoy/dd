@@ -1,8 +1,10 @@
-from json import dump
+import json
 import time
 from tkinter import *
+import pygame
 import os
 import tkinter as tk
+from random import *
 
 from Utils.loadJson import LoadJson
 from Perso.Person import Person
@@ -23,6 +25,9 @@ class MainWindow:
 
     donjonRoom = 0
     actualMonster = 0
+    difficultFactor = 0
+
+
 
     def toogleWin(self):
         f1 = Frame(self.q, width=300, height=600, bg='#12c4c0')
@@ -183,15 +188,22 @@ class MainWindow:
         lwelcome.config(font=lwelcomefont)
         lwelcome.place(x=105, y=30)
 
+        pygame.mixer.init()
+
+        def play():
+            pygame.mixer.music.load(os.path.join(self.base_folder, '../medias/audio/epic.mp3'))
+            pygame.mixer.music.play(loops=0)
+        play()
+
 
         def choice():
             choicePersoFrame.pack_forget()
             choicePersoFrame.destroy()
 
-            self.questFrame()
+            self.cityFrame()
 
         ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice, state=DISABLED, border=0,
-                              activebackground='#12c4c0', bg="#12c4c0", width=27, height=10)
+                              activebackground='#12c4c0', bg="#12c4c0", width=27, height=7)
         ChoiceButton.place(x=780, y=420)
 
         #select champion
@@ -203,9 +215,36 @@ class MainWindow:
         persoJson = Person.list_person()
         print(persoJson)
         x = 105
+        y=100
+
+        count_character = 1
         for count, perso in enumerate(persoJson):
-            selectButton.insert(count, Button(choicePersoFrame, text=perso, command=lambda perso=perso, count=count: selected(perso,count), border=0, activebackground='#12c4c0', bg="#12c4c0"))
-            selectButton[count].place(x=x, y=100, width=110, height=110, )
+
+            print(y)
+
+            if count == 4:
+                x=105
+                y=250
+                print("this is " + str(x))
+
+            file = os.path.join(os.path.dirname(__file__), "..", 'medias', 'characters', f'{count_character}.png').replace("\\", '/')
+
+            count_character += 1
+
+            imageCharacter = PhotoImage(file=file)
+            print(file)
+
+            perso_button = Button(choicePersoFrame,
+                                              text=perso,
+                                              command=lambda perso=perso, count=count: selected(perso,count),
+                                              image=imageCharacter
+                                              )
+            perso_button.image = imageCharacter
+
+            selectButton.insert(count, perso_button)
+            selectButton[count].place(x=x, y=y, width=110, height=110, )
+
+            choicePersoFrame.lower()
             x += 200
 
 
@@ -242,8 +281,8 @@ class MainWindow:
         #         print(x)
         #         x += 20
         #
-        # def displayChampionInformation():
-        #     pass
+        def displayChampionInformation():
+            pass
         #
         # displayChampion()
 
@@ -256,12 +295,67 @@ class MainWindow:
 
         #Button in choicePersoFrame window
         #ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice, border=0, activebackground='#12c4c0', bg="#12c4c0")
-        new_button = Button(choicePersoFrame, text="Créer un nouveau personnage", command=goToNewPerso, border=0, activebackground='#12c4c0', bg="#12c4c0")
+        new_button = Button(choicePersoFrame, text="Créer un nouveau personnage", command=goToNewPerso, border=0, activebackground='#12c4c0', bg="#12c4c0", width=27)
         #ChoiceButton.place(x=950, y=550)
-        new_button.place(x=775, y=550)
+        new_button.place(x=780, y=550)
 
         choicePersoFrame.place(x=0, y=0)
         choicePersoFrame.lower()
+
+    def cityFrame(self):
+        cityFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+
+        image_path = os.path.join(self.base_folder, '../medias/city.png')
+        bg = PhotoImage(file=r'' + image_path)
+        canvas = Canvas(cityFrame, width=1024, height=600)
+        canvas.pack(fill="both", expand=True)
+        canvas.create_image(0, 0, image=bg, anchor="nw")
+        canvas.image = bg
+
+        labelTextSeller = Label(cityFrame, text="Bienvenue à Erthilia " + self.perso["name"] + ", où souhaites-tu "
+                                                                                                  "aller?",
+                                     fg='black', bg='white')
+        labelTextcityFrame_config = ('Calibri (Body)', 30, 'bold')
+        labelTextSeller.config(font=labelTextcityFrame_config)
+        labelTextSeller.place( x=60, y=50 )
+
+        def QuestChoice():
+            cityFrame.pack_forget()
+            cityFrame.destroy()
+            self.rooms = Room()
+            self.questStartedFrame()
+
+        questCharPath = PhotoImage(file=os.path.join( self.base_folder, '../medias/questGiverChar.png'))
+        questIconButton = Button( cityFrame,
+                               text="test",
+                               image=questCharPath,
+                               command=QuestChoice
+                               )
+        questIconButton.image = questCharPath
+        questIconButton.place( x=150, y=150, width=250, height=250, )
+
+        labelTextQuest = Label(cityFrame, text="Commencer une quête\nd'Everard",
+                                     fg='black', bg='white')
+        labelTextcityFrame_config = ('Calibri (Body)', 24, 'bold')
+        labelTextQuest.config(font=labelTextcityFrame_config)
+        labelTextQuest.place( x=140, y=425 )
+
+        sellerIcon = PhotoImage(file=os.path.join( self.base_folder, '../medias/sellerChar.png'))
+        sellerIconButton = Button( cityFrame,
+                               text="test",
+                               image=sellerIcon
+                               )
+        sellerIconButton.image = sellerIcon
+        sellerIconButton.place( x=650, y=150, width=250, height=250, )
+
+        labelTextSeller = Label(cityFrame, text="Faire le plein chez Ambrose\nla vendeuse d'items",
+                                     fg='black', bg='white')
+        labelTextcityFrame_config = ('Calibri (Body)', 24, 'bold')
+        labelTextSeller.config(font=labelTextcityFrame_config)
+        labelTextSeller.place( x=625, y=425 )
+
+        cityFrame.place(x=0, y=0)
+        cityFrame.lower()
 
     def questFrame(self):
         questFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
@@ -290,6 +384,8 @@ class MainWindow:
         labelTextQuestFrame.config(font=labelTextQuestFrame_config)
         labelTextQuestFrame.place(x=100, y=200)
 
+
+
         questButton = Button(questFrame, text="Démarrer une quête", command=choice, border=0,
                              activebackground='#12c4c0', bg="#12c4c0")
         questButton.place(x=490, y=300)
@@ -309,9 +405,21 @@ class MainWindow:
             questStartedFrame.destroy()
             self.CombatFrame(1)
         def runAway():
-            questStartedFrame.pack_forget()
-            questStartedFrame.destroy()
-            self.questFrame()
+            difficult = randint(1, 10) + self.difficultFactor
+            if difficult >= 6:
+                questStartedFrame.pack_forget()
+                questStarame.destroy()
+                print("Vous vous etes fait agro")
+                self.CombatFrame(0)
+            if difficult <= 5:
+                questStartedFrame.pack_forget()
+                questStartedFrame.destroy()
+                print("Fuyez vite")
+                self.questFrame()
+                self.difficultFactor += 1
+            print(difficult)
+            print(self.difficultFactor)
+
         def exitRoom():
             questStartedFrame.pack_forget()
             questStartedFrame.destroy()
@@ -515,8 +623,10 @@ class MainWindow:
             updateLabel(monsterHp, herodmgDeal, True)
             if combat.monster_is_dead() == 0:
                 print("monster is dead")
+                hero["pdv"] = combat.hero_hp
+                Person.update(hero.get('name'), hero)
                 Combatframe.destroy()
-                self.winFrame()
+                self.winFrame(isBoss)
             else:
                 heroHpbeforeHit = combat.hero_hp
                 heroHp = combat.hero_get_damaged()
@@ -640,8 +750,13 @@ class MainWindow:
         initLabelfont = ('Calirbi (Body)', 24, 'bold')
         initLabel.config(font=initLabelfont)
         initLabel.place(x=200, y=150)
+        if isBoss == 1:
+            nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.boss),
+                              fg='white', bg='black')
+        else:
+            nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.monsters[self.actualMonster]),
+                              fg='white', bg='black')
 
-        nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.monsters[self.actualMonster]), fg='white', bg='black')
         nameLabelfont = ('Calirbi (Body)', 24, 'bold')
         nameLabel.config(font=nameLabelfont)
         nameLabel.place(x=100, y=100)
@@ -669,12 +784,15 @@ class MainWindow:
                               bg="#12c4c0")
         retryButton.place(x=500, y=300)
 
-    def winFrame(self):
+    def winFrame(self,isBoss):
         winFrame = Frame(self.q, width=1024, height=600)
         winFrame.place(x=0, y=0)
         winFrame.lower()
+        if isBoss == 1:
+            image_path = os.path.join(self.base_folder, '../medias/sortie.png')
+        else:
+            image_path = os.path.join(self.base_folder, '../medias/treasure.png')
 
-        image_path = os.path.join(self.base_folder, '../medias/win.png')
         bg = PhotoImage(file=r'' + image_path)
         canvas1 = Canvas(winFrame, width=1024, height=600)
         canvas1.pack(fill="both", expand=True)
@@ -683,15 +801,21 @@ class MainWindow:
 
         def next():
             winFrame.destroy()
-            self.donjonRoom += 1
-            self.actualMonster += 1
-            self.questStartedFrame()
+            if isBoss == 1:
+                self.textWelcomeFrame()
+            else:
+                self.donjonRoom += 1
+                self.actualMonster += 1
+                self.questStartedFrame()
 
         nextButton = Button(winFrame, text="next", command=next, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         nextButton.place(x=500, y=300)
-
-        winLabel = Label(winFrame, text="bravo vous avez vaincu "+str(self.rooms.monsters[self.actualMonster]), fg='white', bg='black')
+        if isBoss == 1:
+            winLabel = Label(winFrame, text="bravo vous avez vaincu "+str(self.rooms.boss) +" ici s'achève votre aventure", fg='white', bg='black')
+        else:
+            winLabel = Label(winFrame, text="bravo vous avez vaincu " + str(self.rooms.monsters[self.actualMonster]),
+                             fg='white', bg='black')
         winLabelfont = ('Calirbi (Body)', 24, 'bold')
         winLabel.config(font=winLabelfont)
         winLabel.place(x=200, y=150)
