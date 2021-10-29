@@ -381,16 +381,35 @@ class MainWindow:
         BackButton = Button(sellerFrame, text="Retourner en ville", command=goTown, border=0,activebackground='#12c4c0',bg="#12c4c0")
         BackButton.place(x=850, y=550)
 
-        sellerFrame.place( x=0, y=0 )
-        sellerFrame.lower()
 
         perso = self.perso
         json = LoadJson()
         sellerItems = json.load(os.path.join(self.base_folder, '../../Datas/PNJ/AmbroseSeller.json'))
 
-        # Afficher mes objets sous forme de liste
+        sellerFrame.place( x=0, y=0 )
+        sellerFrame.lower()
+
+
         for i, item in enumerate( sellerItems["inventaire"] ):
             print( item )
+            label_itemName = Label( sellerFrame, text=item["name"], fg='white', bg='black' )
+            label_itemName.config( font=('Calirbi (Body)', 24, 'bold') )
+            label_itemName.place( x=25, y=125 + (i * 40) )
+
+
+            print("name",label_itemName.winfo_reqwidth())
+
+            label_itemQuantite = Label( sellerFrame, text=item["quantite"], fg='white', bg='black' )
+            label_itemQuantite.config( font=('Calirbi (Body)', 24, 'bold') )
+            label_itemQuantite.place( x=label_itemName.winfo_reqwidth() + 50, y=125 + (i * 40) )
+
+            print("quantite",label_itemQuantite.winfo_reqwidth())
+
+            label_itemPrix = Label( sellerFrame, text=item[ "prix" ], fg='white', bg='black' )
+            label_itemPrix.config( font=('Calirbi (Body)', 24, 'bold') )
+            label_itemPrix.place( x=label_itemName.winfo_reqwidth() + label_itemQuantite.winfo_reqwidth()+75,
+                                  y=125 + (i * 40) )
+            print("lTotal,",label_itemName.winfo_reqwidth() + label_itemName.winfo_reqwidth())
             # itemTab.insert( i, Button( Combatframe,
             #                            text=sellerItems[ i ].get( 'name' ),
             #                            command=lambda name=sellerItems[ i ].get( 'name' ),
