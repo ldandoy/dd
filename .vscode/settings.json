@@ -1,0 +1,6 @@
+{
+    "makefile.extensionOutputFolder": "./.vscode",
+    "python.analysis.extraPaths": [
+        "./src/Window"
+    ]
+}
