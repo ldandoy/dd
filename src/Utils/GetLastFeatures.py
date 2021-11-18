@@ -4,7 +4,7 @@ import os
 
 # Retrieve lasts features from info.json file as string, call it with a number and a key
 # exemple : Last 3 features - GetLastFeaturesByCount(3, "content")
-def getLastFeatures( features_count = None ):
+def GetLastFeatures( features_count = None ):
     print(features_count)
     features_array = list()
     json = LoadJson()

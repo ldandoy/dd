@@ -43,7 +43,7 @@ class MainWindow:
 
         label_textinfo_x_position = 25
         label_showmore_y_position = 100
-        lastFeaturesObj = getLastFeatures()
+        lastFeaturesObj = GetLastFeatures()
         label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
 
         for i, feature in enumerate( lastFeaturesObj ):
