@@ -1,5 +1,6 @@
 from Perso.Person import Person
 from Utils.loadJson import LoadJson
+import Utils.Statistics import Stats
 
 class Combat:
     j = LoadJson()
@@ -83,7 +84,7 @@ class Combat:
         print("monster hp : " + str(self.monster_hp))
         return self.monster_hp
 
-    ##functiopn test déroulement du combat
+    ##function test déroulement du combat
     def fight(self):
         combat_done = 1
         while combat_done == 1:
