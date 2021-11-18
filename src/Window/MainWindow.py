@@ -105,6 +105,9 @@ class MainWindow:
 
 
         def showMore( feature ):
+            """
+            affiche les trois dernières news
+            """
             textwelcomeframe.pack_forget()
             textwelcomeframe.destroy()
             newsShowMoreFrame( self, feature, label_textinfo_config, label_showmore_y_position)
