@@ -1,12 +1,12 @@
 {
-  "name": "test",
-  "age": 150,
-  "yeux": "vert",
+  "name": "billebotte",
+  "age": 0,
+  "yeux": "",
   "taille": 0,
   "poids": 0,
   "peau": "",
-  "race": "",
-  "classe": "",
+  "race": "orc",
+  "classe": "soldat",
   "alignement": "",
   "pe": 0,
   "force": 0,
@@ -17,6 +17,7 @@
   "sagesse": 0,
   "vitesse": 0,
   "pdv": 100,
+  "description": "Je m'appelle billebotte, je suis un soldat et je ne vis que pour servir les miens.Que les orcs vivent jamais !! ",
   "armes": [
     {
       "name": "Epee courte",
@@ -29,19 +30,5 @@
       "test": "dexterite"
     }
   ],
-  "inventaire": [
-    {
-        "name": "potion",
-        "amount": 1
-    },
-    {
-        "name": "super-potion",
-        "amount": 1
-    },
-    {
-        "name": "mega-potion",
-        "amount": 1
-    }
-  ],
-  "budget" : 30
+  "inventaire": []
 }
