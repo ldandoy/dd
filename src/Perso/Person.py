@@ -4,9 +4,9 @@ from re import sub
 from json import dump
 import random
 
-from src.Utils.loadJson import LoadJson
-from src.Utils.DefaultController import DefaultController
-from src.Utils.logger import debug
+from Utils.loadJson import LoadJson
+from Utils.DefaultController import DefaultController
+from Utils.logger import debug
 
 
 
@@ -64,13 +64,13 @@ class Person(DefaultController):
     @staticmethod
     def list_person() -> list:
         """Return the list of all person"""
-        folder = os.path.abspath(os.path.join('..', 'Datas', 'Perso'))
+        folder = os.path.abspath(os.path.join('Datas', 'Perso'))
         return os.listdir(folder)
 
     @staticmethod
     def perso_choose(filename):
         json = LoadJson()
-        return json.load(os.path.abspath(os.path.join('..', 'Datas', 'Perso', filename)))
+        return json.load(os.path.abspath(os.path.join('Datas', 'Perso', filename)))
 
     def skill_points_difference(self) -> int:
         """

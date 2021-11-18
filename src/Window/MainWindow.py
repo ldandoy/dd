@@ -17,7 +17,7 @@ from Inventory.Inventory import Inventory
 
 from Combat.combat import Combat
 
-from src.Utils.logger import debug
+from Utils.logger import debug
 
 
 class MainWindow:
