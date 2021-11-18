@@ -5,4 +5,4 @@ logging.debug('Logger have successfully started')
 
 
 def debug(message: str, *args, **kwargs) -> None:
-    logging.debug(message, *args, **kwargs)
+    logging.debug(f' {message}', *args, **kwargs)
