@@ -1,0 +1,33 @@
+{
+  "name": "test",
+  "age": 150,
+  "yeux": "vert",
+  "taille": 0,
+  "poids": 0,
+  "peau": "",
+  "race": "",
+  "classe": "",
+  "alignement": "",
+  "pe": 0,
+  "force": 0,
+  "dexterite": 0,
+  "intelligence": 0,
+  "charisme": 0,
+  "constitution": 0,
+  "sagesse": 0,
+  "vitesse": 0,
+  "pdv": 100,
+  "armes": [
+    {
+      "name": "Epee courte",
+      "degat": "1d10",
+      "test": "force"
+    },
+    {
+      "name": "Arc Long",
+      "degat": "1d10",
+      "test": "dexterite"
+    }
+  ],
+  "inventaire": []
+}
