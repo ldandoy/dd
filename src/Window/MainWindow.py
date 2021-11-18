@@ -66,7 +66,7 @@ class MainWindow:
         bttn(0, 154, 'A P P L E', "#0f9d9a", "#12c4c0", None)
         bttn(0, 191, 'A S U S', "#0f9d9a", "#12c4c0", None)
         bttn(0, 228, 'A C E R', "#0f9d9a", "#12c4c0", None)
-        bttn(0, 265, 'S O N Y', "#0f9d9a", "#12c4c0", None)
+        bttn(0, 265, 'R E C O M P E N S E S', "#0f9d9a", "#12c4c0", None)
 
 
         Button(f1, text="close", command=dele, border=0, activebackground='#12c4c0', bg="#12c4c0").place(x=5, y=10)
@@ -109,6 +109,7 @@ class MainWindow:
 
         label_textinfo_x_position = 25
         label_showmore_y_position = 100
+
 
         def newsShowMoreFrame( self, feature ):
             news_show_more_frame = Frame( self.q, width=1024, height=600 )
@@ -183,7 +184,7 @@ class MainWindow:
         # card.create_rectangle(55, 30, 140, 70, fill="blue")
 
 
-        lwelcome = Label(choicePersoFrame, text="Choissez votre personnage", fg='white', bg ='black')
+        lwelcome = Label(choicePersoFrame, text="Choisissez votre personnage", fg='white', bg ='black')
         lwelcomefont = ('Calirbi (Body)', 24, 'bold')
         lwelcome.config(font=lwelcomefont)
         lwelcome.place(x=105, y=30)
@@ -1019,3 +1020,15 @@ class MainWindow:
 
         frame.place(x=0, y=0)
         frame.lower()
+
+    def rewards(self):
+        rewards = Frame(self.q, width=1024, height=600)
+        rewards.place(x=0, y=0)
+        rewards.lower()
+
+        image_path = os.path.join(self.base_folder, '../medias/rewards.png')
+        bg = PhotoImage(file=r'' + image_path)
+        canvas1 = Canvas(rewards, width=1024, height=600)
+        canvas1.pack(fill="both", expand=True)
+        canvas1.create_image(0, 0, image=bg, anchor="nw")
+        canvas1.image = bg
