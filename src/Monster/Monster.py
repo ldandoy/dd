@@ -7,7 +7,7 @@ class Monster:
 
     def __init__(self, filename):
         json = LoadJson()
-        self.__monster = json.load(os.path.abspath(os.path.join('..', 'Datas', 'Monsters', filename)))
+        self.__monster = json.load(os.path.join('Datas', 'Monsters', filename))
 
     def getMonster(self):
         return self.__monster
