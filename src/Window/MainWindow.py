@@ -61,17 +61,12 @@ class MainWindow:
 
             myButton.place(x=x, y=y)
 
-
-        def enterRewards():
-            print("alo")
-            self.rewards()
-
         bttn(0, 80, 'A C E R', "#0f9d9a", "#12c4c0", None)
         bttn(0, 117, 'D E L L', "#0f9d9a", "#12c4c0", None)
         bttn(0, 154, 'A P P L E', "#0f9d9a", "#12c4c0", None)
         bttn(0, 191, 'A S U S', "#0f9d9a", "#12c4c0", None)
         bttn(0, 228, 'A C E R', "#0f9d9a", "#12c4c0", None)
-        bttn(0, 265, 'R E C O M P E N S E S', "#0f9d9a", "#12c4c0", enterRewards)
+        bttn(0, 265, 'S O N Y', "#0f9d9a", "#12c4c0", None)
 
 
         Button(f1, text="close", command=dele, border=0, activebackground='#12c4c0', bg="#12c4c0").place(x=5, y=10)
@@ -175,8 +170,8 @@ class MainWindow:
             textwelcomeframe.destroy()
             self.rewards()
 
-        PlayButton = Button(textwelcomeframe, text="Rewards", command=enter_rewards, border=0, activebackground='#12c4c0', bg="#12c4c0")
-        PlayButton.place(x=800, y=550)
+        PlayButton = Button(textwelcomeframe, text="Récompenses", command=enter_rewards, border=0, activebackground='#12c4c0', bg="#12c4c0")
+        PlayButton.place(x=850, y=550)
 
 
     def choicePersoFrame(self):
@@ -1034,16 +1029,32 @@ class MainWindow:
         frame.lower()
 
     def rewards(self):
+        # définition de la frame
         rewards = Frame(self.q, width=1024, height=600)
         rewards.place(x=0, y=0)
         rewards.lower()
 
+        # Paramètre de la frame
         image_path = os.path.join(self.base_folder, '../medias/rewards.png')
         bg = PhotoImage(file=r'' + image_path)
         canvas1 = Canvas(rewards, width=1024, height=600)
         canvas1.pack(fill="both", expand=True)
         canvas1.create_image(0, 0, image=bg, anchor="nw")
         canvas1.image = bg
+
+        # Fonction exit
+        def exit():
+            exitButton.destroy()
+            rewards.destroy()
+            self.textWelcomeFrame()
+
+        # Définition du bouton
+        exitButton = Button(text="Revenir à l'accueil", command=exit, border=0, activebackground='#12c4c0',bg="#12c4c0")
+        exitButton.place(x=850, y=550)
+
+
+
+
 
 
 
