@@ -31,6 +31,9 @@ class MainWindow:
     actualMonster = 0
     difficultFactor = 0
 
+    # Récupération du wallet du perso s'il existe
+    persoBudget = None
+
 
 
     def toogleWin(self):
@@ -214,6 +217,7 @@ class MainWindow:
         def selected(perso, count):
             ChoiceButton['state'] = NORMAL
             self.perso = Person.perso_choose(perso)
+            self.persoBudget = self.perso.get( "budget" ) if self.perso.get( "budget" ) else 0
 
         selectButton = []
         persoJson = Person.list_person()
@@ -391,17 +395,27 @@ class MainWindow:
         sellerFrame.place( x=0, y=0 )
         sellerFrame.lower()
 
-        print(self.perso)
+        Budget = StringVar()
+        Budget.set("Budget : " + str(self.persoBudget) + " $")
 
-        # Récupération du wallet du perso s'il existe
-        persoWallet = self.perso.get("budget") if  self.perso.get("budget") else 0
-
-        labelBudget = Label( sellerFrame, text="Budget : " + str(persoWallet) + " $", fg='white', bg='black' )
+        labelBudget = Label( sellerFrame, textvariable=Budget, fg='white', bg='black' )
         labelBudget.config( font=('Calirbi (Body)', 28, 'bold') )
         labelBudget.place( x=750, y=30 )
 
-        def buy():
-            print('acheter')
+        def refreshPrice( ):
+            labelBudget = Label( sellerFrame, text="Budget : " + str( self.persoBudget ) + " $", fg='white',
+                                 bg='black' )
+            labelBudget.config( font=('Calirbi (Body)', 28, 'bold') )
+            labelBudget.place( x=750, y=30 )
+
+
+        def buy( itemPrice ):
+            if ((int( self.persoBudget ) - itemPrice) > 0):
+                self.persoBudget = int( self.persoBudget ) - itemPrice
+                Budget.set( "Budget : " + str( self.persoBudget ) + " $" )
+            else:
+                Budget.set( "Pas assez de $" )
+
 
         for i, item in enumerate( sellerItems["inventaire"] ):
             label_itemName = Label( sellerFrame, text=str(item["name"]) + " : ", fg='white', bg='black' )
@@ -419,7 +433,7 @@ class MainWindow:
             label_itemPrix.place( x=label_itemName.winfo_reqwidth() + label_itemQuantite.winfo_reqwidth()+75,
                                   y=125 + (i * 40) )
 
-            BuyButton = Button( sellerFrame, text="Acheter", command=buy, border=0,
+            BuyButton = Button( sellerFrame, text="Acheter", command=partial(buy, int(item["prix"])), border=0,
                                  activebackground='#12c4c0', bg="#12c4c0" )
             BuyButton.place(  x=label_itemName.winfo_reqwidth() + label_itemQuantite.winfo_reqwidth() +
                                 label_itemPrix.winfo_reqwidth() + 100,
