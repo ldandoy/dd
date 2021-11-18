@@ -9,7 +9,6 @@ from Utils.DefaultController import DefaultController
 from Utils.logger import debug
 
 
-
 class Person(DefaultController):
     """
         A class used to represent a person
@@ -65,13 +64,13 @@ class Person(DefaultController):
     @staticmethod
     def list_person() -> list:
         """Return the list of all person"""
-        folder = os.path.abspath(os.path.join('Datas', 'Perso'))
+        folder = os.path.join('Datas', 'Perso')
         return os.listdir(folder)
 
     @staticmethod
     def perso_choose(filename):
         json = LoadJson()
-        return json.load(os.path.abspath(os.path.join('Datas', 'Perso', filename)))
+        return json.load(os.path.join('Datas', 'Perso', filename))
 
     def skill_points_difference(self) -> int:
         """
@@ -89,6 +88,27 @@ class Person(DefaultController):
             errors.append('Le nom ne peut pas etre vide')
         if not self.age or self.age <= 0:
             errors.append('L\'age doit etre supérieur à 0')
+        if not self.yeux or self.yeux.strip() == '':
+            errors.append('La couleur des yeux ne peut pas etre vide')
+        if not self.taille or self.taille <= 0:
+            errors.append('La taille doit etre supérieur à 0')
+        if not self.poids or self.poids <= 0:
+            errors.append('Le poids doit etre supérieur à 0')
+        if not self.peau or self.peau.strip() == '':
+            errors.append('La couleur de peau ne peut pas etre vide')
+        if not self.race or self.race.strip() == '':
+            errors.append('L\'origine ethnique ne peut pas etre vide')
+        if not self.classe or self.classe.strip() == '':
+            errors.append('La classe ne peut pas etre vide')
+        if not self.alignement or self.alignement.strip() == '':
+            errors.append('L\'alignement ne peut pas etre vide')
+        if not self.pe or self.pe <= 0:
+            errors.append('Les points d\'expérience doit etre supérieur à 0')
+        if not self.force or self.force <= 0:
+            errors.append('La force doit etre supérieure à 0')
+        if not self.dexterite or self.dexterite <= 0:
+            errors.append('La dexterité doit etre supérieure à 0')
+
         # verify skills points attribution
         skill_points_difference = self.skill_points_difference()
         if skill_points_difference < 0:
@@ -153,7 +173,8 @@ class Person(DefaultController):
                         "name": "mega-potion",
                         "amount": 1
                     }
-                ]
+                ],
+                "budget": 30
             }
 
             json_file_path = os.path.join('Datas', 'Perso', f'{transformed_name}.json')

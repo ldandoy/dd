@@ -19,8 +19,6 @@ from src.Perso.Perso import Perso
 
 from Combat.combat import Combat
 
-from Utils.logger import debug
-
 
 class MainWindow:
     rooms = []
@@ -873,7 +871,7 @@ class MainWindow:
         frame = Frame(self.q, width=1024, height=600)
 
         # background
-        bg_path = os.path.abspath(os.path.join('medias', 'new_person.png'))
+        bg_path = os.path.join('src', 'medias', 'new_person.png')
         bg = PhotoImage(file=bg_path)
         background_label = tk.Label(self.q, image=bg)
         background_label.place(x=0, y=0, relwidth=1, relheight=1)
@@ -982,7 +980,7 @@ class MainWindow:
         # strength label
         strength_label = tk.StringVar(self.q)
         strength_label.set("Force")
-        Label(self.q, textvariable=pe_label, bg="black", fg='white').pack()
+        Label(self.q, textvariable=strength_label, bg="black", fg='white').pack()
 
         # strength entry
         strength = tk.IntVar(self.q)
