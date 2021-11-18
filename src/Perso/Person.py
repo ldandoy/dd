@@ -173,6 +173,7 @@ class Person(DefaultController):
         for x in range(int(nb_dice)):
             rand = random.randint(1, int(rand_range))
             dmg_deal = dmg_deal + rand
+
         print("dmg dealt : " + str(dmg_deal + bonus))
         return dmg_deal + bonus
 
@@ -223,7 +224,7 @@ class Person(DefaultController):
         if self.__verify_allowed_points__():
             self.pdv += 1
 
-    def update(filename,perso):
+    def update(filename, perso):
         json_file_path = open(os.path.join('Datas', 'Perso', filename.lower()+'.json'),"w")
         print('my perso from update ' + str(perso))
         json_to_save = {

@@ -1,6 +1,6 @@
 from Perso.Person import Person
 from Utils.loadJson import LoadJson
-import Utils.Statistics import Stats
+from Utils.Statistics import Stats
 
 class Combat:
     j = LoadJson()
@@ -60,15 +60,15 @@ class Combat:
 
     def hero_is_dead(self):
         if int(self.hero_hp) <= 0:
-            return 0
+            return True
         else:
-            return 1
+            return False
 
     def monster_is_dead(self):
         if int(self.monster_hp) <= 0:
-            return 0
+            return True
         else:
-            return 1
+            return False
 
     def hero_get_damaged(self):
         print('hero will get hit')
@@ -86,17 +86,19 @@ class Combat:
 
     ##function test déroulement du combat
     def fight(self):
-        combat_done = 1
-        while combat_done == 1:
+        combat_done = False
+        while not combat_done:
             self.hero_get_damaged()
             print('my hero is dead ? ' + str(self.hero_is_dead()))
-            if self.hero_is_dead() == 0:
-                combat_done = 0
+            if self.hero_is_dead():
+                Stats.add_achievement("deaths")
+                combat_done = True
             else:
                 self.monster_get_damaged()
                 print('my monster is dead ? ' + str(self.monster_is_dead()))
-                if self.monster_is_dead() == 0:
-                    combat_done = 0
+                if self.monster_is_dead():
+                    Stats.add_achievement("kills")
+                    combat_done = True
                 else:
                     print("hp hero :" + str(self.hero_hp) + " monster hp : " + str(self.monster_hp))
             print("my combat status" + str(combat_done))
