@@ -18,7 +18,8 @@ from src.Inventory.Inventory import Inventory
 from src.Perso.Perso import Perso
 
 from Combat.combat import Combat
-
+from Window.NewsFrame import newsShowMoreFrame
+from Utils.logger import debug
 
 class MainWindow:
     rooms = []
@@ -31,12 +32,51 @@ class MainWindow:
 
 
 
+
+    newsToggleFrameOpen = False
+    newsToggleFrame = None
+
+    def newsToggle( self ):
+        self.newsToggleFrameOpen = True
+        self.newsToggleFrame = Frame( self.q, width=764, height=600, bg='#FFFFFF' )
+        self.newsToggleFrame.place( x=300, y=0 )
+        label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
+
+        label_textinfo_x_position = 25
+        label_showmore_y_position = 100
+        lastFeaturesObj = GetLastFeatures()
+        label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
+
+        for i, feature in enumerate( lastFeaturesObj ):
+            label_textinfo = Label( self.newsToggleFrame, text=feature[ 'title' ][ 0:50 ], fg='white',
+                                    bg='#000000', )
+            label_textinfo.config( font=label_textinfo_config )
+            label_textinfo.place( x=100, y=50 + (i * 40) )
+            news_Button = Button( self.newsToggleFrame, text="En savoir plus",
+                                  border=0,
+                                  activebackground='#12c4c0',
+                                  bg="#12c4c0" )
+            news_Button.place( x=5, y=50 + (i * 40))
+
+        def newsToggleClose():
+            self.newsToggleFrame.pack_forget()
+            self.newsToggleFrame.destroy()
+
+        Button( self.newsToggleFrame, text="close", command=newsToggleClose, border=0, activebackground='#12c4c0',
+                bg="#12c4c0" ).place(x=650, y=10)
+
+
     def toogleWin(self):
         f1 = Frame(self.q, width=300, height=600, bg='#12c4c0')
         f1.place(x=0, y=0)
 
         def dele():
+            f1.pack_forget()
             f1.destroy()
+            if(self.newsToggleFrameOpen):
+                self.newsToggleFrame.pack_forget()
+                self.newsToggleFrame.destroy()
+
 
         def bttn(x, y, text, bcolor, fcolor, cmd):
             def onEnter(e):
@@ -63,7 +103,7 @@ class MainWindow:
 
             myButton.place(x=x, y=y)
 
-        bttn(0, 80, 'A C E R', "#0f9d9a", "#12c4c0", None)
+        bttn(0, 80, 'News', "#0f9d9a", "#12c4c0", self.newsToggle)
         bttn(0, 117, 'D E L L', "#0f9d9a", "#12c4c0", None)
         bttn(0, 154, 'A P P L E', "#0f9d9a", "#12c4c0", None)
         bttn(0, 191, 'A S U S', "#0f9d9a", "#12c4c0", None)
@@ -143,9 +183,10 @@ class MainWindow:
             news_show_more_frame.lower()
 
         def showMore( feature ):
+            self.newsShowMoreFrameOpen = True
             textwelcomeframe.pack_forget()
             textwelcomeframe.destroy()
-            newsShowMoreFrame( self, feature )
+            newsShowMoreFrame( self, feature, label_textinfo_config, label_showmore_y_position)
 
         for i, feature in enumerate( lastFeaturesObj ):
             label_textinfo = Label( textwelcomeframe, text=feature[ 'title' ][ 0:50 ], fg='white',
@@ -416,8 +457,6 @@ class MainWindow:
         labelTextQuestFrame.config(font=labelTextQuestFrame_config)
         labelTextQuestFrame.place(x=100, y=200)
 
-
-
         questButton = Button(questFrame, text="Démarrer une quête", command=choice, border=0,
                              activebackground='#12c4c0', bg="#12c4c0")
         questButton.place(x=490, y=300)
@@ -567,7 +606,7 @@ class MainWindow:
         lQuestStarted.config(font=lQuestStartedFont)
         lQuestStarted.place(x=50, y=120)
 
-    ## Frame jamais utiliser Illies confirme suppression 
+    ## Frame jamais utiliser Illies confirme suppression
     # def newPersoFrame(self):
     #     frame = Frame(self.q, width=1024, height=600, bg="#FFF")
 
@@ -699,26 +738,26 @@ class MainWindow:
             print("Vous tentez de prendre la fuite")
 
 
-        ## Début -> Inventaire 
+        ## Début -> Inventaire
         #
         #
         def inventory():
             perso = self.perso
             itemTab = []
             inventory = Inventory(perso)
-            getItems = perso.get('inventaire')    
+            getItems = perso.get('inventaire')
 
             # Afficher mes objets sous forme de liste
             for i, item in enumerate(getItems):
-                itemTab.insert(i,Button(Combatframe, 
-                                        text=getItems[i].get('name'), 
+                itemTab.insert(i,Button(Combatframe,
+                                        text=getItems[i].get('name'),
                                         command=lambda name=getItems[i].get('name'), amount=getItems[i].get('amount'), hp=combat.hero_hp: healHero(name, amount, hp),
-                                        fg='black', 
-                                        border=0, 
-                                        activebackground='#12c4c0', 
+                                        fg='black',
+                                        border=0,
+                                        activebackground='#12c4c0',
                                         bg="#12c4c0"))
                 itemTab[i].place(x=850, y= 500 + (i*25))
-            
+
             # Faire disparaître les anciens boutons de la frame combat
             AttackButton.place_forget()
             InventaireButton.place_forget()
@@ -727,9 +766,9 @@ class MainWindow:
             # Utiliser une potion
             def healHero(name, amount, hp):
                 initHp = combat.hero_hp
-                
+
                 combat.hero_hp = inventory.useItem(name, amount, hp)
-                
+
                 back()
 
                 return updateLabel(combat.hero_hp, initHp, False)
@@ -745,14 +784,14 @@ class MainWindow:
                 FuiteButton.place(x=850, y=550)
 
             # Bouton pour sortir de l'inventaire
-            returnButton = Button(  Combatframe, 
-                                    text="Retour", 
-                                    command=back, 
-                                    border=0, 
-                                    activebackground='#12c4c0', 
+            returnButton = Button(  Combatframe,
+                                    text="Retour",
+                                    command=back,
+                                    border=0,
+                                    activebackground='#12c4c0',
                                     bg="#12c4c0" )
             returnButton.place( x=750, y=500 )
-                     
+
             #
             #
             ## Fin -> Inventaire
