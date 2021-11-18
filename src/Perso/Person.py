@@ -9,6 +9,7 @@ from src.Utils.DefaultController import DefaultController
 from src.Utils.logger import debug
 
 
+
 class Person(DefaultController):
     """
         A class used to represent a person
