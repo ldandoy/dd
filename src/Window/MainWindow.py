@@ -185,14 +185,19 @@ class MainWindow:
 
         pygame.mixer.init()
 
-        def playSong():
+        def playSong() -> None:
+            """
+            This function load the sound in background
+            """
             pygame.mixer.music.load(os.path.join(self.base_folder, '../medias/audio/epic.mp3'))
-            pygame.mixer.music.playMusic(loops=0)
+            pygame.mixer.music.play(loops=0)
 
         playSong()
 
-
         def choice() -> None:
+            """
+            The selected champion is sending in the city frame then the choice button is clicked
+            """
             choicePersoFrame.pack_forget()
             choicePersoFrame.destroy()
 
@@ -203,7 +208,7 @@ class MainWindow:
         ChoiceButton.place(x=780, y=420)
 
         #select champion ------
-        def selected(perso, count):
+        def selected(perso, count) -> None:
             ChoiceButton['state'] = NORMAL
             self.perso = Person.perso_choose(perso)
             displayChampionInformation()
@@ -219,7 +224,6 @@ class MainWindow:
             if count == 4:
                 x=105
                 y=250
-                print("this is " + str(x))
 
             file = os.path.join(os.path.dirname(__file__), "..", 'medias', 'characters', f'{count_character}.png').replace("\\", '/')
             count_character += 1
@@ -238,8 +242,10 @@ class MainWindow:
             x += 200
 
         def displayChampionInformation():
-            ...
-
+            print(self.perso['description'])
+            descr = self.descr = self.perso['description']
+            card.create_text(225, 20, fill="black", font="Helvetica",
+                             text=descr)
 
 
         def goToNewPerso() -> None:
