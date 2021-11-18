@@ -209,6 +209,7 @@ class MainWindow:
 
         #select champion ------
         def selected(perso, count) -> None:
+            card.delete('all')
             ChoiceButton['state'] = NORMAL
             self.perso = Person.perso_choose(perso)
             displayChampionInformation()
@@ -244,8 +245,8 @@ class MainWindow:
         def displayChampionInformation():
             print(self.perso['description'])
             descr = self.descr = self.perso['description']
-            card.create_text(225, 20, fill="black", font="Helvetica",
-                             text=descr)
+            card.create_text(199, 26, fill="black", font="Helvetica",
+                             text=descr, width=400, justify=LEFT)
 
 
         def goToNewPerso() -> None:
