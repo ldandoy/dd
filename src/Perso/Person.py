@@ -60,6 +60,7 @@ class Person(DefaultController):
         self.sagesse: int = sagesse.get()
         self.vitesse: int = vitesse.get()
         self.pdv = 100
+        self.descriptionDuPeronnage = f"Je m'appelle {self.name}, je suis un {self.classe} et je ne vis que pour servir les miens. Que les {self.race}s vivent à jamais !! "
 
     @staticmethod
     def list_person() -> list:
@@ -127,6 +128,7 @@ class Person(DefaultController):
                 'sagesse': self.sagesse,
                 'vitesse': self.vitesse,
                 'pdv': self.pdv,
+                'description': self.descriptionDuPeronnage,
                 'armes': [
                     {
                         'name': 'Epee courte',
