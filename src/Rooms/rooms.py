@@ -7,9 +7,12 @@ class Room:
     j = LoadJson()
     generatedRooms = []
     donjon = []
-    monstersList = ["Gobelin", "Orc", "Bouftou"]
+    monstersList = ["gobelin", "orc", "bouftou"]
     randomMonsters = []
     monsters = []
+    bossList = ["meulou", "crocabulia", "moon"]
+    randomBoss = randint(0, 2)
+    boss = None;
 
     def __init__(self):
         # Génération d'un chiffre aléatoires pour déterminer le nombre de salles dans le donjon
@@ -38,8 +41,8 @@ class Room:
             elif i == 4:
                 self.donjon.append(self.j.load('Datas/Rooms/tresor.json'))
             elif i == 5:
+                self.boss = self.bossList[self.randomBoss]
                 self.donjon.append(self.j.load('Datas/Rooms/bossfight.json'))
 
         for i in self.randomMonsters:
             self.monsters.append(self.monstersList[i])
-    

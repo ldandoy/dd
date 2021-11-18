@@ -1,13 +1,19 @@
+import json
+import time
 from tkinter import *
+import pygame
 import os
 import tkinter as tk
+from random import *
 
 from Utils.loadJson import LoadJson
 from Perso.Person import Person
 from Rooms.rooms import Room
 from Combat.combat import *
-from Utils.GetLastFeatures import getLastFeatures
+from Utils.GetLastFeatures import GetLastFeatures
 from functools import partial
+from Inventory.Inventory import Inventory
+
 
 from Combat.combat import Combat
 
@@ -21,6 +27,9 @@ class MainWindow:
 
     donjonRoom = 0
     actualMonster = 0
+    difficultFactor = 0
+
+
 
 
     newsToggleFrameOpen = False
@@ -129,19 +138,48 @@ class MainWindow:
         canvas1.create_image( 0, 0, image=bg, anchor="nw" )
         canvas1.image = bg
 
-        label_textwelcomeframe = Label( textwelcomeframe, text="Bienvenue dans Donjon et Dragon", fg='dark grey',
-                                        bg=None )
+        label_textwelcomeframe = Label( textwelcomeframe, text="Bienvenue dans Donjon et Dragon", fg='black',
+                                        bg="white" )
         label_textwelcomeframe_config = ('Calirbi (Body)', 36, 'bold')
         label_textwelcomeframe.config( font=label_textwelcomeframe_config )
         label_textwelcomeframe.place( x=250, y=100 )
 
-        lastFeaturesObj = getLastFeatures( 3 )
+        lastFeaturesObj = GetLastFeatures( 3 )
 
         label_textinfo_config = ('Calirbi (Body)', 24, 'bold')
 
         label_textinfo_x_position = 25
         label_showmore_y_position = 100
 
+        def newsShowMoreFrame( self, feature ):
+            news_show_more_frame = Frame( self.q, width=1024, height=600 )
+
+            image2_path = os.path.join( self.base_folder, '../medias/newsBg/' + feature[ 'picture' ] )
+            bg2 = PhotoImage( file=image2_path )
+            canvas2 = Canvas( news_show_more_frame, width=1024, height=600 )
+            canvas2.pack( fill="both", expand=True )
+            canvas2.create_image( 0, 0, image=bg2, anchor="nw" )
+            canvas2.image = bg2
+
+            for i, info in enumerate( feature ):
+                if(info != 'picture' ):
+                    label_textinfo = Label( news_show_more_frame, text=feature[info], fg='white', bg='#0483d1' )
+                    label_textinfo.config( font=label_textinfo_config )
+                    label_textinfo.place( x=25, y= label_showmore_y_position + (i * 40))
+
+
+            def choice():
+                news_show_more_frame.pack_forget()
+                news_show_more_frame.destroy()
+
+                self.textWelcomeFrame()
+
+            ChoiceButton = Button( news_show_more_frame, text="retour", command=choice, border=0,
+                                   activebackground='#12c4c0', bg="#12c4c0" )
+            ChoiceButton.place( x=950, y=550 )
+
+            news_show_more_frame.place( x=0, y=0 )
+            news_show_more_frame.lower()
 
         def showMore( feature ):
             self.newsShowMoreFrameOpen = True
@@ -192,15 +230,22 @@ class MainWindow:
         lwelcome.config(font=lwelcomefont)
         lwelcome.place(x=105, y=30)
 
+        pygame.mixer.init()
+
+        def play():
+            pygame.mixer.music.load(os.path.join(self.base_folder, '../medias/audio/epic.mp3'))
+            pygame.mixer.music.play(loops=0)
+        play()
+
 
         def choice():
             choicePersoFrame.pack_forget()
             choicePersoFrame.destroy()
 
-            self.questFrame()
+            self.cityFrame()
 
         ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice, state=DISABLED, border=0,
-                              activebackground='#12c4c0', bg="#12c4c0", width=27, height=10)
+                              activebackground='#12c4c0', bg="#12c4c0", width=27, height=7)
         ChoiceButton.place(x=780, y=420)
 
         #select champion
@@ -210,10 +255,38 @@ class MainWindow:
 
         selectButton = []
         persoJson = Person.list_person()
+        print(persoJson)
         x = 105
+        y=100
+
+        count_character = 1
         for count, perso in enumerate(persoJson):
-            selectButton.insert(count, Button(choicePersoFrame, text=perso, command=lambda perso=perso, count=count: selected(perso,count), border=0, activebackground='#12c4c0', bg="#12c4c0"))
-            selectButton[count].place(x=x, y=100, width=110, height=110, )
+
+            print(y)
+
+            if count == 4:
+                x=105
+                y=250
+                print("this is " + str(x))
+
+            file = os.path.join(os.path.dirname(__file__), "..", 'medias', 'characters', f'{count_character}.png').replace("\\", '/')
+
+            count_character += 1
+
+            imageCharacter = PhotoImage(file=file)
+            print(file)
+
+            perso_button = Button(choicePersoFrame,
+                                              text=perso,
+                                              command=lambda perso=perso, count=count: selected(perso,count),
+                                              image=imageCharacter
+                                              )
+            perso_button.image = imageCharacter
+
+            selectButton.insert(count, perso_button)
+            selectButton[count].place(x=x, y=y, width=110, height=110, )
+
+            choicePersoFrame.lower()
             x += 200
 
 
@@ -250,8 +323,8 @@ class MainWindow:
         #         print(x)
         #         x += 20
         #
-        # def displayChampionInformation():
-        #     pass
+        def displayChampionInformation():
+            pass
         #
         # displayChampion()
 
@@ -264,17 +337,141 @@ class MainWindow:
 
         #Button in choicePersoFrame window
         #ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice, border=0, activebackground='#12c4c0', bg="#12c4c0")
-        new_button = Button(choicePersoFrame, text="Créer un nouveau personnage", command=goToNewPerso, border=0, activebackground='#12c4c0', bg="#12c4c0")
+        new_button = Button(choicePersoFrame, text="Créer un nouveau personnage", command=goToNewPerso, border=0, activebackground='#12c4c0', bg="#12c4c0", width=27)
         #ChoiceButton.place(x=950, y=550)
-        new_button.place(x=775, y=550)
+        new_button.place(x=780, y=550)
 
         choicePersoFrame.place(x=0, y=0)
         choicePersoFrame.lower()
 
+    def cityFrame(self):
+        cityFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+
+        image_path = os.path.join(self.base_folder, '../medias/city.png')
+        bg = PhotoImage(file=r'' + image_path)
+        canvas = Canvas(cityFrame, width=1024, height=600)
+        canvas.pack(fill="both", expand=True)
+        canvas.create_image(0, 0, image=bg, anchor="nw")
+        canvas.image = bg
+
+        labelTextSeller = Label(cityFrame, text="Bienvenue à Erthilia " + self.perso["name"] + ", où souhaites-tu "
+                                                                                                  "aller?",
+                                     fg='black', bg='white')
+        labelTextcityFrame_config = ('Calibri (Body)', 30, 'bold')
+        labelTextSeller.config(font=labelTextcityFrame_config)
+        labelTextSeller.place( x=60, y=50 )
+
+        def QuestChoice():
+            cityFrame.pack_forget()
+            cityFrame.destroy()
+            self.rooms = Room()
+            self.questStartedFrame()
+
+        def SellerChoice():
+            cityFrame.pack_forget()
+            cityFrame.destroy()
+            self.SellerFrame()
+
+        questCharPath = PhotoImage(file=os.path.join( self.base_folder, '../medias/questGiverChar.png'))
+        questIconButton = Button( cityFrame,
+                               text="test",
+                               image=questCharPath,
+                               command=QuestChoice
+                               )
+        questIconButton.image = questCharPath
+        questIconButton.place( x=150, y=150, width=250, height=250, )
+
+        labelTextQuest = Label(cityFrame, text="Commencer une quête\nd'Everard",
+                                     fg='black', bg='white')
+        labelTextcityFrame_config = ('Calibri (Body)', 24, 'bold')
+        labelTextQuest.config(font=labelTextcityFrame_config)
+        labelTextQuest.place( x=140, y=425 )
+
+        sellerIcon = PhotoImage(file=os.path.join( self.base_folder, '../medias/sellerChar.png'))
+        sellerIconButton = Button( cityFrame,
+                               text="test",
+                               image=sellerIcon,
+                               command=SellerChoice
+                               )
+        sellerIconButton.image = sellerIcon
+        sellerIconButton.place( x=650, y=150, width=250, height=250, )
+
+        labelTextSeller = Label(cityFrame, text="Faire le plein chez Ambrose\nla vendeuse d'items",
+                                     fg='black', bg='white')
+        labelTextcityFrame_config = ('Calibri (Body)', 24, 'bold')
+        labelTextSeller.config(font=labelTextcityFrame_config)
+        labelTextSeller.place( x=625, y=425 )
+
+        cityFrame.place(x=0, y=0)
+        cityFrame.lower()
+
+    def SellerFrame(self):
+        sellerFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+
+        image_path = os.path.join(self.base_folder, '../medias/sellerBackground.png')
+        bg = PhotoImage(file=r'' + image_path)
+        canvas = Canvas(sellerFrame, width=1024, height=600)
+        canvas.pack(fill="both", expand=True)
+        canvas.create_image(0, 0, image=bg, anchor="nw")
+        canvas.image = bg
+
+        def goTown():
+            sellerFrame.pack_forget()
+            sellerFrame.destroy()
+            self.cityFrame()
+
+        BackButton = Button(sellerFrame, text="Retourner en ville", command=goTown, border=0,activebackground='#12c4c0',bg="#12c4c0")
+        BackButton.place(x=850, y=550)
+
+
+        perso = self.perso
+        json = LoadJson()
+        sellerItems = json.load(os.path.join(self.base_folder, '../../Datas/PNJ/AmbroseSeller.json'))
+
+        sellerFrame.place( x=0, y=0 )
+        sellerFrame.lower()
+
+
+        for i, item in enumerate( sellerItems["inventaire"] ):
+            print( item )
+            label_itemName = Label( sellerFrame, text=item["name"], fg='white', bg='black' )
+            label_itemName.config( font=('Calirbi (Body)', 24, 'bold') )
+            label_itemName.place( x=25, y=125 + (i * 40) )
+
+
+            print("name",label_itemName.winfo_reqwidth())
+
+            label_itemQuantite = Label( sellerFrame, text=item["quantite"], fg='white', bg='black' )
+            label_itemQuantite.config( font=('Calirbi (Body)', 24, 'bold') )
+            label_itemQuantite.place( x=label_itemName.winfo_reqwidth() + 50, y=125 + (i * 40) )
+
+            print("quantite",label_itemQuantite.winfo_reqwidth())
+
+            label_itemPrix = Label( sellerFrame, text=item[ "prix" ], fg='white', bg='black' )
+            label_itemPrix.config( font=('Calirbi (Body)', 24, 'bold') )
+            label_itemPrix.place( x=label_itemName.winfo_reqwidth() + label_itemQuantite.winfo_reqwidth()+75,
+                                  y=125 + (i * 40) )
+            print("lTotal,",label_itemName.winfo_reqwidth() + label_itemName.winfo_reqwidth())
+            # itemTab.insert( i, Button( Combatframe,
+            #                            text=sellerItems[ i ].get( 'name' ),
+            #                            command=lambda name=sellerItems[ i ].get( 'name' ),
+            #                                           amount=sellerItems[ i ].get( 'amount' ), hp=combat.hero_hp: healHero(
+            #                                name, amount, hp ),
+            #                            fg='black',
+            #                            border=0,
+            #                            activebackground='#12c4c0',
+            #                            bg="#12c4c0" ) )
+            # itemTab[ i ].place( x=850, y=500 + (i * 25) )
+
     def questFrame(self):
         questFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
 
-        print(self.perso)
+        image_path = os.path.join(self.base_folder, '../medias/entrance.png')
+        bg = PhotoImage(file=r'' + image_path)
+        canvas = Canvas(questFrame, width=1024, height=600)
+        canvas.pack(fill="both", expand=True)
+        canvas.create_image(0, 0, image=bg, anchor="nw")
+        canvas.image = bg
 
         # Get the welcome message
         json = LoadJson()
@@ -302,10 +499,8 @@ class MainWindow:
 
     def questStartedFrame(self):
 
-        questStartedFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
-
         def fight():
-            self.donjonRoom += 1
+
             questStartedFrame.pack_forget()
             questStartedFrame.destroy()
             self.CombatFrame(0)
@@ -314,9 +509,21 @@ class MainWindow:
             questStartedFrame.destroy()
             self.CombatFrame(1)
         def runAway():
-            questStartedFrame.pack_forget()
-            questStartedFrame.destroy()
-            self.questFrame()
+            difficult = randint(1, 10) + self.difficultFactor
+            if difficult >= 6:
+                questStartedFrame.pack_forget()
+                questStarame.destroy()
+                print("Vous vous etes fait agro")
+                self.CombatFrame(0)
+            if difficult <= 5:
+                questStartedFrame.pack_forget()
+                questStartedFrame.destroy()
+                print("Fuyez vite")
+                self.questFrame()
+                self.difficultFactor += 1
+            print(difficult)
+            print(self.difficultFactor)
+
         def exitRoom():
             questStartedFrame.pack_forget()
             questStartedFrame.destroy()
@@ -327,6 +534,89 @@ class MainWindow:
             questStartedFrame.destroy()
             self.questStartedFrame()
 
+        if self.rooms.donjon[self.donjonRoom]["name"] == "Rencontre":
+            questStartedFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+            questStartedFrame.place(x=0, y=0)
+            questStartedFrame.lower()
+
+            image_path = os.path.join(self.base_folder, '../medias/encounter.png')
+            bg = PhotoImage(file=r'' + image_path)
+            canvas = Canvas(questStartedFrame, width=1024, height=600)
+            canvas.pack(fill="both", expand=True)
+            canvas.create_image(0, 0, image=bg, anchor="nw")
+            canvas.image = bg
+
+            fightButton = Button(questStartedFrame, text="Combattre !", command=fight, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            fightButton.place(x=750, y=200)
+
+            runButton = Button(questStartedFrame, text="Fuir !", command=runAway, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            runButton.place(x=750, y=250)
+        elif self.rooms.donjon[self.donjonRoom]["name"] == "Boss":
+            questStartedFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+            questStartedFrame.place(x=0, y=0)
+            questStartedFrame.lower()
+
+            image_path = os.path.join(self.base_folder, '../medias/boss.png')
+            bg = PhotoImage(file=r'' + image_path)
+            canvas = Canvas(questStartedFrame, width=1024, height=600)
+            canvas.pack(fill="both", expand=True)
+            canvas.create_image(0, 0, image=bg, anchor="nw")
+            canvas.image = bg
+
+            fightButton = Button(questStartedFrame, text="Combattre !", command=bossFight, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            fightButton.place(x=750, y=200)
+
+        elif self.rooms.donjon[self.donjonRoom]["name"] == "Trésor":
+            questStartedFrame = Frame(self.q, width=1024, height=600)
+            questStartedFrame.place(x=0, y=0)
+            questStartedFrame.lower()
+
+            image_path = os.path.join(self.base_folder, '../medias/treasure.png')
+            bg = PhotoImage(file=r'' + image_path)
+            canvas = Canvas(questStartedFrame, width=1024, height=600)
+            canvas.pack(fill="both", expand=False)
+            canvas.create_image(0, 0, image=bg, anchor="nw")
+            canvas.image = bg
+
+            continueButton = Button(questStartedFrame, text="Continuer", command=nextRoom, border=0,
+                                    activebackground='#12c4c0', bg="#12c4c0")
+            continueButton.place(x=750, y=200)
+
+        elif self.rooms.donjon[self.donjonRoom]["name"] == "Couloir":
+            questStartedFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+            questStartedFrame.place(x=0, y=0)
+            questStartedFrame.lower()
+
+            image_path = os.path.join(self.base_folder, '../medias/corridor.png')
+            bg = PhotoImage(file=r'' + image_path)
+            canvas = Canvas(questStartedFrame, width=1024, height=600)
+            canvas.pack(fill="both", expand=True)
+            canvas.create_image(0, 0, image=bg, anchor="nw")
+            canvas.image = bg
+
+            continueButton = Button(questStartedFrame, text="Continuer", command=nextRoom, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            continueButton.place(x=750, y=200)
+
+        elif self.rooms.donjon[self.donjonRoom]["name"] == "Rien":
+            questStartedFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+            questStartedFrame.place(x=0, y=0)
+            questStartedFrame.lower()
+
+            image_path = os.path.join(self.base_folder, '../medias/nothing.png')
+            bg = PhotoImage(file=r'' + image_path)
+            canvas = Canvas(questStartedFrame, width=1024, height=600)
+            canvas.pack(fill="both", expand=True)
+            canvas.create_image(0, 0, image=bg, anchor="nw")
+            canvas.image = bg
+
+            continueButton = Button(questStartedFrame, text="Continuer", command=nextRoom, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+            continueButton.place(x=750, y=200)
+
         tQuestStarted = Label(questStartedFrame, text=self.rooms.donjon[self.donjonRoom]["name"], fg='dark grey')
         tQuestStartedFont = ('Calibri (Body)', 24, 'bold')
         tQuestStarted.config(font=tQuestStartedFont)
@@ -336,34 +626,6 @@ class MainWindow:
         lQuestStartedFont = ('Calibri (Body)', 18, 'bold')
         lQuestStarted.config(font=lQuestStartedFont)
         lQuestStarted.place(x=50, y=120)
-
-        if self.rooms.donjon[self.donjonRoom]["name"] == "Rencontre":
-            fightButton = Button(questStartedFrame, text="Combattre !", command=fight, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
-            fightButton.place(x=750, y=200)
-
-            runButton = Button(questStartedFrame, text="Fuir !", command=runAway, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
-            runButton.place(x=750, y=250)
-        elif self.rooms.donjon[self.donjonRoom]["name"] == "Boss":
-            fightButton = Button(questStartedFrame, text="Combattre !", command=bossFight, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
-            fightButton.place(x=750, y=200)
-
-            runButton = Button(questStartedFrame, text="Fuir !", command=runAway, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
-            runButton.place(x=750, y=250)
-        else:
-            continueButton = Button(questStartedFrame, text="Continuer", command=nextRoom, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
-            continueButton.place(x=750, y=200)
-
-            exitButton = Button(questStartedFrame, text="Sortir", command=exitRoom, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
-            exitButton.place(x=750, y=250)
-
-        questStartedFrame.place(x=0, y=0)
-        questStartedFrame.lower()
 
     ## Frame jamais utiliser Illies confirme suppression
     # def newPersoFrame(self):
@@ -408,58 +670,202 @@ class MainWindow:
     def CombatFrame(self,isBoss):
         if isBoss == 1:
             print("boss FIGHT")
-            monstre = '{"name": "chauve souris","hp": "50","attaque": "3d10+0","vit":"7"}'
+            monstre = self.rooms.boss
+            image_path = os.path.join(self.base_folder, '../medias/bestiaire/'+ str(self.rooms.boss)+'.png')
         else:
             print("normal FIGHT")
             # List des monstres générés pour le donjon : self.rooms.monsters[self.actualMonster]
             # Ajouter +1 à "actualMonster" pour passer au prochain monstre
-            monstre = '{"name": "chauve souris","hp": "30","attaque": "1d5+0","vit":"7"}'
+            monstre = self.rooms.monsters[self.actualMonster]
+            image_path = os.path.join(self.base_folder, '../medias/bestiaire/' + str(self.rooms.monsters[self.actualMonster]) + '.png')
 
-        hero = '{"name":"test","hp":20,"attaque":"2d10+0","vit":"5"}'
+        selectButton = []
+        hero = self.perso
+        heroHp = hero.get('pdv')
         Combatframe = Frame(self.q, width=1024, height=600)
         Combatframe.place(x=0, y=0)
         Combatframe.lower()
 
-        image_path = os.path.join(self.base_folder, '../medias/combat.png')
         bg = PhotoImage(file=r'' + image_path)
         canvas1 = Canvas(Combatframe, width=1024, height=600)
         canvas1.pack(fill="both", expand=True)
         canvas1.create_image(0, 0, image=bg, anchor="nw")
         canvas1.image = bg
-        combat = Combat(hero, monstre)
+        combat = Combat(hero, monstre,isBoss)
         combat.initiative()
 
-        def attack():
-            combat.monster_get_damaged()
-            combat.monster_is_dead()
+        def whoStart(startHp,initHp):
+            if startHp == initHp:
+                print("vous avez l'initiative")
+                initLabel.config(text="Vous avez gagnez votre jet d'initiative")
+            else:
+                print("le monstre a l'initiative")
+                initLabel.config(text="Le monstre gagne le jet d'initiative")
+                dmg = startHp - initHp
+                updateLabel(startHp, dmg, False)
+                heroHpLabel.config(text=str(initHp)  + '/' + str(heroHp))
+
+        def updateLabel(hp,dmg,isHero):
+            if isHero:
+                heroDmgLabel.place(x=300, y=30)
+                heroDmgLabel.config(text="hero deal : " + str(dmg))
+                monsterHpLabel.config(text=str(hp))
+            else:
+                monsterDmgLabel.place(x=300, y=300)
+                monsterDmgLabel.config(text="monster deal : " + str(dmg))
+                heroHpLabel.config(text=str(hp) + '/' + str(heroHp))
+
+        def attack(selectWeapon,button):
+            AttackButton.place(x=750, y=500)
+            InventaireButton.place(x=850, y=500)
+            FuiteButton.place(x=850, y=550)
+            for x in range(len(button)):
+                selectButton[x].place_forget()
+            monsterHpBeforeHit = combat.monster_hp
+            monsterHp = combat.monster_get_damaged(str(selectWeapon))
+            herodmgDeal = int(monsterHpBeforeHit) - monsterHp
+            updateLabel(monsterHp, herodmgDeal, True)
             if combat.monster_is_dead() == 0:
                 print("monster is dead")
+                hero["pdv"] = combat.hero_hp
+                Person.update(hero.get('name'), hero)
                 Combatframe.destroy()
-                self.questStartedFrame()
+                self.winFrame(isBoss)
             else:
-                combat.hero_get_damaged()
+                heroHpbeforeHit = combat.hero_hp
+                heroHp = combat.hero_get_damaged()
+                monsterdmgDeal = heroHpbeforeHit - heroHp
+                updateLabel(heroHp, monsterdmgDeal, False)
                 if combat.hero_is_dead() == 0:
-                    print("hero is dead")
                     Combatframe.destroy()
                     self.deadFrame()
-
-        def inventaire():
-            print("ceci est une ouverture d'inventaire")
+        def selectWeapon():
+            AttackButton.place_forget()
+            InventaireButton.place_forget()
+            FuiteButton.place_forget()
+            initLabel.place_forget()
+            weaponList = self.perso.get('armes')
+            print(weaponList)
+            x = 750
+            for count, weapon in enumerate(weaponList):
+                print(weaponList[count].get('name'))
+                selectButton.insert(count, Button(Combatframe, text=weapon.get('name'),
+                                                command=lambda weapon=weapon, count=count: attack(weapon.get('name'),selectButton),
+                                                border=0, activebackground='#12c4c0', bg="#12c4c0"))
+                selectButton[count].place(x=x, y=500)
+                x += 100
 
         def fuite():
             print("Vous tentez de prendre la fuite")
 
-        AttackButton = Button(Combatframe, text="Attack", command=attack, border=0, activebackground='#12c4c0',
+
+        ## Début -> Inventaire
+        #
+        #
+        def inventory():
+            perso = self.perso
+            itemTab = []
+            inventory = Inventory(perso)
+            getItems = perso.get('inventaire')
+
+            # Afficher mes objets sous forme de liste
+            for i, item in enumerate(getItems):
+                itemTab.insert(i,Button(Combatframe,
+                                        text=getItems[i].get('name'),
+                                        command=lambda name=getItems[i].get('name'), amount=getItems[i].get('amount'), hp=combat.hero_hp: healHero(name, amount, hp),
+                                        fg='black',
+                                        border=0,
+                                        activebackground='#12c4c0',
+                                        bg="#12c4c0"))
+                itemTab[i].place(x=850, y= 500 + (i*25))
+
+            # Faire disparaître les anciens boutons de la frame combat
+            AttackButton.place_forget()
+            InventaireButton.place_forget()
+            FuiteButton.place_forget()
+
+            # Utiliser une potion
+            def healHero(name, amount, hp):
+                initHp = combat.hero_hp
+
+                combat.hero_hp = inventory.useItem(name, amount, hp)
+
+                back()
+
+                return updateLabel(combat.hero_hp, initHp, False)
+
+            # Sortir de l'inventaire
+            def back():
+                for i, lbl in enumerate(itemTab):
+                    itemTab[i].place_forget()
+
+                returnButton.place_forget()
+                AttackButton.place(x=750, y=500)
+                InventaireButton.place(x=850, y=500)
+                FuiteButton.place(x=850, y=550)
+
+            # Bouton pour sortir de l'inventaire
+            returnButton = Button(  Combatframe,
+                                    text="Retour",
+                                    command=back,
+                                    border=0,
+                                    activebackground='#12c4c0',
+                                    bg="#12c4c0" )
+            returnButton.place( x=750, y=500 )
+
+            #
+            #
+            ## Fin -> Inventaire
+
+
+        AttackButton = Button(Combatframe, text="Attack", command=selectWeapon, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         AttackButton.place(x=750, y=500)
 
-        InventaireButton = Button(Combatframe, text="Inventaire", command=inventaire, border=0, activebackground='#12c4c0',
+        InventaireButton = Button(Combatframe, text="Inventaire", command=inventory, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         InventaireButton.place(x=850, y=500)
 
         FuiteButton = Button(Combatframe, text="Fuite", command=fuite, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         FuiteButton.place(x=850, y=550)
+
+        heroDmgLabel = Label(Combatframe, text="",fg='white', bg='black')
+        heroDmgLabelfont = ('Calirbi (Body)', 24, 'bold')
+        heroDmgLabel.config(font=heroDmgLabelfont)
+
+
+        monsterDmgLabel = Label(Combatframe, text="", fg='white', bg='black')
+        monsterDmgLabelfont = ('Calirbi (Body)', 24, 'bold')
+        monsterDmgLabel.config(font=monsterDmgLabelfont)
+
+
+        heroHpLabel = Label(Combatframe, text=(str(hero.get('pdv')) + '/' + str(heroHp)), fg='white', bg='black')
+        heroHpLabelfont = ('Calirbi (Body)', 24, 'bold')
+        heroHpLabel.config(font=heroHpLabelfont)
+        heroHpLabel.place(x=30, y=30)
+
+        monsterHpLabel = Label(Combatframe, text=str(combat.monster_hp), fg='white', bg='black')
+        monsterHpLabelfont = ('Calirbi (Body)', 24, 'bold')
+        monsterHpLabel.config(font=monsterHpLabelfont)
+        monsterHpLabel.place(x=30, y=300)
+
+        initLabel = Label(Combatframe, text="", fg='white', bg='black')
+        initLabelfont = ('Calirbi (Body)', 24, 'bold')
+        initLabel.config(font=initLabelfont)
+        initLabel.place(x=200, y=150)
+        if isBoss == 1:
+            nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.boss),
+                              fg='white', bg='black')
+        else:
+            nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.monsters[self.actualMonster]),
+                              fg='white', bg='black')
+
+        nameLabelfont = ('Calirbi (Body)', 24, 'bold')
+        nameLabel.config(font=nameLabelfont)
+        nameLabel.place(x=100, y=100)
+
+        whoStart(heroHp,combat.hero_hp)
 
     def deadFrame(self):
         deadFrame = Frame(self.q, width=1024, height=600)
@@ -481,3 +887,239 @@ class MainWindow:
         retryButton = Button(deadFrame, text="Retry", command=Retry, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         retryButton.place(x=500, y=300)
+
+    def winFrame(self,isBoss):
+        winFrame = Frame(self.q, width=1024, height=600)
+        winFrame.place(x=0, y=0)
+        winFrame.lower()
+        if isBoss == 1:
+            image_path = os.path.join(self.base_folder, '../medias/sortie.png')
+        else:
+            image_path = os.path.join(self.base_folder, '../medias/treasure.png')
+
+        bg = PhotoImage(file=r'' + image_path)
+        canvas1 = Canvas(winFrame, width=1024, height=600)
+        canvas1.pack(fill="both", expand=True)
+        canvas1.create_image(0, 0, image=bg, anchor="nw")
+        canvas1.image = bg
+
+        def next():
+            winFrame.destroy()
+            if isBoss == 1:
+                self.textWelcomeFrame()
+            else:
+                self.donjonRoom += 1
+                self.actualMonster += 1
+                self.questStartedFrame()
+
+        nextButton = Button(winFrame, text="next", command=next, border=0, activebackground='#12c4c0',
+                              bg="#12c4c0")
+        nextButton.place(x=500, y=300)
+        if isBoss == 1:
+            winLabel = Label(winFrame, text="bravo vous avez vaincu "+str(self.rooms.boss) +" ici s'achève votre aventure", fg='white', bg='black')
+        else:
+            winLabel = Label(winFrame, text="bravo vous avez vaincu " + str(self.rooms.monsters[self.actualMonster]),
+                             fg='white', bg='black')
+        winLabelfont = ('Calirbi (Body)', 24, 'bold')
+        winLabel.config(font=winLabelfont)
+        winLabel.place(x=200, y=150)
+
+    def new_person_frame(self):
+        """
+        Create new person page
+        """
+        frame = Frame(self.q, width=1024, height=600, bg="#FFF")
+
+        # main message
+        Label(self.q,
+              text="Créer votre personnage",
+              bg="white",
+              font=('Calibri (Body)', 24, 'bold')).pack()
+
+        # main_message = tk.Text(self.q, text='Créer un personnage', fg='black')
+        # main_message.config(font=('Calibri (Body)', 24, 'bold'))
+
+        # name label
+        name_label = tk.StringVar(self.q)
+        name_label.set("Nom")
+        Label(self.q, textvariable=name_label, bg="white").pack()
+
+        # name entry
+        name = tk.StringVar(self.q)
+        Entry(self.q, textvariable=name, width=100, bd=3).pack()
+
+        # age label
+        age_label = tk.StringVar(self.q)
+        age_label.set("Age")
+        Label(self.q, textvariable=age_label, bg="white").pack()
+
+        # age entry
+        age = tk.IntVar(self.q)
+        Entry(self.q, textvariable=age, width=100, bd=3).pack()
+
+        # eyes label
+        eyes_label = tk.StringVar(self.q)
+        eyes_label.set("Yeux")
+        Label(self.q, textvariable=eyes_label, bg="white").pack()
+
+        # eyes entry
+        eyes = tk.StringVar(self.q)
+        Entry(self.q, textvariable=eyes, width=100, bd=3).pack()
+
+        # height label
+        height_label = tk.StringVar(self.q)
+        height_label.set("Taille (en centimètres)")
+        Label(self.q, textvariable=height_label, bg="white").pack()
+
+        # height entry
+        height = tk.IntVar(self.q)
+        Entry(self.q, textvariable=height, width=100, bd=3).pack()
+
+        # weight label
+        weight_label = tk.StringVar(self.q)
+        weight_label.set("Poids (en Kilogrammes)")
+        Label(self.q, textvariable=weight_label, bg="white").pack()
+
+        # weight entry
+        weight = tk.IntVar(self.q)
+        Entry(self.q, textvariable=weight, width=100, bd=3).pack()
+
+        # skin label
+        skin_label = tk.StringVar(self.q)
+        skin_label.set("Couleur de peau")
+        Label(self.q, textvariable=skin_label, bg="white").pack()
+
+        # skin entry
+        skin = tk.StringVar(self.q)
+        Entry(self.q, textvariable=skin, width=100, bd=3).pack()
+
+        # race label
+        race_label = tk.StringVar(self.q)
+        race_label.set("Origine ethnique")
+        Label(self.q, textvariable=race_label, bg="white").pack()
+
+        # race entry
+        race = tk.StringVar(self.q)
+        Entry(self.q, textvariable=race, width=100, bd=3).pack()
+
+        # class label
+        class_label = tk.StringVar(self.q)
+        class_label.set("Classe")
+        Label(self.q, textvariable=class_label, bg="white").pack()
+
+        # class entry
+        class_entry = tk.StringVar(self.q)
+        Entry(self.q, textvariable=class_entry, width=100, bd=3).pack()
+
+        # alignment label
+        alignment_label = tk.StringVar(self.q)
+        alignment_label.set("Alignement")
+        Label(self.q, textvariable=alignment_label, bg="white").pack()
+
+        # alignment entry
+        alignment = tk.StringVar(self.q)
+        Entry(self.q, textvariable=alignment, width=100, bd=3).pack()
+
+        # pe label
+        pe_label = tk.StringVar(self.q)
+        pe_label.set("PE")
+        Label(self.q, textvariable=pe_label, bg="white").pack()
+
+        # pe entry
+        pe = tk.IntVar(self.q)
+        Entry(self.q, textvariable=pe, width=100, bd=3).pack()
+
+        # strength label
+        strength_label = tk.StringVar(self.q)
+        strength_label.set("Force")
+        Label(self.q, textvariable=pe_label, bg="white").pack()
+
+        # strength entry
+        strength = tk.IntVar(self.q)
+        Entry(self.q, textvariable=strength, width=100, bd=3).pack()
+
+        # dexterity label
+        dexterity_label = tk.StringVar(self.q)
+        dexterity_label.set("Dextérité")
+        Label(self.q, textvariable=dexterity_label, bg="white").pack()
+
+        # dexterity entry
+        dexterity = tk.IntVar(self.q)
+        Entry(self.q, textvariable=dexterity, width=100, bd=3).pack()
+
+        # intelligence label
+        intelligence_label = tk.StringVar(self.q)
+        intelligence_label.set("Intelligence")
+        Label(self.q, textvariable=intelligence_label, bg="white").pack()
+
+        # intelligence entry
+        intelligence = tk.IntVar(self.q)
+        Entry(self.q, textvariable=intelligence, width=100, bd=3).pack()
+
+        # charisma label
+        charisma_label = tk.StringVar(self.q)
+        charisma_label.set("Charisme")
+        Label(self.q, textvariable=charisma_label, bg="white").pack()
+
+        # charisma entry
+        charisma = tk.IntVar(self.q)
+        Entry(self.q, textvariable=charisma, width=100, bd=3).pack()
+
+        # constitution label
+        constitution_label = tk.StringVar(self.q)
+        constitution_label.set("Constitution")
+        Label(self.q, textvariable=constitution_label, bg="white").pack()
+
+        # constitution entry
+        constitution = tk.IntVar(self.q)
+        Entry(self.q, textvariable=constitution, width=100, bd=3).pack()
+
+        # wisdom label
+        wisdom_label = tk.StringVar(self.q)
+        wisdom_label.set("Sagesse")
+        Label(self.q, textvariable=constitution_label, bg="white").pack()
+
+        # wisdom entry
+        wisdom = tk.IntVar(self.q)
+        Entry(self.q, textvariable=wisdom, width=100, bd=3).pack()
+
+        # speed label
+        speed_label = tk.StringVar(self.q)
+        speed_label.set("Vitesse")
+        Label(self.q, textvariable=speed_label, bg="white").pack()
+
+        # speed entry
+        speed = tk.IntVar(self.q)
+        Entry(self.q, textvariable=speed, width=100, bd=3).pack()
+
+        # function executed when form submitted
+        def create_person():
+            person = Person(name,
+                            age,
+                            eyes,
+                            height,
+                            weight,
+                            skin,
+                            race,
+                            class_entry,
+                            alignment,
+                            pe,
+                            strength,
+                            dexterity,
+                            intelligence,
+                            charisma,
+                            constitution,
+                            wisdom,
+                            speed
+                            )
+            person.save()
+
+        # submit button
+        tk.Button(self.q,
+                  text='Créer',
+                  height=1,
+                  width=10,
+                  command=create_person).pack()
+
+        frame.place(x=0, y=0)
+        frame.lower()

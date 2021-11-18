@@ -4,6 +4,7 @@ from re import sub
 from json import dump
 import random
 
+
 from Utils.loadJson import LoadJson
 from Utils.DefaultController import DefaultController
 from Utils.logger import debug
@@ -110,7 +111,20 @@ class Person(DefaultController):
                         'test': 'dexterite'
                     }
                 ],
-                'inventaire': []
+                'inventaire': [
+                    {
+                        "name": "potion",
+                        "amount": 1
+                    },
+                    {
+                        "name": "super-potion",
+                        "amount": 1
+                    },
+                    {
+                        "name": "mega-potion",
+                        "amount": 1
+                    }
+                ]
             }
 
             json_file_path = os.path.join('Datas', 'Perso', f'{transformed_name}.json')
@@ -159,8 +173,23 @@ class Person(DefaultController):
         for x in range(int(nb_dice)):
             rand = random.randint(1, int(rand_range))
             dmg_deal = dmg_deal + rand
-        print("dmg dealt : " + str(dmg_deal))
+        print("dmg dealt : " + str(dmg_deal + bonus))
         return dmg_deal + bonus
+
+    @staticmethod
+    def bonus(carac):
+        if carac < 10:
+            return 0
+        if carac >= 10 & carac < 15:
+            return 1
+        if carac >= 15 & carac < 20:
+            return 2
+        if carac >= 20 & carac < 25:
+            return 3
+        if carac >= 25 & carac < 40:
+            return 4
+        else:
+            return 5
 
     def add_one_point_to_force(self) -> None:
         if self.__verify_allowed_points__():
@@ -193,3 +222,34 @@ class Person(DefaultController):
     def add_one_point_to_pdv(self) -> None:
         if self.__verify_allowed_points__():
             self.pdv += 1
+
+    def update(filename,perso):
+        json_file_path = open(os.path.join('Datas', 'Perso', filename.lower()+'.json'),"w")
+        print('my perso from update ' + str(perso))
+        json_to_save = {
+            'name': perso.get('name'),
+            'age': perso.get('age'),
+            'yeux': perso.get('yeux'),
+            'taille': perso.get('taille'),
+            'poids': perso.get('poids'),
+            'peau': perso.get('peau'),
+            'race': perso.get('race'),
+            'classe': perso.get('classe'),
+            'alignement': perso.get('alignement'),
+            'pe': perso.get('pe'),
+            'force': perso.get('force'),
+            'dexterite': perso.get('dexterite'),
+            'intelligence': perso.get('intelligence'),
+            'charisme': perso.get('charisme'),
+            'constitution': perso.get('constitution'),
+            'sagesse': perso.get('sagesse'),
+            'vitesse': perso.get('vitesse'),
+            'pdv': perso.get('pdv'),
+            'armes': perso.get('armes'),
+            'inventaire': perso.get('inventaire')
+        }
+        print("my json to save " + str(json_to_save))
+
+        dump(json_to_save, json_file_path,indent=2)
+        debug(f'{json_file_path} Successfully saved')
+

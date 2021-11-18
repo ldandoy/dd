@@ -1,3 +1,6 @@
 {
-  "name": "Gobelin"
+  "name": "Gobelin",
+  "pdv": "5",
+  "attaque":"2d3+0",
+  "vitesse": "10"
 }
