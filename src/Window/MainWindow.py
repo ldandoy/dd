@@ -314,7 +314,7 @@ class MainWindow:
         canvas.create_image(0, 0, image=bg, anchor="nw")
         canvas.image = bg
 
-        labelTextSeller = Label(cityFrame, text="Bienvenue à Erthilia " + self.perso["name"] + ", où souhaites-tu "
+        labelTextSeller = Label(cityFrame, text="Bienvenue à Erthilia " + self.perso.get('name') + ", où souhaites-tu "
                                                                                                   "aller?",
                                      fg='black', bg='white')
         labelTextcityFrame_config = ('Calibri (Body)', 30, 'bold')
@@ -383,46 +383,46 @@ class MainWindow:
         BackButton = Button(sellerFrame, text="Retourner en ville", command=goTown, border=0,activebackground='#12c4c0',bg="#12c4c0")
         BackButton.place(x=850, y=550)
 
-
-        perso = self.perso
         json = LoadJson()
         sellerItems = json.load(os.path.join(self.base_folder, '../../Datas/PNJ/AmbroseSeller.json'))
 
         sellerFrame.place( x=0, y=0 )
         sellerFrame.lower()
 
+        print(self.perso)
+
+        # Récupération du wallet du perso s'il existe
+        persoWallet = self.perso.get("budget") if  self.perso.get("budget") else 0
+
+        labelBudget = Label( sellerFrame, text="Budget : " + str(persoWallet) + " $", fg='white', bg='black' )
+        labelBudget.config( font=('Calirbi (Body)', 28, 'bold') )
+        labelBudget.place( x=750, y=30 )
+
+        def buy():
+            print('acheter')
 
         for i, item in enumerate( sellerItems["inventaire"] ):
-            print( item )
-            label_itemName = Label( sellerFrame, text=item["name"], fg='white', bg='black' )
+            label_itemName = Label( sellerFrame, text=str(item["name"]) + " : ", fg='white', bg='black' )
             label_itemName.config( font=('Calirbi (Body)', 24, 'bold') )
             label_itemName.place( x=25, y=125 + (i * 40) )
-
-
-            print("name",label_itemName.winfo_reqwidth())
 
             label_itemQuantite = Label( sellerFrame, text="Quantité : " + str(item["quantite"]), fg='white',
                                         bg='black' )
             label_itemQuantite.config( font=('Calirbi (Body)', 24, 'bold') )
             label_itemQuantite.place( x=label_itemName.winfo_reqwidth() + 50, y=125 + (i * 40) )
 
-            print("quantite",label_itemQuantite.winfo_reqwidth())
 
-            label_itemPrix = Label( sellerFrame, text="Prix : " + str(item[ "prix" ]), fg='white', bg='black' )
+            label_itemPrix = Label( sellerFrame, text="Prix : " + str(item[ "prix" ]) + " $", fg='white', bg='black' )
             label_itemPrix.config( font=('Calirbi (Body)', 24, 'bold') )
             label_itemPrix.place( x=label_itemName.winfo_reqwidth() + label_itemQuantite.winfo_reqwidth()+75,
                                   y=125 + (i * 40) )
-            print("lTotal,",label_itemName.winfo_reqwidth() + label_itemName.winfo_reqwidth())
-            # itemTab.insert( i, Button( Combatframe,
-            #                            text=sellerItems[ i ].get( 'name' ),
-            #                            command=lambda name=sellerItems[ i ].get( 'name' ),
-            #                                           amount=sellerItems[ i ].get( 'amount' ), hp=combat.hero_hp: healHero(
-            #                                name, amount, hp ),
-            #                            fg='black',
-            #                            border=0,
-            #                            activebackground='#12c4c0',
-            #                            bg="#12c4c0" ) )
-            # itemTab[ i ].place( x=850, y=500 + (i * 25) )
+
+            BuyButton = Button( sellerFrame, text="Acheter", command=buy, border=0,
+                                 activebackground='#12c4c0', bg="#12c4c0" )
+            BuyButton.place(  x=label_itemName.winfo_reqwidth() + label_itemQuantite.winfo_reqwidth() +
+                                label_itemPrix.winfo_reqwidth() + 100,
+                                  y=128 + (i * 40) )
+
 
     def questFrame(self):
         questFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
