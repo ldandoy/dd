@@ -9,5 +9,5 @@ class Stats:
         json = LoadJson()
         self.__stat = json.load(os.path.join('Datas', 'Stats', 'global.json'))
 
-    def getStat(self):
+    def getStats(self):
         return self.__stat
