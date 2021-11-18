@@ -61,12 +61,17 @@ class MainWindow:
 
             myButton.place(x=x, y=y)
 
+
+        def enterRewards():
+            print("alo")
+            self.rewards()
+
         bttn(0, 80, 'A C E R', "#0f9d9a", "#12c4c0", None)
         bttn(0, 117, 'D E L L', "#0f9d9a", "#12c4c0", None)
         bttn(0, 154, 'A P P L E', "#0f9d9a", "#12c4c0", None)
         bttn(0, 191, 'A S U S', "#0f9d9a", "#12c4c0", None)
         bttn(0, 228, 'A C E R', "#0f9d9a", "#12c4c0", None)
-        bttn(0, 265, 'R E C O M P E N S E S', "#0f9d9a", "#12c4c0", None)
+        bttn(0, 265, 'R E C O M P E N S E S', "#0f9d9a", "#12c4c0", enterRewards)
 
 
         Button(f1, text="close", command=dele, border=0, activebackground='#12c4c0', bg="#12c4c0").place(x=5, y=10)
@@ -165,6 +170,13 @@ class MainWindow:
 
         PlayButton = Button(textwelcomeframe, text="Jouer", command=play, border=0, activebackground='#12c4c0', bg="#12c4c0")
         PlayButton.place(x=950, y=550)
+
+        def enter_rewards():
+            textwelcomeframe.destroy()
+            self.rewards()
+
+        PlayButton = Button(textwelcomeframe, text="Rewards", command=enter_rewards, border=0, activebackground='#12c4c0', bg="#12c4c0")
+        PlayButton.place(x=800, y=550)
 
 
     def choicePersoFrame(self):
@@ -1032,3 +1044,6 @@ class MainWindow:
         canvas1.pack(fill="both", expand=True)
         canvas1.create_image(0, 0, image=bg, anchor="nw")
         canvas1.image = bg
+
+
+
