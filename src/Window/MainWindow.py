@@ -401,13 +401,14 @@ class MainWindow:
 
             print("name",label_itemName.winfo_reqwidth())
 
-            label_itemQuantite = Label( sellerFrame, text=item["quantite"], fg='white', bg='black' )
+            label_itemQuantite = Label( sellerFrame, text="Quantité : " + str(item["quantite"]), fg='white',
+                                        bg='black' )
             label_itemQuantite.config( font=('Calirbi (Body)', 24, 'bold') )
             label_itemQuantite.place( x=label_itemName.winfo_reqwidth() + 50, y=125 + (i * 40) )
 
             print("quantite",label_itemQuantite.winfo_reqwidth())
 
-            label_itemPrix = Label( sellerFrame, text=item[ "prix" ], fg='white', bg='black' )
+            label_itemPrix = Label( sellerFrame, text="Prix : " + str(item[ "prix" ]), fg='white', bg='black' )
             label_itemPrix.config( font=('Calirbi (Body)', 24, 'bold') )
             label_itemPrix.place( x=label_itemName.winfo_reqwidth() + label_itemQuantite.winfo_reqwidth()+75,
                                   y=125 + (i * 40) )
