@@ -1,3 +1,4 @@
+import json
 import time
 from tkinter import *
 import pygame
@@ -11,8 +12,14 @@ from Rooms.rooms import Room
 from Combat.combat import *
 from Utils.GetLastFeatures import GetLastFeatures
 from functools import partial
+from Inventory.Inventory import Inventory
+
+from src.Inventory.Inventory import Inventory
+from src.Perso.Perso import Perso
 
 from Combat.combat import Combat
+
+from Utils.logger import debug
 
 
 class MainWindow:
@@ -94,8 +101,8 @@ class MainWindow:
         canvas1.create_image( 0, 0, image=bg, anchor="nw" )
         canvas1.image = bg
 
-        label_textwelcomeframe = Label( textwelcomeframe, text="Bienvenue dans Donjon et Dragon", fg='dark grey',
-                                        bg=None )
+        label_textwelcomeframe = Label( textwelcomeframe, text="Bienvenue dans Donjon et Dragon", fg='black',
+                                        bg="white" )
         label_textwelcomeframe_config = ('Calirbi (Body)', 36, 'bold')
         label_textwelcomeframe.config( font=label_textwelcomeframe_config )
         label_textwelcomeframe.place( x=250, y=100 )
@@ -274,7 +281,7 @@ class MainWindow:
         canvas.create_image(0, 0, image=bg, anchor="nw")
         canvas.image = bg
 
-        labelTextSeller = Label(cityFrame, text="Bienvenue à Erthilia " + self.perso["name"] + ", où souhaites-tu "
+        labelTextSeller = Label(cityFrame, text="Bienvenue à Erthilia " + self.perso.get('name') + ", où souhaites-tu "
                                                                                                   "aller?",
                                      fg='black', bg='white')
         labelTextcityFrame_config = ('Calibri (Body)', 30, 'bold')
@@ -286,6 +293,11 @@ class MainWindow:
             cityFrame.destroy()
             self.rooms = Room()
             self.questStartedFrame()
+
+        def SellerChoice():
+            cityFrame.pack_forget()
+            cityFrame.destroy()
+            self.SellerFrame()
 
         questCharPath = PhotoImage(file=os.path.join( self.base_folder, '../medias/questGiverChar.png'))
         questIconButton = Button( cityFrame,
@@ -305,7 +317,8 @@ class MainWindow:
         sellerIcon = PhotoImage(file=os.path.join( self.base_folder, '../medias/sellerChar.png'))
         sellerIconButton = Button( cityFrame,
                                text="test",
-                               image=sellerIcon
+                               image=sellerIcon,
+                               command=SellerChoice
                                )
         sellerIconButton.image = sellerIcon
         sellerIconButton.place( x=650, y=150, width=250, height=250, )
@@ -318,6 +331,65 @@ class MainWindow:
 
         cityFrame.place(x=0, y=0)
         cityFrame.lower()
+
+    def SellerFrame(self):
+        sellerFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+
+        image_path = os.path.join(self.base_folder, '../medias/sellerBackground.png')
+        bg = PhotoImage(file=r'' + image_path)
+        canvas = Canvas(sellerFrame, width=1024, height=600)
+        canvas.pack(fill="both", expand=True)
+        canvas.create_image(0, 0, image=bg, anchor="nw")
+        canvas.image = bg
+
+        def goTown():
+            sellerFrame.pack_forget()
+            sellerFrame.destroy()
+            self.cityFrame()
+
+        BackButton = Button(sellerFrame, text="Retourner en ville", command=goTown, border=0,activebackground='#12c4c0',bg="#12c4c0")
+        BackButton.place(x=850, y=550)
+
+        json = LoadJson()
+        sellerItems = json.load(os.path.join(self.base_folder, '../../Datas/PNJ/AmbroseSeller.json'))
+
+        sellerFrame.place( x=0, y=0 )
+        sellerFrame.lower()
+
+        print(self.perso)
+
+        # Récupération du wallet du perso s'il existe
+        persoWallet = self.perso.get("budget") if  self.perso.get("budget") else 0
+
+        labelBudget = Label( sellerFrame, text="Budget : " + str(persoWallet) + " $", fg='white', bg='black' )
+        labelBudget.config( font=('Calirbi (Body)', 28, 'bold') )
+        labelBudget.place( x=750, y=30 )
+
+        def buy():
+            print('acheter')
+
+        for i, item in enumerate( sellerItems["inventaire"] ):
+            label_itemName = Label( sellerFrame, text=str(item["name"]) + " : ", fg='white', bg='black' )
+            label_itemName.config( font=('Calirbi (Body)', 24, 'bold') )
+            label_itemName.place( x=25, y=125 + (i * 40) )
+
+            label_itemQuantite = Label( sellerFrame, text="Quantité : " + str(item["quantite"]), fg='white',
+                                        bg='black' )
+            label_itemQuantite.config( font=('Calirbi (Body)', 24, 'bold') )
+            label_itemQuantite.place( x=label_itemName.winfo_reqwidth() + 50, y=125 + (i * 40) )
+
+
+            label_itemPrix = Label( sellerFrame, text="Prix : " + str(item[ "prix" ]) + " $", fg='white', bg='black' )
+            label_itemPrix.config( font=('Calirbi (Body)', 24, 'bold') )
+            label_itemPrix.place( x=label_itemName.winfo_reqwidth() + label_itemQuantite.winfo_reqwidth()+75,
+                                  y=125 + (i * 40) )
+
+            BuyButton = Button( sellerFrame, text="Acheter", command=buy, border=0,
+                                 activebackground='#12c4c0', bg="#12c4c0" )
+            BuyButton.place(  x=label_itemName.winfo_reqwidth() + label_itemQuantite.winfo_reqwidth() +
+                                label_itemPrix.winfo_reqwidth() + 100,
+                                  y=128 + (i * 40) )
+
 
     def questFrame(self):
         questFrame = Frame(self.q, width=1024, height=600, bg="#FF0000")
@@ -354,6 +426,18 @@ class MainWindow:
 
         questFrame.place(x=0, y=0)
         questFrame.lower()
+
+        def inventaire():
+            questframe.pack_forget()
+            questframe.destroy()
+            perso = Perso("andolorion.json")
+            inventory = Inventory(perso, self.q)
+            inventory.show()
+            perso.save()
+
+        InventaireButton = Button(questframe, text="Inventaire", command=inventaire, border=0, activebackground='#12c4c0',
+                              bg="#12c4c0")
+        InventaireButton.place(x=850, y=500)
 
     def questStartedFrame(self):
 
@@ -561,7 +645,7 @@ class MainWindow:
                 initLabel.config(text="Le monstre gagne le jet d'initiative")
                 dmg = startHp - initHp
                 updateLabel(startHp, dmg, False)
-                heroHpLabel.config(text=str(initHp))
+                heroHpLabel.config(text=str(initHp)  + '/' + str(heroHp))
 
         def updateLabel(hp,dmg,isHero):
             if isHero:
@@ -571,7 +655,7 @@ class MainWindow:
             else:
                 monsterDmgLabel.place(x=300, y=300)
                 monsterDmgLabel.config(text="monster deal : " + str(dmg))
-                heroHpLabel.config(text=str(hp))
+                heroHpLabel.config(text=str(hp) + '/' + str(heroHp))
 
         def attack(selectWeapon,button):
             AttackButton.place(x=750, y=500)
@@ -585,6 +669,8 @@ class MainWindow:
             updateLabel(monsterHp, herodmgDeal, True)
             if combat.monster_is_dead() == 0:
                 print("monster is dead")
+                hero["pdv"] = combat.hero_hp
+                Person.update(hero.get('name'), hero)
                 Combatframe.destroy()
                 self.winFrame(isBoss)
             else:
@@ -606,23 +692,79 @@ class MainWindow:
             for count, weapon in enumerate(weaponList):
                 print(weaponList[count].get('name'))
                 selectButton.insert(count, Button(Combatframe, text=weapon.get('name'),
-                                                  command=lambda weapon=weapon, count=count: attack(weapon.get('name'),selectButton),
-                                                  border=0, activebackground='#12c4c0', bg="#12c4c0"))
+                                                command=lambda weapon=weapon, count=count: attack(weapon.get('name'),selectButton),
+                                                border=0, activebackground='#12c4c0', bg="#12c4c0"))
                 selectButton[count].place(x=x, y=500)
                 x += 100
 
-        def inventaire():
-            print("ceci est une ouverture d'inventaire")
-
         def fuite():
             print("Vous tentez de prendre la fuite")
+
+
+        ## Début -> Inventaire 
+        #
+        #
+        def inventory():
+            perso = self.perso
+            itemTab = []
+            inventory = Inventory(perso)
+            getItems = perso.get('inventaire')    
+
+            # Afficher mes objets sous forme de liste
+            for i, item in enumerate(getItems):
+                itemTab.insert(i,Button(Combatframe, 
+                                        text=getItems[i].get('name'), 
+                                        command=lambda name=getItems[i].get('name'), amount=getItems[i].get('amount'), hp=combat.hero_hp: healHero(name, amount, hp),
+                                        fg='black', 
+                                        border=0, 
+                                        activebackground='#12c4c0', 
+                                        bg="#12c4c0"))
+                itemTab[i].place(x=850, y= 500 + (i*25))
+            
+            # Faire disparaître les anciens boutons de la frame combat
+            AttackButton.place_forget()
+            InventaireButton.place_forget()
+            FuiteButton.place_forget()
+
+            # Utiliser une potion
+            def healHero(name, amount, hp):
+                initHp = combat.hero_hp
+                
+                combat.hero_hp = inventory.useItem(name, amount, hp)
+                
+                back()
+
+                return updateLabel(combat.hero_hp, initHp, False)
+
+            # Sortir de l'inventaire
+            def back():
+                for i, lbl in enumerate(itemTab):
+                    itemTab[i].place_forget()
+
+                returnButton.place_forget()
+                AttackButton.place(x=750, y=500)
+                InventaireButton.place(x=850, y=500)
+                FuiteButton.place(x=850, y=550)
+
+            # Bouton pour sortir de l'inventaire
+            returnButton = Button(  Combatframe, 
+                                    text="Retour", 
+                                    command=back, 
+                                    border=0, 
+                                    activebackground='#12c4c0', 
+                                    bg="#12c4c0" )
+            returnButton.place( x=750, y=500 )
+                     
+            #
+            #
+            ## Fin -> Inventaire
 
 
         AttackButton = Button(Combatframe, text="Attack", command=selectWeapon, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         AttackButton.place(x=750, y=500)
 
-        InventaireButton = Button(Combatframe, text="Inventaire", command=inventaire, border=0, activebackground='#12c4c0',
+        InventaireButton = Button(Combatframe, text="Inventaire", command=inventory, border=0, activebackground='#12c4c0',
                               bg="#12c4c0")
         InventaireButton.place(x=850, y=500)
 
@@ -640,7 +782,7 @@ class MainWindow:
         monsterDmgLabel.config(font=monsterDmgLabelfont)
 
 
-        heroHpLabel = Label(Combatframe, text=str(hero.get('pdv')), fg='white', bg='black')
+        heroHpLabel = Label(Combatframe, text=(str(hero.get('pdv')) + '/' + str(heroHp)), fg='white', bg='black')
         heroHpLabelfont = ('Calirbi (Body)', 24, 'bold')
         heroHpLabel.config(font=heroHpLabelfont)
         heroHpLabel.place(x=30, y=30)
@@ -654,8 +796,13 @@ class MainWindow:
         initLabelfont = ('Calirbi (Body)', 24, 'bold')
         initLabel.config(font=initLabelfont)
         initLabel.place(x=200, y=150)
+        if isBoss == 1:
+            nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.boss),
+                              fg='white', bg='black')
+        else:
+            nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.monsters[self.actualMonster]),
+                              fg='white', bg='black')
 
-        nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.monsters[self.actualMonster]), fg='white', bg='black')
         nameLabelfont = ('Calirbi (Body)', 24, 'bold')
         nameLabel.config(font=nameLabelfont)
         nameLabel.place(x=100, y=100)
@@ -723,12 +870,20 @@ class MainWindow:
         """
         Create new person page
         """
-        frame = Frame(self.q, width=1024, height=600, bg="#FFF")
+        frame = Frame(self.q, width=1024, height=600)
+
+        # background
+        bg_path = os.path.abspath(os.path.join('medias', 'new_person.png'))
+        bg = PhotoImage(file=bg_path)
+        background_label = tk.Label(self.q, image=bg)
+        background_label.place(x=0, y=0, relwidth=1, relheight=1)
+        background_label.image = bg
 
         # main message
         Label(self.q,
               text="Créer votre personnage",
-              bg="white",
+              bg='black',
+              fg='white',
               font=('Calibri (Body)', 24, 'bold')).pack()
 
         # main_message = tk.Text(self.q, text='Créer un personnage', fg='black')
@@ -737,155 +892,161 @@ class MainWindow:
         # name label
         name_label = tk.StringVar(self.q)
         name_label.set("Nom")
-        Label(self.q, textvariable=name_label, bg="white").pack()
+        Label(self.q, textvariable=name_label, bg="black", fg='white').pack()
 
         # name entry
         name = tk.StringVar(self.q)
-        Entry(self.q, textvariable=name, width=100, bd=3).pack()
+        Entry(self.q, textvariable=name, width=100, bd=0).pack()
 
         # age label
         age_label = tk.StringVar(self.q)
         age_label.set("Age")
-        Label(self.q, textvariable=age_label, bg="white").pack()
+        Label(self.q, textvariable=age_label, bg="black", fg='white').pack()
 
         # age entry
         age = tk.IntVar(self.q)
-        Entry(self.q, textvariable=age, width=100, bd=3).pack()
+        Entry(self.q, textvariable=age, width=100, bd=0).pack()
 
         # eyes label
         eyes_label = tk.StringVar(self.q)
         eyes_label.set("Yeux")
-        Label(self.q, textvariable=eyes_label, bg="white").pack()
+        Label(self.q, textvariable=eyes_label, bg="black", fg='white').pack()
 
         # eyes entry
         eyes = tk.StringVar(self.q)
-        Entry(self.q, textvariable=eyes, width=100, bd=3).pack()
+        Entry(self.q, textvariable=eyes, width=100, bd=0).pack()
 
         # height label
         height_label = tk.StringVar(self.q)
         height_label.set("Taille (en centimètres)")
-        Label(self.q, textvariable=height_label, bg="white").pack()
+        Label(self.q, textvariable=height_label, bg="black", fg='white').pack()
 
         # height entry
         height = tk.IntVar(self.q)
-        Entry(self.q, textvariable=height, width=100, bd=3).pack()
+        Entry(self.q, textvariable=height, width=100, bd=0).pack()
 
         # weight label
         weight_label = tk.StringVar(self.q)
         weight_label.set("Poids (en Kilogrammes)")
-        Label(self.q, textvariable=weight_label, bg="white").pack()
+        Label(self.q, textvariable=weight_label, bg="black", fg='white').pack()
 
         # weight entry
         weight = tk.IntVar(self.q)
-        Entry(self.q, textvariable=weight, width=100, bd=3).pack()
+        Entry(self.q, textvariable=weight, width=100, bd=0).pack()
 
         # skin label
         skin_label = tk.StringVar(self.q)
         skin_label.set("Couleur de peau")
-        Label(self.q, textvariable=skin_label, bg="white").pack()
+        Label(self.q, textvariable=skin_label, bg="black", fg='white').pack()
 
         # skin entry
         skin = tk.StringVar(self.q)
-        Entry(self.q, textvariable=skin, width=100, bd=3).pack()
+        Entry(self.q, textvariable=skin, width=100, bd=0).pack()
 
         # race label
         race_label = tk.StringVar(self.q)
         race_label.set("Origine ethnique")
-        Label(self.q, textvariable=race_label, bg="white").pack()
+        Label(self.q, textvariable=race_label, bg="black", fg='white').pack()
 
         # race entry
         race = tk.StringVar(self.q)
-        Entry(self.q, textvariable=race, width=100, bd=3).pack()
+        Entry(self.q, textvariable=race, width=100, bd=0).pack()
 
         # class label
         class_label = tk.StringVar(self.q)
         class_label.set("Classe")
-        Label(self.q, textvariable=class_label, bg="white").pack()
+        Label(self.q, textvariable=class_label, bg="black", fg='white').pack()
 
         # class entry
         class_entry = tk.StringVar(self.q)
-        Entry(self.q, textvariable=class_entry, width=100, bd=3).pack()
+        Entry(self.q, textvariable=class_entry, width=100, bd=0).pack()
 
         # alignment label
         alignment_label = tk.StringVar(self.q)
         alignment_label.set("Alignement")
-        Label(self.q, textvariable=alignment_label, bg="white").pack()
+        Label(self.q, textvariable=alignment_label, bg="black", fg='white').pack()
 
         # alignment entry
         alignment = tk.StringVar(self.q)
-        Entry(self.q, textvariable=alignment, width=100, bd=3).pack()
+        Entry(self.q, textvariable=alignment, width=100, bd=0).pack()
 
         # pe label
         pe_label = tk.StringVar(self.q)
         pe_label.set("PE")
-        Label(self.q, textvariable=pe_label, bg="white").pack()
+        Label(self.q, textvariable=pe_label, bg="black", fg='white').pack()
 
         # pe entry
         pe = tk.IntVar(self.q)
-        Entry(self.q, textvariable=pe, width=100, bd=3).pack()
+        Entry(self.q, textvariable=pe, width=100, bd=0).pack()
 
         # strength label
         strength_label = tk.StringVar(self.q)
         strength_label.set("Force")
-        Label(self.q, textvariable=pe_label, bg="white").pack()
+        Label(self.q, textvariable=pe_label, bg="black", fg='white').pack()
 
         # strength entry
         strength = tk.IntVar(self.q)
-        Entry(self.q, textvariable=strength, width=100, bd=3).pack()
+        Entry(self.q, textvariable=strength, width=100, bd=0).pack()
 
         # dexterity label
         dexterity_label = tk.StringVar(self.q)
         dexterity_label.set("Dextérité")
-        Label(self.q, textvariable=dexterity_label, bg="white").pack()
+        Label(self.q, textvariable=dexterity_label, bg="black", fg='white').pack()
 
         # dexterity entry
         dexterity = tk.IntVar(self.q)
-        Entry(self.q, textvariable=dexterity, width=100, bd=3).pack()
+        Entry(self.q, textvariable=dexterity, width=100, bd=0).pack()
 
         # intelligence label
         intelligence_label = tk.StringVar(self.q)
         intelligence_label.set("Intelligence")
-        Label(self.q, textvariable=intelligence_label, bg="white").pack()
+        Label(self.q, textvariable=intelligence_label, bg="black", fg='white').pack()
 
         # intelligence entry
         intelligence = tk.IntVar(self.q)
-        Entry(self.q, textvariable=intelligence, width=100, bd=3).pack()
+        Entry(self.q, textvariable=intelligence, width=100, bd=0).pack()
 
         # charisma label
         charisma_label = tk.StringVar(self.q)
         charisma_label.set("Charisme")
-        Label(self.q, textvariable=charisma_label, bg="white").pack()
+        Label(self.q, textvariable=charisma_label, bg="black", fg='white').pack()
 
         # charisma entry
         charisma = tk.IntVar(self.q)
-        Entry(self.q, textvariable=charisma, width=100, bd=3).pack()
+        Entry(self.q, textvariable=charisma, width=100, bd=0).pack()
 
         # constitution label
         constitution_label = tk.StringVar(self.q)
         constitution_label.set("Constitution")
-        Label(self.q, textvariable=constitution_label, bg="white").pack()
+        Label(self.q, textvariable=constitution_label, bg="black", fg='white').pack()
 
         # constitution entry
         constitution = tk.IntVar(self.q)
-        Entry(self.q, textvariable=constitution, width=100, bd=3).pack()
+        Entry(self.q, textvariable=constitution, width=100, bd=0).pack()
 
         # wisdom label
         wisdom_label = tk.StringVar(self.q)
         wisdom_label.set("Sagesse")
-        Label(self.q, textvariable=constitution_label, bg="white").pack()
+        Label(self.q, textvariable=constitution_label, bg="black", fg='white').pack()
 
         # wisdom entry
         wisdom = tk.IntVar(self.q)
-        Entry(self.q, textvariable=wisdom, width=100, bd=3).pack()
+        Entry(self.q, textvariable=wisdom, width=100, bd=0).pack()
 
         # speed label
         speed_label = tk.StringVar(self.q)
         speed_label.set("Vitesse")
-        Label(self.q, textvariable=speed_label, bg="white").pack()
+        Label(self.q, textvariable=speed_label, bg="black", fg='white').pack()
 
         # speed entry
         speed = tk.IntVar(self.q)
-        Entry(self.q, textvariable=speed, width=100, bd=3).pack()
+        Entry(self.q, textvariable=speed, width=100, bd=0).pack()
+
+        # for display errors
+        scrollbar = Scrollbar(self.q)
+        scrollbar.pack_forget()
+        scrollbar.pack(side=RIGHT, fill=Y)
+        errors_list = Listbox(self.q, yscrollcommand=scrollbar.set, width=65)
 
         # function executed when form submitted
         def create_person():
@@ -907,7 +1068,22 @@ class MainWindow:
                             wisdom,
                             speed
                             )
-            person.save()
+            # verify inputs
+            errors_messages = person.verify_inputs()
+
+            # if there are errors, then display them in a list box
+            if len(errors_messages) > 0:
+                errors_list.delete(0, END)
+                errors_list.insert(END, "ERREUR DE FORMULAIRE:")
+
+                for msg in errors_messages:
+                    errors_list.insert(END, msg)
+
+                errors_list.pack(side=LEFT, fill=BOTH)
+                scrollbar.config(command=errors_list.yview)
+
+            else:
+                person.save()
 
         # submit button
         tk.Button(self.q,
@@ -917,4 +1093,3 @@ class MainWindow:
                   command=create_person).pack()
 
         frame.place(x=0, y=0)
-        frame.lower()

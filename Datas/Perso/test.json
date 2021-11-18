@@ -9,14 +9,14 @@
   "classe": "",
   "alignement": "",
   "pe": 0,
-  "force": 0,
-  "dexterite": 0,
-  "intelligence": 0,
-  "charisme": 0,
-  "constitution": 0,
-  "sagesse": 0,
-  "vitesse": 0,
-  "pdv": 100,
+  "force": 2,
+  "dexterite": 2,
+  "intelligence": 2,
+  "charisme": 2,
+  "constitution": 2,
+  "sagesse": 2,
+  "vitesse": 2,
+  "pdv": 84,
   "armes": [
     {
       "name": "Epee courte",
@@ -29,5 +29,19 @@
       "test": "dexterite"
     }
   ],
-  "inventaire": []
+  "inventaire": [
+    {
+        "name": "potion",
+        "amount": 1
+    },
+    {
+        "name": "super-potion",
+        "amount": 1
+    },
+    {
+        "name": "mega-potion",
+        "amount": 1
+    }
+  ],
+  "budget" : 30
 }

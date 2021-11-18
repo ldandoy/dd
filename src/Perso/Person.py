@@ -9,6 +9,7 @@ from Utils.DefaultController import DefaultController
 from Utils.logger import debug
 
 
+
 class Person(DefaultController):
     """
         A class used to represent a person
@@ -20,6 +21,7 @@ class Person(DefaultController):
         save()
             Save person to local (JSON format).
     """
+
     def __init__(self,
                  name: tk.StringVar,
                  age: tk.IntVar,
@@ -63,12 +65,38 @@ class Person(DefaultController):
     @staticmethod
     def list_person() -> list:
         """Return the list of all person"""
-        folder = os.path.join('Datas', 'Perso')
+        folder = os.path.abspath(os.path.join('Datas', 'Perso'))
         return os.listdir(folder)
 
+    @staticmethod
     def perso_choose(filename):
         json = LoadJson()
-        return json.load(os.path.join('Datas', 'Perso', filename))
+        return json.load(os.path.abspath(os.path.join('Datas', 'Perso', filename)))
+
+    def skill_points_difference(self) -> int:
+        """
+        Get difference between all skills points and maximum allowed.
+        """
+        return self.__allowed_skills_points__ - (self.pe + self.force + self.dexterite + self.intelligence + self.charisme + self.constitution + self.sagesse + self.vitesse)
+
+    def verify_inputs(self) -> list:
+        """
+        Verify input before save
+        Returns list contains errors message or empty list
+        """
+        errors = []
+        if not self.name or self.name.strip() == '':
+            errors.append('Le nom ne peut pas etre vide')
+        if not self.age or self.age <= 0:
+            errors.append('L\'age doit etre supérieur à 0')
+        # verify skills points attribution
+        skill_points_difference = self.skill_points_difference()
+        if skill_points_difference < 0:
+            abs_skill_points_difference = abs(skill_points_difference)
+            points_msg = 'point' if abs_skill_points_difference == 1 else 'points'
+            errors.append(f'Points de compétences insuffisant,'
+                          f'vous devez retirer {abs_skill_points_difference} {points_msg}')
+        return errors
 
     def save(self):
         transformed_name = self.__get_transformed_name()
@@ -112,7 +140,20 @@ class Person(DefaultController):
                         'test': 'dexterite'
                     }
                 ],
-                'inventaire': []
+                'inventaire': [
+                    {
+                        "name": "potion",
+                        "amount": 1
+                    },
+                    {
+                        "name": "super-potion",
+                        "amount": 1
+                    },
+                    {
+                        "name": "mega-potion",
+                        "amount": 1
+                    }
+                ]
             }
 
             json_file_path = os.path.join('Datas', 'Perso', f'{transformed_name}.json')
@@ -137,17 +178,6 @@ class Person(DefaultController):
             if self.__get_transformed_name() in person:
                 found = True
         return found
-
-    def __verify_allowed_points__(self) -> bool:
-        """
-        Verify that allowed points is not 0.
-        If total points are less than 1, then remove 1 point.
-        """
-        debug('Verify allowed points, current=%d', self.__allowed_skills_points__)
-        is_valid = self.__allowed_skills_points__ > 1
-        if is_valid:
-            self.__allowed_skills_points__ -= 1
-        return is_valid
 
     @staticmethod
     def dice(jet):
@@ -179,35 +209,33 @@ class Person(DefaultController):
         else:
             return 5
 
-    def add_one_point_to_force(self) -> None:
-        if self.__verify_allowed_points__():
-            self.force += 1
+    @staticmethod
+    def update(filename, perso):
+        json_file_path = open(os.path.join('Datas', 'Perso', filename.lower() + '.json'), "w")
+        print('my perso from update ' + str(perso))
+        json_to_save = {
+            'name': perso.get('name'),
+            'age': perso.get('age'),
+            'yeux': perso.get('yeux'),
+            'taille': perso.get('taille'),
+            'poids': perso.get('poids'),
+            'peau': perso.get('peau'),
+            'race': perso.get('race'),
+            'classe': perso.get('classe'),
+            'alignement': perso.get('alignement'),
+            'pe': perso.get('pe'),
+            'force': perso.get('force'),
+            'dexterite': perso.get('dexterite'),
+            'intelligence': perso.get('intelligence'),
+            'charisme': perso.get('charisme'),
+            'constitution': perso.get('constitution'),
+            'sagesse': perso.get('sagesse'),
+            'vitesse': perso.get('vitesse'),
+            'pdv': perso.get('pdv'),
+            'armes': perso.get('armes'),
+            'inventaire': perso.get('inventaire')
+        }
+        print("my json to save " + str(json_to_save))
 
-    def add_one_point_to_dexterite(self) -> None:
-        if self.__verify_allowed_points__():
-            self.dexterite += 1
-
-    def add_one_point_to_intelligence(self) -> None:
-        if self.__verify_allowed_points__():
-            self.intelligence += 1
-
-    def add_one_point_to_charisme(self) -> None:
-        if self.__verify_allowed_points__():
-            self.charisme += 1
-
-    def add_one_point_to_constitution(self) -> None:
-        if self.__verify_allowed_points__():
-            self.constitution += 1
-
-    def add_one_point_to_sagesse(self) -> None:
-        if self.__verify_allowed_points__():
-            self.sagesse += 1
-
-    def add_one_point_to_vitesse(self) -> None:
-        if self.__verify_allowed_points__():
-            self.vitesse += 1
-
-    def add_one_point_to_pdv(self) -> None:
-        if self.__verify_allowed_points__():
-            self.pdv += 1
-
+        dump(json_to_save, json_file_path, indent=2)
+        debug(f'{json_file_path} Successfully saved')
