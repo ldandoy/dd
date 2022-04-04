@@ -204,13 +204,14 @@ class Person(DefaultController):
     def dice(jet):
         bonus_split = jet.split("+")
         my_split = bonus_split[0].split("d")
-        nb_dice = my_split[0]
-        rand_range = my_split[1]
+        nb_dice = min(1, int(my_split[0]))
+        rand_range = min(1, int(my_split[1]))
         dmg_deal = 0
         bonus = int(bonus_split[1])
-
-        for x in range(int(nb_dice)):
-            rand = random.randint(1, int(rand_range))
+        print(nb_dice)
+        print(my_split)
+        for x in range(nb_dice):
+            rand = random.randint(1, rand_range+1)
             dmg_deal = dmg_deal + rand
         print("dmg dealt : " + str(dmg_deal + bonus))
         return dmg_deal + bonus
