@@ -235,7 +235,7 @@ class MainWindow:
             """
             This function load the sound in background
             """
-            pygame.mixer.music.load(os.path.join(self.base_folder, '../medias/audio/epic.mp3'))
+            pygame.mixer.music.load(os.path.join(self.base_folder, '../medias/audio/epic.ogg'))
             pygame.mixer.music.play(loops=0)
 
         playSong()
