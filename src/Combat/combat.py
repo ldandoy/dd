@@ -1,5 +1,5 @@
-from Perso.Person import Person
-from Utils.loadJson import LoadJson
+from src.Perso.person import Person
+from src.Utils.load_json import LoadJson
 
 class Combat:
     j = LoadJson()
