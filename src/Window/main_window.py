@@ -247,8 +247,8 @@ class MainWindow:
 
         last_perso = data['last_perso']
 
-        bttn(0, 80, 'Dernier JSON chargé : ' + last_perso, "#939e9e", "#bed1d1", None)
-        bttn(0, 117, 'Argent disponible :', "#939e9e", "#bed1d1", None)
+        bttn(0, 80, f' Dernier JSON chargé : {last_perso}', "#939e9e", "#bed1d1", None)
+        bttn(0, 117, 'Argent disponible : ', "#939e9e", "#bed1d1", None)
         bttn(0, 154, 'Points de santé :', "#939e9e", "#bed1d1", None)
         bttn(0, 191, 'Prochain ennemi :', "#939e9e", "#bed1d1", None)
         # bttn(0, 228, 'foo :', "#939e9e", "#bed1d1", None)
