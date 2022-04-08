@@ -1,9 +1,9 @@
-from Utils.loadJson import LoadJson
+from src.Utils.load_json import LoadJson
 from itertools import islice
 import os
 
 # Retrieve lasts features from info.json file as string, call it with a number and a key
-# exemple : Last 3 features - GetLastFeaturesByCount(3, "content")
+# example : Last 3 features - GetLastFeaturesByCount(3, "content")
 def GetLastFeatures( features_count = None ):
     print(features_count)
     features_array = list()

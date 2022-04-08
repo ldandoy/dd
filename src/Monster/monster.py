@@ -1,4 +1,4 @@
-from Utils.loadJson import LoadJson
+from src.Utils.load_json import LoadJson
 import os
 
 

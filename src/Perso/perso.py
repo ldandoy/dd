@@ -1,7 +1,7 @@
 import json
-
-from Utils.loadJson import LoadJson
 import os
+
+from src.Utils.load_json import LoadJson
 
 
 class Perso:
