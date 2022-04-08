@@ -19,6 +19,7 @@ from src.Window.character_selection import character_selection_frame
 from src.Window.news_frame import newsShowMoreFrame
 from src.Utils.logger import debug
 from src.Window.quest import quest_frame, start_quest_frame
+from src.Perso.person import Person
 
 
 # TODO: a lot of refactoring in this folder :pensive:
@@ -34,6 +35,7 @@ class MainWindow:
         # Add no size update
 
         Button(self.q, command=self.toogleWin, text='Menu', border=0, bg="#12c4c0").place(x=5, y=10)
+        Button(self.q, command=self.debugWin, text='Debug', border=0, bg="#12c4c0").place(x=25, y=550)
 
         self.textWelcomeFrame()
 
@@ -204,3 +206,52 @@ class MainWindow:
         PlayButton = Button(textwelcomeframe, text="Jouer", command=play, border=0, activebackground='#12c4c0',
                             bg="#12c4c0")
         PlayButton.place(x=950, y=550)
+
+    def debugWin(self):
+        f1 = Frame(self.q, width=300, height=600, bg='#bed1d1')
+        f1.place(x=0, y=2)
+
+        def delete():
+            f1.pack_forget()
+            f1.destroy()
+            if (self.newsToggleFrameOpen):
+                self.newsToggleFrame.pack_forget()
+                self.newsToggleFrame.destroy()
+
+        def bttn(x, y, text, bcolor, fcolor, cmd):
+            def onEnter(e):
+                myButton['background'] = bcolor  # ffcc66
+                myButton['foreground'] = '#262626'  # 000d33
+
+            def onLeaves(e):
+                myButton['background'] = fcolor
+                myButton['foreground'] = '#262626'
+
+            myButton = Button(f1,
+                              text=text,
+                              width=42,
+                              height=2,
+                              fg="#262626",
+                              bg=fcolor,
+                              border=0,
+                              activeforeground="#262626",
+                              activebackground=bcolor,
+                              command=cmd)
+
+            myButton.bind("<Enter>", onEnter)
+            myButton.bind("<Leave>", onLeaves)
+            myButton.place(x=x, y=y)
+
+        with open('./Datas/Update/lastPerso.json', 'r') as f:
+            data = json.load(f)
+
+        last_perso = data['last_perso']
+
+        bttn(0, 80, 'Dernier JSON chargé : ' + last_perso, "#939e9e", "#bed1d1", None)
+        bttn(0, 117, 'Argent disponible :', "#939e9e", "#bed1d1", None)
+        bttn(0, 154, 'Points de santé :', "#939e9e", "#bed1d1", None)
+        bttn(0, 191, 'Prochain ennemi :', "#939e9e", "#bed1d1", None)
+        # bttn(0, 228, 'foo :', "#939e9e", "#bed1d1", None)
+        # bttn(0, 265, 'bar :', "#939e9e", "#bed1d1", None)
+
+        Button(f1, text="Fermer", command=delete, border=0, activebackground='#bed1d1', bg="#bed1d1").place(x=5, y=10)

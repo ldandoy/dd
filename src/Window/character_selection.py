@@ -13,6 +13,17 @@ from src.Window.town import cityFrame
 
 
 def character_selection_frame(self):
+
+    def emptyingJSON():
+        open('./Datas/Update/lastPerso.json', 'w').close()
+
+    def updateJSON(last):
+            aDict = {"last_perso": last}
+            jsonString = json.dumps(aDict)
+            jsonFile = open("./Datas/Update/lastPerso.json", "r+")
+            jsonFile.write(jsonString)
+            jsonFile.close()
+
     character_frame = Frame(self.q, width=1024, height=600)
     image2_path = os.path.join(self.base_folder, '../medias/forest.png')
     bg2 = PhotoImage(file=image2_path)
@@ -20,6 +31,7 @@ def character_selection_frame(self):
     canvas2.pack(fill="both", expand=True)
     canvas2.create_image(0, 0, image=bg2, anchor="nw")
     canvas2.image = bg2
+
 
     # About character -------
     card = Canvas(character_frame, width=650, height=154)
@@ -56,6 +68,8 @@ def character_selection_frame(self):
         card.delete('all')
         ChoiceButton['state'] = NORMAL
         self.perso = Person.perso_choose(perso)
+        emptyingJSON()
+        updateJSON(perso)
         if 'description' in self.perso.keys():
             descr = self.descr = self.perso['description']
             card.create_text(199, 26, fill="black", font="Helvetica",
