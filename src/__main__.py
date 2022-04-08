@@ -1,11 +1,11 @@
-"""MainWindow.py
+"""main_window.py
 
 Start file of the project
 """
 import json
 
-from Window.MainWindow import MainWindow
-from Monster.Monster import Monster
+from src.Monster.monster import Monster
+from src.Window.main_window import MainWindow
 
 if __name__ == '__main__':
     print("Bienvenue dans Donjon & Dragon")
