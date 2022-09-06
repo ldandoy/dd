@@ -95,7 +95,7 @@ def character_selection_frame(self):
         character_frame.destroy()
 
         # Switch to character creation window
-        new_character_frame()
+        new_character_frame(self)
 
     # Button in choice PersoFrame window ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice,
     # border=0, activebackground='#12c4c0', bg="#12c4c0")

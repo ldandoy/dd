@@ -111,7 +111,7 @@ class Person(DefaultController):
 
         # verify skills points attribution
         skill_points_difference = self.skill_points_difference()
-        if skill_points_difference < 0:
+        if skill_points_difference < 0 and not skill_points_difference == -400:
             abs_skill_points_difference = abs(skill_points_difference)
             points_msg = 'point' if abs_skill_points_difference == 1 else 'points'
             errors.append(f'Points de compétences insuffisant,'
