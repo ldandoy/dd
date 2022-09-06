@@ -4,9 +4,9 @@ from re import sub
 from json import dump
 import random
 
-from src.Utils.load_json import LoadJson
-from src.Utils.default_controller import DefaultController
-from src.Utils.logger import debug
+from Utils.load_json import LoadJson
+from Utils.default_controller import DefaultController
+from Utils.logger import debug
 
 
 class Person(DefaultController):

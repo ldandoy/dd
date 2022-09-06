@@ -7,12 +7,12 @@ import tkinter as tk
 from random import *
 from functools import partial
 
-from src.Combat.combat import Combat
-from src.Inventory.inventory import Inventory
-from src.Perso.perso import Perso
-from src.Perso.person import Person
-from src.Rooms.rooms import Room
-from src.Utils.load_json import LoadJson
+from Combat.combat import Combat
+from Inventory.inventory import Inventory
+from Perso.perso import Perso
+from Perso.person import Person
+from Rooms.rooms import Room
+from Utils.load_json import LoadJson
 
 
 def quest_frame(self):

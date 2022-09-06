@@ -4,8 +4,8 @@ Start file of the project
 """
 import json
 
-from src.Monster.monster import Monster
-from src.Window.main_window import MainWindow
+from Monster.monster import Monster
+from Window.main_window import MainWindow
 
 if __name__ == '__main__':
     print("Bienvenue dans Donjon & Dragon")

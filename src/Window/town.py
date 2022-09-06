@@ -7,9 +7,9 @@ import tkinter as tk
 from random import *
 from functools import partial
 
-from src.Rooms.rooms import Room
-from src.Utils.load_json import LoadJson
-from src.Window.quest import start_quest_frame
+from Rooms.rooms import Room
+from Utils.load_json import LoadJson
+from Window.quest import start_quest_frame
 
 
 def cityFrame(self):

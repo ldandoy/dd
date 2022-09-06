@@ -7,18 +7,18 @@ import tkinter as tk
 from random import *
 from functools import partial
 
-from src.Perso.perso import Perso
-from src.Perso.person import Person
-from src.Utils.last_features import GetLastFeatures
-from src.Utils.load_json import LoadJson
-from src.Inventory.inventory import Inventory
-from src.Rooms.rooms import Room
-from src.Combat.combat import Combat
-from src.Window.character_selection import character_selection_frame
+from Perso.perso import Perso
+from Perso.person import Person
+from Utils.last_features import GetLastFeatures
+from Utils.load_json import LoadJson
+from Inventory.inventory import Inventory
+from Rooms.rooms import Room
+from Combat.combat import Combat
+from Window.character_selection import character_selection_frame
 
-from src.Window.news_frame import newsShowMoreFrame
-from src.Utils.logger import debug
-from src.Window.quest import quest_frame, start_quest_frame
+from Window.news_frame import newsShowMoreFrame
+from Utils.logger import debug
+from Window.quest import quest_frame, start_quest_frame
 
 
 # TODO: a lot of refactoring in this folder :pensive:

@@ -7,9 +7,9 @@ import tkinter as tk
 from random import *
 from functools import partial
 
-from src.Perso.person import Person
-from src.Window.new_character import new_character_frame
-from src.Window.town import cityFrame
+from Perso.person import Person
+from Window.new_character import new_character_frame
+from Window.town import cityFrame
 
 
 def character_selection_frame(self):

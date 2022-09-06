@@ -7,9 +7,9 @@ import tkinter as tk
 from random import *
 from functools import partial
 
-from src.Combat.combat import Combat
-from src.Inventory.inventory import Inventory
-from src.Perso.person import Person
-from src.Window.quest import start_quest_frame
+from Combat.combat import Combat
+from Inventory.inventory import Inventory
+from Perso.person import Person
+from Window.quest import start_quest_frame
 
 

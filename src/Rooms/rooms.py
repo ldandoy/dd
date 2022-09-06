@@ -1,4 +1,4 @@
-from src.Utils.load_json import LoadJson
+from Utils.load_json import LoadJson
 from random import *
 
 
