@@ -10,6 +10,7 @@ from functools import partial
 from Perso.person import Person
 from Window.new_character import new_character_frame
 from Window.town import cityFrame
+from Utils.Sound import Sound
 
 
 def character_selection_frame(self):
@@ -34,9 +35,10 @@ def character_selection_frame(self):
     pygame.mixer.init()
 
     # Play song
-    pygame.mixer.music.set_volume(0.5)
-    pygame.mixer.music.load(os.path.join(self.base_folder, '../medias/audio/epic.ogg'))
-    pygame.mixer.music.play(loops=0)
+    # pygame.mixer.music.set_volume(0.5)
+    # pygame.mixer.music.load(os.path.join(self.base_folder, '../medias/audio/epic.ogg'))
+    # pygame.mixer.music.play(loops=0)
+    Sound.background(self.base_folder, "epic.ogg")
 
     def choice() -> None:
         """
@@ -53,6 +55,8 @@ def character_selection_frame(self):
 
     # select champion ------
     def selected(perso, count) -> None:
+        Sound.play(self.base_folder, "clic_person", volume=1)
+
         card.delete('all')
         ChoiceButton['state'] = NORMAL
         self.perso = Person.perso_choose(perso)
@@ -96,6 +100,7 @@ def character_selection_frame(self):
 
         # Switch to character creation window
         new_character_frame(self)
+        Sound.play(self.base_folder, "button_menu")
 
     # Button in choice PersoFrame window ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice,
     # border=0, activebackground='#12c4c0', bg="#12c4c0")

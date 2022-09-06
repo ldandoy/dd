@@ -1,0 +1,48 @@
+{
+  "name": "Coco",
+  "age": 12,
+  "yeux": "vert",
+  "taille": 170,
+  "poids": 20,
+  "peau": "veirt",
+  "race": "vert",
+  "classe": "vert",
+  "alignement": "vert",
+  "pe": 18,
+  "force": 1,
+  "dexterite": 1,
+  "intelligence": 1,
+  "charisme": 1,
+  "constitution": 1,
+  "sagesse": 1,
+  "vitesse": 1,
+  "pdv": 100,
+  "description": "Je m'appelle Coco, je suis un vert et je ne vis que pour servir les miens. Que les verts vivent \u00e0 jamais !! ",
+  "armes": [
+    {
+      "name": "Epee courte",
+      "degat": "1d10",
+      "test": "force"
+    },
+    {
+      "name": "Arc Long",
+      "degat": "1d10",
+      "test": "dexterite"
+    }
+  ],
+  "inventaire": [
+    {
+      "name": "potion",
+      "amount": 1
+    },
+    {
+      "name": "super-potion",
+      "amount": 1
+    },
+    {
+      "name": "mega-potion",
+      "amount": 1
+    }
+  ],
+  "budget": 30
+}
