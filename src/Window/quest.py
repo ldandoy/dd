@@ -298,23 +298,7 @@ def combat(self, isBoss):
         inventory = Inventory(perso)
         getItems = perso.get('inventaire')
 
-        # Afficher mes objets sous forme de liste
-        for i, item in enumerate(getItems):
-            itemTab.insert(i, Button(Combatframe,
-                                     text=getItems[i].get('name'),
-                                     command=lambda name=getItems[i].get('name'), amount=getItems[i].get('amount'),
-                                                    hp=combat.hero_hp: healHero(name, amount, hp),
-                                     fg='black',
-                                     border=0,
-                                     activebackground='#12c4c0',
-                                     bg="#12c4c0"))
-            itemTab[i].place(x=850, y=500 + (i * 25))
-
-        # Faire disparaître les anciens boutons de la frame combat
-        AttackButton.place_forget()
-        InventaireButton.place_forget()
-        FuiteButton.place_forget()
-
+        
         # Utiliser une potion
         def healHero(name, amount, hp):
             initHp = combat.hero_hp
