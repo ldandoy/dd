@@ -3,7 +3,7 @@
   "title": "Lancement du projet 1",
   "content": "Voici le lancement du projet 1, c'est incroyable, extraordinaire !",
   "author": "Loïc DANDOY",
-  "picture": ""
+  "picture": "news_1.png"
 },
   {
   "date": "09/09/2021",
@@ -21,22 +21,22 @@
 },
   {
   "date": "09/09/2021",
-  "title": "Lancement du projet 4",
   "content": "Voici le lancement du projet 4, c'est incroyable, extraordinaire !",
-  "author": "Loïc DANDOY",
-  "picture": "news_1.png"
+    "author": "Loïc DANDOY",
+    "title": "Lancement du projet 4",
+    "picture": "news_1.png"
 },
   {
     "date": "17/09/2021",
     "content": "Création des news",
-    "auteur": "Axel LANYAN",
+    "author": "Axel LANYAN",
     "title": "Création des news",
     "picture": "news_1.png"
   },
   {
     "date": "30/09/2021",
     "content": "Création des newsttttttttttttttttttttttttttttt",
-    "auteur": "Axel LANYAN",
+    "author": "Axel LANYAN",
     "title": "Création des news tttttttttttttttttttttttttttttttttt",
     "picture": "news_1.png"
   }

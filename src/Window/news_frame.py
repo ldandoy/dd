@@ -6,7 +6,7 @@ def newsShowMoreFrame(self, feature, config, y_pos):
     news_show_more_frame = Frame(self.q, width=1024, height=600)
 
 
-    image2_path = os.path.join(self.base_folder, '../medias/newsBg/' + feature['picture'])
+    image2_path = os.path.join(self.base_folder, '../medias/news/' + feature['picture'])
     bg2 = PhotoImage(file=image2_path)
     canvas2 = Canvas(news_show_more_frame, width=1024, height=600)
     canvas2.pack(fill="both", expand=True)
