@@ -1,3 +1,4 @@
+from curses import BUTTON1_CLICKED
 import json
 import time
 from tkinter import *
@@ -8,8 +9,9 @@ from random import *
 from functools import partial
 from Utils.resized_image import ResizedImage
 
+from Window.main_window import *
 from Combat.combat import Combat
-from Inventory.inventory import Inventory
+from Inventory.inventory import *
 from Perso.perso import Perso
 from Perso.person import Person
 from Rooms.rooms import Room
@@ -54,19 +56,6 @@ def quest_frame(self):
 
     frame.place(x=0, y=0)
     frame.lower()
-
-    def inventory():
-        frame.pack_forget()
-        frame.destroy()
-        perso = Perso("andolorion.json")
-        inventory = Inventory(perso, self.q)
-        inventory.show()
-        perso.save()
-
-    InventaireButton = Button(frame, text="Inventaire", command=inventory, border=0,
-                              activebackground='#12c4c0',
-                              bg="#12c4c0")
-    InventaireButton.place(x=850, y=500)
 
 
 def start_quest_frame(self):
@@ -114,6 +103,7 @@ def start_quest_frame(self):
     if self.rooms.donjon[self.donjonRoom]["name"] == "Rencontre":
         started_quest_frame = Frame(self.q, width=w, height=h, bg="#FF0000")
         started_quest_frame.place(x=0, y=0)
+        started_quest_frame.lower()
 
         resized_image = ResizedImage.resize(self, '../medias/encounter.png')
         canvas = Canvas(started_quest_frame, width=w, height=h)
@@ -131,6 +121,7 @@ def start_quest_frame(self):
     elif self.rooms.donjon[self.donjonRoom]["name"] == "Boss":
         started_quest_frame = Frame(self.q, width=w, height=h, bg="#FF0000")
         started_quest_frame.place(x=0, y=0)
+        started_quest_frame.lower()
 
         resized_image = ResizedImage.resize(self, '../medias/boss.png')
         canvas = Canvas(started_quest_frame, width=w, height=h)
@@ -145,6 +136,7 @@ def start_quest_frame(self):
     elif self.rooms.donjon[self.donjonRoom]["name"] == "Trésor":
         started_quest_frame = Frame(self.q, width=w, height=h)
         started_quest_frame.place(x=0, y=0)
+        started_quest_frame.lower()
 
         resized_image = ResizedImage.resize(self, '../medias/treasure.png')
         canvas = Canvas(started_quest_frame, width=w, height=h)
@@ -159,6 +151,7 @@ def start_quest_frame(self):
     elif self.rooms.donjon[self.donjonRoom]["name"] == "Couloir":
         started_quest_frame = Frame(self.q, width=w, height=h, bg="#FF0000")
         started_quest_frame.place(x=0, y=0)
+        started_quest_frame.lower()
 
         resized_image = ResizedImage.resize(self, '../medias/corridor.png')
         canvas = Canvas(started_quest_frame, width=w, height=h)
@@ -173,6 +166,7 @@ def start_quest_frame(self):
     elif self.rooms.donjon[self.donjonRoom]["name"] == "Rien":
         started_quest_frame = Frame(self.q, width=w, height=h, bg="#FF0000")
         started_quest_frame.place(x=0, y=0)
+        started_quest_frame.lower()
 
         resized_image = ResizedImage.resize(self, '../medias/nothing.png')
         canvas = Canvas(started_quest_frame, width=w, height=h)
@@ -285,6 +279,16 @@ def combat(self, isBoss):
                                               border=0, activebackground='#12c4c0', bg="#12c4c0"))
             selectButton[count].place(x=x, y=h*0.8)
             x = x + x*0.1
+            selectButton[count].place(x=x, y=500)
+            x += 100
+    
+    def openInventory():
+        print("open inventory")
+        #destroy the combat window
+        Combatframe.destroy()
+        #open the inventory window
+        self.inventory()
+    
 
     def fuite():
         print("Vous tentez de prendre la fuite")
@@ -292,14 +296,6 @@ def combat(self, isBoss):
         Combatframe.destroy()
         questEscape(self)
 
-    ## Début -> Inventaire
-    #
-    #
-    def inventory():
-        perso = self.perso
-        itemTab = []
-        inventory = Inventory(perso)
-        getItems = perso.get('inventaire')
 
         # Afficher mes objets sous forme de liste
         for i, item in enumerate(getItems):

@@ -139,8 +139,79 @@ class MainWindow:
 
         # Button to create a character 
         PersoButton = Button(homeFrame, text="Creation de perso", command=perso, border=0, activebackground='#12c4c0',
+<<<<<<< HEAD
                             font=('calibri (font)', 28, 'bold'),
                             bg="#12c4c0",
 
                             )
         PersoButton.place(relx=.5, rely=.85,anchor= CENTER)
+=======
+                            bg="#12c4c0")
+        PersoButton.place(x=820, y=550)
+
+
+    def inventoryToggle(self):
+        self.inventoryToggleFrameOpen = True
+        self.inventoryToggleFrame = Frame(self.q, width=764, height=600, bg='#FFFFFF')
+        self.inventoryToggleFrame.place(x=300, y=0)
+        label_textinfo_config = ('Calibri (Body)', 24, 'bold')
+
+        label_textinfo_x_position = 25
+        label_showmore_y_position = 100
+        lastFeaturesObj = GetLastFeatures()
+        label_textinfo_config = ('Calibri (Body)', 24, 'bold')
+
+        for i, feature in enumerate(lastFeaturesObj):
+            label_textinfo = Label(self.inventoryToggleFrame, text=feature['title'][0:50], fg='white',
+                                   bg='#000000', )
+            label_textinfo.config(font=label_textinfo_config)
+            label_textinfo.place(x=100, y=50 + (i * 40))
+            news_Button = Button(self.inventoryToggleFrame, text="En savoir plus",
+                                 border=0,
+                                 activebackground='#12c4c0',
+                                 bg="#12c4c0")
+            news_Button.place(x=5, y=50 + (i * 40))
+
+        def inventoryToggleClose():
+            self.inventoryToggleFrame.pack_forget()
+            self.inventoryFrame.destroy()
+
+        Button(self.inventoryToggleFrame, text="close", command=inventoryToggleClose, border=0, activebackground='#12c4c0',
+               bg="#12c4c0").place(x=650, y=10)
+
+    def inventoryToggleWin(self):
+        f1 = Frame(self.q, width=300, height=600, bg='#12c4c0')
+        f1.place(x=0, y=0)
+
+        def dele():
+            f1.pack_forget()
+            f1.destroy()
+            if (self.inventoryToggleFrameOpen):
+                self.inventoryFrame.pack_forget()
+                self.inventoryFrame.destroy()
+
+        def bttn(x, y, text, bcolor, fcolor, cmd):
+            def onEnter(e):
+                myButton['background'] = bcolor  # ffcc66
+                myButton['foreground'] = '#262626'  # 000d33
+
+            def onLeaves(e):
+                myButton['background'] = fcolor
+                myButton['foreground'] = '#262626'
+
+            myButton = Button(f1,
+                              text=text,
+                              width=42,
+                              height=2,
+                              fg="#262626",
+                              bg=fcolor,
+                              border=0,
+                              activeforeground="#262626",
+                              activebackground=bcolor,
+                              command=cmd)
+
+            myButton.bind("<Enter>", onEnter)
+            myButton.bind("<Leave>", onLeaves)
+
+            myButton.place(x=x, y=y)
+>>>>>>> 6f18642 (inventory button added + inventory page created (in progress))
