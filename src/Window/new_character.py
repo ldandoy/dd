@@ -6,6 +6,7 @@ import os
 import tkinter as tk
 from random import *
 from functools import partial
+from Perso.person import Person
 
 
 def new_character_frame(self):

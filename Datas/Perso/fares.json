@@ -1,0 +1,48 @@
+{
+  "name": "Fares",
+  "age": 104,
+  "yeux": "Jeune",
+  "taille": 283,
+  "poids": 140,
+  "peau": "Bleu",
+  "race": "Troll",
+  "classe": "Haute",
+  "alignement": "Non",
+  "pe": 1,
+  "force": 1,
+  "dexterite": 1,
+  "intelligence": 1,
+  "charisme": 3,
+  "constitution": 2,
+  "sagesse": 2,
+  "vitesse": 3,
+  "pdv": 100,
+  "description": "Je m'appelle Fares, je suis un Haute et je ne vis que pour servir les miens. Que les Trolls vivent \u00e0 jamais !! ",
+  "armes": [
+    {
+      "name": "Epee courte",
+      "degat": "1d10",
+      "test": "force"
+    },
+    {
+      "name": "Arc Long",
+      "degat": "1d10",
+      "test": "dexterite"
+    }
+  ],
+  "inventaire": [
+    {
+      "name": "potion",
+      "amount": 1
+    },
+    {
+      "name": "super-potion",
+      "amount": 1
+    },
+    {
+      "name": "mega-potion",
+      "amount": 1
+    }
+  ],
+  "budget": 30
+}
