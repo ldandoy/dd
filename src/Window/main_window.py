@@ -1,6 +1,7 @@
 import json
 import time
 from tkinter import *
+from turtle import width
 import pygame
 import os
 import tkinter as tk
@@ -29,7 +30,9 @@ class MainWindow:
         self.q = Tk()
         self.q.title("Donjon & Dragon")
         # TODO: Dynamic window resizing
-        self.q.geometry('1024x600')
+        w = self.q.winfo_screenwidth()
+        h = self.q.winfo_screenheight()
+        self.q.geometry(f"{w}x{h}")
         self.q.configure(bg='')
         # Add no size update
 

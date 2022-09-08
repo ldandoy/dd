@@ -9,7 +9,8 @@ from functools import partial
 
 from Perso.person import Person
 from Window.new_character import new_character_frame
-from Window.town import cityFrame
+from Window.city import cityFrame
+from Window.QuestScreen import Quest
 
 
 def character_selection_frame(self):
@@ -45,7 +46,8 @@ def character_selection_frame(self):
         character_frame.pack_forget()
         character_frame.destroy()
 
-        cityFrame(self)
+        Quest(self)
+        # cityFrame(self)
 
     ChoiceButton = Button(character_frame, text="Choisir", command=choice, state=DISABLED, border=0,
                           activebackground='#12c4c0', bg="#12c4c0", width=27, height=7)
