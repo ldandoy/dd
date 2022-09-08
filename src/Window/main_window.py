@@ -234,7 +234,7 @@ class MainWindow:
 
         def inventoryToggleClose():
             self.inventoryToggleFrame.pack_forget()
-            self.inventoryFrame.destroy()
+            self.inventoryToggleFrame.destroy()
 
         Button(self.inventoryToggleFrame, text="close", command=inventoryToggleClose, border=0, activebackground='#12c4c0',
                bg="#12c4c0").place(x=650, y=10)
