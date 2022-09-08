@@ -35,9 +35,6 @@ def character_selection_frame(self):
     pygame.mixer.init()
 
     # Play song
-    # pygame.mixer.music.set_volume(0.5)
-    # pygame.mixer.music.load(os.path.join(self.base_folder, '../medias/audio/epic.ogg'))
-    # pygame.mixer.music.play(loops=0)
     Sound.background(self.base_folder, "epic.ogg")
 
     def choice() -> None:
