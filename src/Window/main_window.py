@@ -15,12 +15,10 @@ from Inventory.inventory import Inventory
 from Rooms.rooms import Room
 from Combat.combat import Combat
 from Window.character_selection import character_selection_frame
-
+from Window.new_character import new_character_frame
 from Window.news_frame import newsShowMoreFrame
 from Utils.logger import debug
 from Window.quest import quest_frame, start_quest_frame
-
-
 # TODO: a lot of refactoring in this folder :pensive:
 
 class MainWindow:
@@ -196,11 +194,23 @@ class MainWindow:
             news_Button.place(x=label_textinfo_x_position + (i * 350), y=300)
 
         def play():
-            textwelcomeframe.pack_forget()
-            textwelcomeframe.destroy()
+            #textwelcomeframe.pack_forget()
+            #textwelcomeframe.destroy()
 
             character_selection_frame(self)
 
+        def perso():
+            #textwelcomeframe.pack_forget()
+            #textwelcomeframe.destroy()
+
+            new_character_frame(self)
+
+        # Button to start the game
         PlayButton = Button(textwelcomeframe, text="Jouer", command=play, border=0, activebackground='#12c4c0',
                             bg="#12c4c0")
         PlayButton.place(x=950, y=550)
+
+        # Button to create a character 
+        PersoButton = Button(textwelcomeframe, text="Creation de perso", command=perso, border=0, activebackground='#12c4c0',
+                            bg="#12c4c0")
+        PersoButton.place(x=820, y=550)

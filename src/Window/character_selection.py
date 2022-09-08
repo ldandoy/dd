@@ -12,6 +12,7 @@ from Window.new_character import new_character_frame
 from Window.town import cityFrame
 
 
+
 def character_selection_frame(self):
     character_frame = Frame(self.q, width=1024, height=600)
     image2_path = os.path.join(self.base_folder, '../medias/forest.png')
@@ -85,9 +86,9 @@ def character_selection_frame(self):
         perso_button.image = imageCharacter
 
         selectButton.insert(count, perso_button)
-        selectButton[count].place(x=x, y=y, width=110, height=110, )
+        selectButton[count].place(x=x, y=y, width=110, height=110)
 
-        character_frame.lower()
+        #character_frame.lower()
         x += 200
 
     def new_character() -> None:
@@ -97,12 +98,27 @@ def character_selection_frame(self):
         # Switch to character creation window
         new_character_frame(self)
 
+
+    def retourPage():
+        character_frame.pack_forget()
+        character_frame.destroy()
+
+        #textWelcomeFrame(self)    
+
     # Button in choice PersoFrame window ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice,
     # border=0, activebackground='#12c4c0', bg="#12c4c0")
     new_button = Button(character_frame, text="Créer un nouveau personnage", command=new_character, border=0,
                         activebackground='#12c4c0', bg="#12c4c0", width=27)
     # ChoiceButton.place(x=950, y=550)
+    new_button.place(x=780, y=390)
+    
+    #Button to return in the mainWindow
+    character_frame.place(x=0, y=0)
+    new_button = Button(character_frame, text="Retour", command=retourPage, border=0,
+                        activebackground='#12c4c0', bg="#12c4c0", width=27)
+    # ChoiceButton.place(x=950, y=550)
     new_button.place(x=780, y=550)
 
     character_frame.place(x=0, y=0)
-    character_frame.lower()
+    #character_frame.lower()
+     
