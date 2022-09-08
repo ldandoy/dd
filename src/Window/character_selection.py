@@ -48,6 +48,8 @@ def character_selection_frame(self):
         character_frame.destroy()
 
         cityFrame(self)
+        Sound.play(self.base_folder, "button_menu")
+
 
     ChoiceButton = Button(character_frame, text="Choisir", command=choice, state=DISABLED, border=0,
                           activebackground='#12c4c0', bg="#12c4c0", width=27, height=7)
@@ -81,16 +83,21 @@ def character_selection_frame(self):
                             f'{count_character}.png').replace("\\", '/')
         count_character += 1
         imageCharacter = PhotoImage(file=file)
+        persoName = perso.split(".")[0]
         perso_button = Button(character_frame,
-                              text=perso,
-                              command=lambda perso=perso, count=count: selected(perso, count),
-                              image=imageCharacter
-                              )
+            image=imageCharacter,
+            text=persoName,
+            command=lambda perso=perso, count=count: selected(perso, count)
+        )
         perso_button.image = imageCharacter
 
         selectButton.insert(count, perso_button)
         selectButton[count].place(x=x, y=y, width=110, height=110, )
-
+        lName = Label(character_frame, text=persoName,
+                      fg='white', bg='#0080FF')
+        lNamefont = ('Calibri (Body)', 16, 'bold')
+        lName.config(font=lNamefont)
+        lName.place(x=x, y=y+100, width=110)
         character_frame.lower()
         x += 200
 

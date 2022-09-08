@@ -12,7 +12,7 @@ class Sound:
 
     @staticmethod
     def background(base_folder, audio_name="epic.ogg"):
-        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.set_volume(0)
         pygame.mixer.music.load(os.path.join(base_folder, '../medias/audio/'+ audio_name))
         pygame.mixer.music.play(loops=0)
 
