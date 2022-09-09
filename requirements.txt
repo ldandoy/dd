@@ -4,4 +4,4 @@ sphinx-rtd-theme
 pyinstaller
 auto-py-to-exe
 pygame
-Pillow
+pillow
