@@ -1,0 +1,46 @@
+{
+  "name": "andolorion",
+  "age": 150,
+  "yeux": "vert",
+  "taille": 0,
+  "poids": 0,
+  "peau": "",
+  "race": "",
+  "classe": "",
+  "alignement": "",
+  "pe": 0,
+  "force": 2,
+  "dexterite": 2,
+  "intelligence": 2,
+  "charisme": 2,
+  "constitution": 2,
+  "sagesse": 2,
+  "vitesse": 2,
+  "pdv": 65,
+  "armes": [
+    {
+      "name": "Epee courte",
+      "degat": "1d10",
+      "test": "force"
+    },
+    {
+      "name": "Arc Long",
+      "degat": "1d10",
+      "test": "dexterite"
+    }
+  ],
+  "inventaire": [
+    {
+      "name": "potion",
+      "amount": 1
+    },
+    {
+      "name": "super-potion",
+      "amount": 1
+    },
+    {
+      "name": "mega-potion",
+      "amount": 1
+    }
+  ]
+}

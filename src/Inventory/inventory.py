@@ -25,6 +25,15 @@ class Inventory:
             hp = 20
             return hp
 
+    def add_item(self):
+        print("add item")
+
+    def remove_item(self):
+        print("remove item")
+
+    def edit_item(self):
+        print("edit item")
+
 
 
 

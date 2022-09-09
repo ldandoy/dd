@@ -1,5 +1,3 @@
-#create inventory ui file from pyuic5 command line tool (see README.md)  
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class inventory_management_ui(object):
@@ -45,3 +43,6 @@ if __name__ == "__main__":
     ui.setupUi(inventory_management)
     inventory_management.show()
     sys.exit(app.exec_())
+
+
+

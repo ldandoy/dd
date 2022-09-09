@@ -100,6 +100,3 @@ class Combat:
                     print("hp hero :" + str(self.hero_hp) + " monster hp : " + str(self.monster_hp))
             print("my combat status" + str(combat_done))
         return 0
-
-
-

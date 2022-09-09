@@ -18,6 +18,7 @@ from Rooms.rooms import Room
 from Window.QuestEndingScreen import questEnding
 from Window.QuestEscapeScreen import questEscape
 from Utils.load_json import LoadJson
+from int import open_inventory_management
 
 
 def quest_frame(self):
@@ -297,6 +298,7 @@ def combat(self, isBoss):
         questEscape(self)
 
 
+<<<<<<< HEAD
         # Afficher mes objets sous forme de liste
         for i, item in enumerate(getItems):
             itemTab.insert(i, Button(Combatframe,
@@ -347,6 +349,8 @@ def combat(self, isBoss):
         #
         ## Fin -> Inventaire
 
+=======
+>>>>>>> 5adfe10 (wip)
     AttackButton = Button(Combatframe, text="Attack", command=selectWeapon, border=0, activebackground='#12c4c0',
                           bg="#12c4c0")
     AttackButton.place(x=w*0.8, y=h*0.8)

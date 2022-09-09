@@ -139,13 +139,11 @@ class MainWindow:
 
         # Button to create a character 
         PersoButton = Button(homeFrame, text="Creation de perso", command=perso, border=0, activebackground='#12c4c0',
-<<<<<<< HEAD
                             font=('calibri (font)', 28, 'bold'),
                             bg="#12c4c0",
 
                             )
         PersoButton.place(relx=.5, rely=.85,anchor= CENTER)
-=======
                             bg="#12c4c0")
         PersoButton.place(x=820, y=550)
 
@@ -214,4 +212,4 @@ class MainWindow:
             myButton.bind("<Leave>", onLeaves)
 
             myButton.place(x=x, y=y)
->>>>>>> 6f18642 (inventory button added + inventory page created (in progress))
+        PlayButton.place(x=950, y=550)

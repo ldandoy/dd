@@ -1,0 +1,10 @@
+{
+    "makefile.extensionOutputFolder": "./.vscode",
+    "python.analysis.extraPaths": [
+        "./src/Window"
+    ],
+    "cSpell.words": [
+        "activeforeground",
+        "Combatframe"
+    ]
+}

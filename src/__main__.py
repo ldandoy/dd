@@ -7,6 +7,7 @@ import json
 from Monster.monster import Monster
 from Window.main_window import MainWindow
 
+
 if __name__ == '__main__':
     print("Bienvenue dans Donjon & Dragon")
     mainWindow = MainWindow()
@@ -14,3 +15,4 @@ if __name__ == '__main__':
     # initialQuest.welcome()
 
     monster = Monster('gobelin.json')
+    
