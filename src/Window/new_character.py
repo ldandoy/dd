@@ -1,8 +1,9 @@
 import json
+from logging import root
 import time
 from tkinter import *
 import pygame
-import os
+import os, glob
 import tkinter as tk
 from random import *
 from functools import partial
@@ -10,11 +11,13 @@ from Perso.person import Person
 from Utils.Sound import Sound
 
 
+
 def new_character_frame(self):
     """
     Create new person page
     """
     frame = Frame(self.q, width=1024, height=600)
+    print(frame)
 
     # background
     bg_path = os.path.join('src', 'medias', 'new_person.png')
@@ -171,7 +174,7 @@ def new_character_frame(self):
     # wisdom label
     wisdom_label = tk.StringVar(self.q)
     wisdom_label.set("Sagesse")
-    Label(self.q, textvariable=constitution_label, bg="black", fg='white').pack()
+    Label(self.q, textvariable=wisdom_label, bg="black", fg='white').pack()
 
     # wisdom entry
     wisdom = tk.IntVar(self.q)
@@ -193,7 +196,7 @@ def new_character_frame(self):
     errors_list = Listbox(self.q, yscrollcommand=scrollbar.set, width=65)
 
     # function executed when form submitted
-    def create_person():
+    def createPerson():
         person = Person(name,
                         age,
                         eyes,
@@ -232,11 +235,24 @@ def new_character_frame(self):
         # pygame.mixer.init()
             
 
+    def returnPage():
+       frame.destroy()
+       frame.pack_forget()
+
+        
     # submit button
     tk.Button(self.q,
               text='Créer',
               height=1,
               width=10,
-              command=create_person).pack()
+              command=createPerson).pack()     
+
+    frame.place(x=0, y=0)
+
+    tk.Button(self.q,
+              text='retour',
+              height=1,
+              width=10,
+              command=returnPage).pack()     
 
     frame.place(x=0, y=0)

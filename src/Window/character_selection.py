@@ -1,17 +1,19 @@
 import json
-import time
-from tkinter import *
-import pygame
 import os
+import time
 import tkinter as tk
-from random import *
 from functools import partial
+from random import *
+from tkinter import *
 
+import pygame
 from Perso.person import Person
 from Window.new_character import new_character_frame
 from Window.city import cityFrame
 from Utils.Sound import Sound
 from Window.QuestScreen import Quest
+
+from Window.town import cityFrame
 
 
 def character_selection_frame(self):
@@ -22,7 +24,7 @@ def character_selection_frame(self):
     canvas2.pack(fill="both", expand=True)
     canvas2.create_image(0, 0, image=bg2, anchor="nw")
     canvas2.image = bg2
-
+    print(character_frame)
     # About character -------
     card = Canvas(character_frame, width=650, height=154)
     card.place(x=105, y=420)
@@ -67,7 +69,15 @@ def character_selection_frame(self):
 
     selectButton = []
     persoJson = Person.list_person()
+    tempPerso = []
+    for person in persoJson:
+        print(person)
+        if person.split('.')[1] ==  "json":
+            tempPerso.append(person)
+            print(tempPerso)
+    persoJson = tempPerso
     print(persoJson)
+    
     x = 105
     y = 100
     count_character = 1
@@ -96,23 +106,25 @@ def character_selection_frame(self):
         lNamefont = ('Calibri (Body)', 16, 'bold')
         lName.config(font=lNamefont)
         lName.place(x=x, y=y+100, width=110)
-        character_frame.lower()
         x += 200
 
-    def new_character() -> None:
+    def returnPage():
         character_frame.pack_forget()
         character_frame.destroy()
 
-        # Switch to character creation window
-        new_character_frame(self)
-        Sound.play(self.base_folder, "button_menu")
-
     # Button in choice PersoFrame window ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice,
     # border=0, activebackground='#12c4c0', bg="#12c4c0")
-    new_button = Button(character_frame, text="Créer un nouveau personnage", command=new_character, border=0,
+   
+    
+
+
+    #Button to return in the mainWindow
+    character_frame.place(x=0, y=0)
+    returnButton = Button(character_frame, text="Retour", command=returnPage, border=0,
                         activebackground='#12c4c0', bg="#12c4c0", width=27)
     # ChoiceButton.place(x=950, y=550)
-    new_button.place(x=780, y=550)
 
-    character_frame.place(x=0, y=0)
-    character_frame.lower()
+    returnButton.place(x=780, y=550)
+
+  
+     
