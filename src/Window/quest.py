@@ -18,6 +18,7 @@ from Rooms.rooms import Room
 from Window.QuestEndingScreen import questEnding
 from Window.QuestEscapeScreen import questEscape
 from Utils.load_json import LoadJson
+from int import open_inventory_management
 
 
 def quest_frame(self):

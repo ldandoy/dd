@@ -5,7 +5,7 @@ from random import *
 from tkinter import *
 
 from Utils.load_json import LoadJson
-from Window.character_selection import character_selection_frame
+
 from Window.new_character import new_character_frame
 from PIL import Image, ImageTk
 from Utils.load_json import LoadJson
