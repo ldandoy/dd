@@ -11,7 +11,7 @@ from Perso.perso import Perso
 from Perso.person import Person
 from Utils.last_features import GetLastFeatures
 from Utils.load_json import LoadJson
-from Inventory.inventory import Inventory
+from Inventory.Inventory import Inventory
 from Rooms.rooms import Room
 from Combat.combat import Combat
 from Window.character_selection import character_selection_frame

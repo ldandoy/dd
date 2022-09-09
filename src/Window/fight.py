@@ -8,7 +8,7 @@ from random import *
 from functools import partial
 
 from Combat.combat import Combat
-from Inventory.inventory import Inventory
+from Inventory.Inventory import Inventory
 from Perso.person import Person
 from Window.quest import start_quest_frame
 

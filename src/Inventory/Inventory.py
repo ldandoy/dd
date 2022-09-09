@@ -1,6 +1,5 @@
 from tkinter import Button, Frame, Label
 
-
 class Inventory:
     __items = None
 
@@ -24,11 +23,3 @@ class Inventory:
         elif( name == 'mega-potion'):
             hp = 20
             return hp
-
-
-
-
-
-
-    
-
