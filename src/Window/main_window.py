@@ -7,12 +7,11 @@ from tkinter import *
 from Utils.load_json import LoadJson
 from Window.character_selection import character_selection_frame
 from Window.new_character import new_character_frame
+from Utils.load_json import LoadJson
 from Utils.Sound import Sound
-from src.News.news import News
+from News.News import News
 
 from Window.character_selection import character_selection_frame
-
-# TODO: a lot of refactoring in this folder :pensive:
 
 
 class MainWindow:
@@ -30,9 +29,6 @@ class MainWindow:
         self.q.attributes('-fullscreen', True)
         # Add no size update
 
-        Button(self.q, command=self.displayMenu, text='Menu',
-               border=0, bg="#12c4c0").place(x=5, y=10)
-
         self.renderHomeScreen()
 
         self.q.mainloop()
@@ -45,31 +41,41 @@ class MainWindow:
     actualMonster = 0
     difficultFactor = 0
 
-    def displayMenu(self):
-        menuFrame = Frame(self.q, width=300, height=600, bg='#12c4c0')
-        menuFrame.place(x=0, y=0)
+    def getAllNews(self):
+        newsList = []
+        json = LoadJson()
+        filePath = os.path.join(self.base_folder, '../../Datas/News/news.json')
+        newsJson = json.load(filePath)
+        for news in newsJson:
+            newsList.append(News(news, self.q))
+        return newsList
 
-        def closeMenu():
-            menuFrame.pack_forget()
-            menuFrame.destroy()
+    # TODO : This is not used and we're discussing about deleting it
+    # def displayMenu(self):
+    #     menuFrame = Frame(self.q, width=300, height=600, bg='#12c4c0')
+    #     menuFrame.place(x=0, y=0)
 
-        def createMenuBtn(x, y, text, cmd):
+    #     def closeMenu():
+    #         menuFrame.pack_forget()
+    #         menuFrame.destroy()
 
-            myButton = Button(menuFrame,
-                              text=text,
-                              width=42,
-                              height=2,
-                              fg="#262626",
-                              bg="#0f9d9a",
-                              border=0,
-                              activeforeground="#262626",
-                              activebackground="#12c4c0",
-                              command=cmd)
+    #     def createMenuBtn(x, y, text, cmd):
 
-            myButton.place(x=x, y=y)
+    #         myButton = Button(menuFrame,
+    #                           text=text,
+    #                           width=42,
+    #                           height=2,
+    #                           fg="#262626",
+    #                           bg="#0f9d9a",
+    #                           border=0,
+    #                           activeforeground="#262626",
+    #                           activebackground="#12c4c0",
+    #                           command=cmd)
 
-        Button(menuFrame, text="close", command=closeMenu, border=0,
-               activebackground='#12c4c0', bg="#12c4c0").place(x=5, y=10)
+    #         myButton.place(x=x, y=y)
+
+    #     Button(menuFrame, text="close", command=closeMenu, border=0,
+    #            activebackground='#12c4c0', bg="#12c4c0").place(x=5, y=10)
 
     def renderHomeScreen(self):
         homeFrame = Frame(self.q, width=1024, height=600)
@@ -110,6 +116,10 @@ class MainWindow:
         PlayButton = Button(textwelcomeframe, text="Jouer", command=play, border=0, activebackground='#12c4c0',
                             bg="#12c4c0")
         PlayButton.place(x=950, y=550)
+
+        # TODO : This is not used and we're discussing about deleting it
+        # Button(self.q, text='Menu',
+        #        border=0, bg="#12c4c0").place(x=5, y=10)
 
         # Button to create a character 
         PersoButton = Button(textwelcomeframe, text="Creation de perso", command=perso, border=0, activebackground='#12c4c0',
