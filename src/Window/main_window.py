@@ -2,6 +2,7 @@ from tkinter import *
 import pygame
 import os
 from random import *
+from tkinter import *
 
 from Utils.load_json import LoadJson
 from Window.character_selection import character_selection_frame
@@ -9,6 +10,7 @@ from Window.new_character import new_character_frame
 from Utils.Sound import Sound
 from src.News.news import News
 
+from Window.character_selection import character_selection_frame
 
 # TODO: a lot of refactoring in this folder :pensive:
 
@@ -24,7 +26,7 @@ class MainWindow:
         h = self.q.winfo_screenheight()
         self.q.geometry(f"{w}x{h}")
         self.q.configure(bg='')
-        self.news = self.setNews()
+        self.news = News.getAllNews(self.base_folder)
         self.q.attributes('-fullscreen', True)
         # Add no size update
 
@@ -42,44 +44,6 @@ class MainWindow:
     donjonRoom = 0
     actualMonster = 0
     difficultFactor = 0
-
-    def setNews(self):
-        newsList = []
-        json = LoadJson()
-        filePath = os.path.join(self.base_folder, '../../Datas/News/news.json')
-        newsJson = json.load(filePath)
-        for news in newsJson:
-            newsList.append(News(news))
-        return newsList
-
-    # def newsToggle(self):
-    #     self.newsToggleFrameOpen = True
-    #     self.newsToggleFrame = Frame(self.q, width=764, height=600, bg='#FFFFFF')
-    #     self.newsToggleFrame.place(x=300, y=0)
-    #     label_textinfo_config = ('Calibri (Body)', 24, 'bold')
-
-    #     label_textinfo_x_position = 25
-    #     label_showmore_y_position = 100
-    #     lastFeaturesObj = GetLastFeatures()
-    #     label_textinfo_config = ('Calibri (Body)', 24, 'bold')
-
-    #     for i, feature in enumerate(lastFeaturesObj):
-    #         label_textinfo = Label(self.newsToggleFrame, text=feature['title'][0:50], fg='white',
-    #                                bg='#000000', )
-    #         label_textinfo.config(font=label_textinfo_config)
-    #         label_textinfo.place(x=100, y=50 + (i * 40))
-    #         news_Button = Button(self.newsToggleFrame, text="En savoir plus",
-    #                              border=0,
-    #                              activebackground='#12c4c0',
-    #                              bg="#12c4c0")
-    #         news_Button.place(x=5, y=50 + (i * 40))
-
-    #     def newsToggleClose():
-    #         self.newsToggleFrame.pack_forget()
-    #         self.newsToggleFrame.destroy()
-
-    #     Button(self.newsToggleFrame, text="close", command=newsToggleClose, border=0, activebackground='#12c4c0',
-    #            bg="#12c4c0").place(x=650, y=10)
 
     def displayMenu(self):
         menuFrame = Frame(self.q, width=300, height=600, bg='#12c4c0')
@@ -104,12 +68,6 @@ class MainWindow:
 
             myButton.place(x=x, y=y)
 
-        # CRITICAL : this is a fake func
-        def newsAction():
-            print('News')
-
-        createMenuBtn(0, 80, 'News', newsAction)
-
         Button(menuFrame, text="close", command=closeMenu, border=0,
                activebackground='#12c4c0', bg="#12c4c0").place(x=5, y=10)
 
@@ -133,61 +91,9 @@ class MainWindow:
         home_title.place(x=250, y=100)
 
         for i, news in enumerate(self.news):
-            if i > self.lastNewsCount - 1 : break
-            news.render(homeFrame, 150 + 300 * i, 200)
-
-        # lastFeaturesObj = GetLastFeatures(3)
-
-        # label_textinfo_config = ('Calibri (Body)', 24, 'bold')
-
-        # label_textinfo_x_position = 25
-        # label_showmore_y_position = 100
-
-        # def newsShowMoreFrame(self, feature):
-        #     news_show_more_frame = Frame(self.q, width=1024, height=600)
-
-        #     image2_path = os.path.join(self.base_folder, '../medias/news/' + feature['picture'])
-        #     bg2 = PhotoImage(file=image2_path)
-        #     canvas2 = Canvas(news_show_more_frame, width=1024, height=600)
-        #     canvas2.pack(fill="both", expand=True)
-        #     canvas2.create_image(0, 0, image=bg2, anchor="nw")
-        #     canvas2.image = bg2
-
-        #     for i, info in enumerate(feature):
-        #         if (info != 'picture'):
-        #             label_textinfo = Label(news_show_more_frame, text=feature[info], fg='white', bg='#0483d1')
-        #             label_textinfo.config(font=label_textinfo_config)
-        #             label_textinfo.place(x=25, y=label_showmore_y_position + (i * 40))
-
-        #     def choice():
-        #         news_show_more_frame.pack_forget()
-        #         news_show_more_frame.destroy()
-
-        #         self.textWelcomeFrame()
-
-        #     ChoiceButton = Button(news_show_more_frame, text="retour", command=choice, border=0,
-        #                           activebackground='#12c4c0', bg="#12c4c0")
-        #     ChoiceButton.place(x=950, y=550)
-
-        #     news_show_more_frame.place(x=0, y=0)
-        #     news_show_more_frame.lower()
-
-        # def showMore(feature):
-        #     self.newsShowMoreFrameOpen = True
-        #     textwelcomeframe.pack_forget()
-        #     textwelcomeframe.destroy()
-        #     newsShowMoreFrame(self, feature, label_textinfo_config, label_showmore_y_position)
-
-        # for i, feature in enumerate(lastFeaturesObj):
-        #     label_textinfo = Label(textwelcomeframe, text=feature['title'][0:50], fg='white',
-        #                            bg='#0483d1', )
-        #     label_textinfo.config(font=label_textinfo_config)
-        #     label_textinfo.place(x=label_textinfo_x_position + (i * 350), y=250)
-        #     news_Button = Button(textwelcomeframe, text="En savoir plus", command=partial(showMore, feature),
-        #                          border=0,
-        #                          activebackground='#12c4c0',
-        #                          bg="#12c4c0")
-        #     news_Button.place(x=label_textinfo_x_position + (i * 350), y=300)
+            if i > self.lastNewsCount - 1:
+                break
+            news.render(homeFrame, 70 + 300 * i, 200)
 
         def play():
             pygame.mixer.init()
