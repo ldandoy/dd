@@ -1,5 +1,11 @@
 **/__pycache__
-.idea
 **/**/__pycache__
+.idea
+.vscode
 /venv
-src/medias/.DS_Store
+.DS_Store
+**/.DS_Store
+**/**/.DS_Store
+output
+logs
+Datas/Perso/*

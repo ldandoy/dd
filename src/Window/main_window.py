@@ -19,6 +19,9 @@ from Window.new_character import new_character_frame
 from Window.news_frame import newsShowMoreFrame
 from Utils.logger import debug
 from Window.quest import quest_frame, start_quest_frame
+from Utils.Sound import Sound
+
+
 # TODO: a lot of refactoring in this folder :pensive:
 
 class MainWindow:
@@ -194,8 +197,10 @@ class MainWindow:
             news_Button.place(x=label_textinfo_x_position + (i * 350), y=300)
 
         def play():
-            #textwelcomeframe.pack_forget()
-            #textwelcomeframe.destroy()
+            pygame.mixer.init()
+            Sound.play(self.base_folder, "button_menu")
+            textwelcomeframe.pack_forget()
+            textwelcomeframe.destroy()
 
             character_selection_frame(self)
 
