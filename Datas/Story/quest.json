@@ -1,0 +1,62 @@
+[
+	{
+		"Name": "The forgotten town",
+		"Description": "find a way out in this town cursed",
+		"Difficulty": "Easy",
+		"Image": "forgottenTown",
+		"Rewards": [
+			{
+				"NameItem": "Magical Sword",
+				"SellPrice": 20,
+				"Sellable": true,
+				"Description": "A magical sword created by the hand of god"
+			},
+			{
+				"NameItem": "Helmet",
+				"SellPrice": 2,
+				"Sellable": true,
+				"Description": "A basic helmet "
+			}
+		]
+	},
+	{
+		"Name": "The exile of the lake",
+		"Description": "Find the exile of the lake",
+		"Difficulty": "Hard",
+		"Image": "mysterious",
+		"Rewards": [
+			{
+				"NameItem": "Magical Necklace",
+				"SellPrice": 0,
+				"Sellable": false,
+				"Description": "A mysterious necklace"
+			},
+			{
+				"NameItem": "Fairy potion",
+				"SellPrice": 50,
+				"Sellable": true,
+				"Description": "drink that potion and a fairy might come with you"
+			}
+		]
+	},
+	{
+		"Name": "The city's breath",
+		"Description": "Venture out and unravel the secrets of this city",
+		"Difficulty": "Medium",
+		"Image": "MagicalCity",
+		"Rewards": [
+			{
+				"NameItem": "Magical Sword",
+				"SellPrice": 20,
+				"Sellable": true,
+				"Description": "A magical sword created by the hand of god"
+			},
+			{
+				"NameItem": "Helmet",
+				"SellPrice": 2,
+				"Sellable": true,
+				"Description": "A basic helmet "
+			}
+		]
+	}
+]

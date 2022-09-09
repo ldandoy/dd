@@ -9,8 +9,9 @@ from functools import partial
 
 from Perso.person import Person
 from Window.new_character import new_character_frame
-from Window.town import cityFrame
+from Window.city import cityFrame
 from Utils.Sound import Sound
+from Window.QuestScreen import Quest
 
 
 def character_selection_frame(self):
@@ -44,7 +45,7 @@ def character_selection_frame(self):
         character_frame.pack_forget()
         character_frame.destroy()
 
-        cityFrame(self)
+        Quest(self)
         Sound.play(self.base_folder, "button_menu")
 
 
