@@ -3,7 +3,7 @@ from logging import root
 import time
 from tkinter import *
 import pygame
-import os
+import os, glob
 import tkinter as tk
 from random import *
 from functools import partial
@@ -11,11 +11,13 @@ from Perso.person import Person
 from Utils.Sound import Sound
 
 
+
 def new_character_frame(self):
     """
     Create new person page
     """
     frame = Frame(self.q, width=1024, height=600)
+    print(frame)
 
     # background
     bg_path = os.path.join('src', 'medias', 'new_person.png')
@@ -234,9 +236,9 @@ def new_character_frame(self):
             
 
     def returnPage():
-        frame.pack_forget()
-        frame.destroy()
-        #character_selection_frame(self)
+       frame.destroy()
+       frame.pack_forget()
+
         
     # submit button
     tk.Button(self.q,
@@ -244,5 +246,13 @@ def new_character_frame(self):
               height=1,
               width=10,
               command=createPerson).pack()     
+
+    frame.place(x=0, y=0)
+
+    tk.Button(self.q,
+              text='retour',
+              height=1,
+              width=10,
+              command=returnPage).pack()     
 
     frame.place(x=0, y=0)

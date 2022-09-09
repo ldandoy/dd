@@ -199,15 +199,10 @@ class MainWindow:
         def play():
             pygame.mixer.init()
             Sound.play(self.base_folder, "button_menu")
-            textwelcomeframe.pack_forget()
-            textwelcomeframe.destroy()
 
             character_selection_frame(self)
 
         def perso():
-            #textwelcomeframe.pack_forget()
-            #textwelcomeframe.destroy()
-
             new_character_frame(self)
 
         # Button to start the game
