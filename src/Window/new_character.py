@@ -6,6 +6,8 @@ import os
 import tkinter as tk
 from random import *
 from functools import partial
+from Perso.person import Person
+from Utils.Sound import Sound
 
 
 def new_character_frame(self):
@@ -226,6 +228,9 @@ def new_character_frame(self):
 
         else:
             person.save()
+            Sound.play(self.base_folder, "perso_created")
+        # pygame.mixer.init()
+            
 
     # submit button
     tk.Button(self.q,
