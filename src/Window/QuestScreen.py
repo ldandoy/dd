@@ -13,6 +13,7 @@ from functools import partial
 from Rooms.rooms import Room
 from Utils.load_json import LoadJson
 from Window.quest import start_quest_frame
+from Utils.Sound import Sound
 
 
 def render(self, frame, Playsound, quest,x,y,choice):
@@ -46,9 +47,8 @@ def Quest(self):
     h = self.q.winfo_screenheight()
 
     def Playsound(event):
-        # Play song
-        pygame.mixer.music.set_volume(0.5)
-        pygame.mixer.Sound(os.path.join(self.base_folder, '../medias/audio/selection.wav')).play()
+        Sound.play(self.base_folder, "../medias/audio/selection.wav")
+
 
 
     def choice():
