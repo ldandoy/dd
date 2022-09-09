@@ -19,7 +19,7 @@ from Utils.Sound import Sound
 def render(self, frame, Playsound, quest,x,y,choice):
         questImagePath = os.path.join(self.base_folder, '../medias/'+quest["Image"]+'.png')
         image = PhotoImage(file=questImagePath)
-        questContainer = Canvas(frame, width=512, height=512, bd=2, highlightthickness=1, bg="black")
+        questContainer = Canvas(frame, width=512, height=512, bd=2, highlightthickness=0, bg="black")
         questContainer.pack(fill="both", expand=True)
         questContainer.create_image(0, 0, image=image, anchor="nw")
         questContainer.image = image
