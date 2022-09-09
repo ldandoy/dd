@@ -47,7 +47,7 @@ def Quest(self):
     h = self.q.winfo_screenheight()
 
     def Playsound(event):
-        Sound.play(self.base_folder, "../medias/audio/selection.wav")
+        Sound.play(self.base_folder, "selection.wav")
 
 
 

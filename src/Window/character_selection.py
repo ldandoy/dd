@@ -13,7 +13,7 @@ from Window.city import cityFrame
 from Utils.Sound import Sound
 from Window.QuestScreen import Quest
 
-from Window.town import cityFrame
+from Window.city import cityFrame
 
 
 def character_selection_frame(self):
@@ -35,7 +35,6 @@ def character_selection_frame(self):
     lwelcome.config(font=lwelcomefont)
     lwelcome.place(x=105, y=30)
 
-    pygame.mixer.init()
 
     # Play song
     Sound.background(self.base_folder, "epic.ogg")
