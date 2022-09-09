@@ -14,16 +14,42 @@ from Rooms.rooms import Room
 from Utils.load_json import LoadJson
 from Window.quest import start_quest_frame
 
-def QuestChoice():
-    print("hello world")
 
+def render(self, frame, Playsound, quest,x,y,choice):
+        questImagePath = os.path.join(self.base_folder, '../medias/'+quest["Image"]+'.png')
+        image = PhotoImage(file=questImagePath)
+        questContainer = Canvas(frame, width=512, height=512, bd=2, highlightthickness=1, bg="black")
+        questContainer.pack(fill="both", expand=True)
+        questContainer.create_image(0, 0, image=image, anchor="nw")
+        questContainer.image = image
+        questContainer.place(x=x, y=y)
+        questContainer.bind('<Enter>',Playsound)
+        textFont = ('Calibri (Body)', 24, 'bold','italic','underline')
 
+        questContainer.create_text(512/2, 100, text=quest["Name"] + "\n\n" + quest["Difficulty"], fill="white", justify="center",font=textFont)
+        # questContainer.create_text(512/2, 150, text='Rewards Available' ,fill="red", justify="center",font=textFont)
+
+        startButton = Button(questContainer, text="Commencer",
+                                command=choice,
+                                border=0,
+                                activebackground='#12c4c0',
+                                bg="#12c4c0")
+        startButton.place(relx=0.5, rely=0.8, anchor="center")
 
 def Quest(self):
 
 
+    json = LoadJson()
+    questJson = json.load(os.path.join(self.base_folder, '../../Datas/Story/quest.json'))
+    
     w = self.q.winfo_screenwidth()
     h = self.q.winfo_screenheight()
+
+    def Playsound(event):
+        # Play song
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.Sound(os.path.join(self.base_folder, '../medias/audio/selection.wav')).play()
+
 
     def choice():
         questFrame.pack_forget()
@@ -32,64 +58,17 @@ def Quest(self):
         
         start_quest_frame(self)
 
-    def Playsound(event):
-    # Play song
-        pygame.mixer.music.set_volume(0.5)
-        pygame.mixer.Sound(os.path.join(self.base_folder, '../medias/audio/selection.wav')).play()
-
     questFrame = Frame(self.q, width=1920, height=1080)
-    
-    image_path = os.path.join(self.base_folder, '../medias/city4.png')
-    bg = PhotoImage(file=r'' + image_path, width=w, height=h)
-
-    canvas = Canvas(questFrame, width=w, height=h, bd=0, highlightthickness=0)
-    canvas.pack(fill="both",expand=TRUE)
-    canvas.create_image(0, 0, image=bg, anchor="nw")
-    canvas.image = bg
-
-
+    backgroundImagePath = os.path.join(self.base_folder, '../medias/city4.png')
+    bgImage = PhotoImage(file=r'' + backgroundImagePath, width=w, height=h)
+    mainCanvas = Canvas(questFrame, width=w, height=h, bd=0, highlightthickness=0)
+    mainCanvas.pack(fill="both",expand=TRUE)
+    mainCanvas.create_image(0, 0, image=bgImage, anchor="nw")
+    mainCanvas.image = bgImage
     labelTextcityFrame_config = ('Calibri (Body)', 30, 'bold')
-    canvas.create_text(w/2,50,fill='white', anchor='c',text="Bienvenue à Erthilia " + self.perso.get('name') + ",\n Quel destin veux-tu choisir ?", font=labelTextcityFrame_config,justify='center')
-
-    imagePath = os.path.join(self.base_folder, '../medias/questGiverChar.png')
-    image = PhotoImage(file=imagePath)
-    canvas2 = Canvas(questFrame, width=256, height=144, bd=0, highlightthickness=0)
-    canvas2.pack(fill="both", expand=True)
-    canvas2.create_image(0, 0, image=image, anchor="nw")
-    canvas2.image = image
-    canvas2.place(x=200, y=200)
-    canvas2.bind('<Enter>',Playsound)
-
-    canvas2.create_text(128, 50, text="Find the exile of the lake" + "\n" + "Easy", fill="white", justify="center")
-
-    news_Button = Button(canvas2, text="Commencer",
-                            border=0,
-                            activebackground='#12c4c0',
-                            bg="#12c4c0")
-    news_Button.place(relx=0.5, rely=0.6, anchor="center")
-
-
-
-    ###
-
-    imagePath2 = os.path.join(self.base_folder, '../medias/forgottenTown.png')
-    image2 = PhotoImage(file=imagePath2)
-    canvas3 = Canvas(questFrame, width=256, height=144,bd=0, highlightthickness=0)
-    canvas3.pack(fill="both", expand=True)
-    canvas3.create_image(0, 0, image=image2, anchor="nw")
-    canvas3.image = image2
-    canvas3.place(x=1200, y=200)
-    canvas3.bind('<Enter>',Playsound)
-
-    canvas3.create_text(128, 50, text="The forgotten town" + "\n" + "Hard", fill="white", justify="center")
-
-    news_Button2 = Button(canvas3, text="Commencer",
-                            border=0,
-                            command=choice,
-                            activebackground='#12c4c0',
-                            bg="#12c4c0")
-    news_Button2.place(relx=0.5, rely=0.6, anchor="center")
-
-
-
+    mainCanvas.create_text(w/2,100,fill='white', anchor='c',text="Bienvenue à Erthilia " + self.perso.get('name') + ",\n Quel destin veux-tu choisir ?", font=labelTextcityFrame_config,justify='center')
     questFrame.pack(expand=TRUE)
+
+
+    for i, quest in enumerate(questJson):
+        render(self,questFrame, Playsound,quest, 150 + 550 * i, 200,choice)
