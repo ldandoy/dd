@@ -31,6 +31,7 @@ class MainWindow:
         self.q = Tk()
         self.q.title("Donjon & Dragon")
         # TODO: Dynamic window resizing
+        pygame.mixer.init()
         w = self.q.winfo_screenwidth()
         h = self.q.winfo_screenheight()
         self.q.geometry(f"{w}x{h}")
