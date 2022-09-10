@@ -36,6 +36,7 @@ class MainWindow:
         h = self.q.winfo_screenheight()
         self.q.geometry(f"{w}x{h}")
         self.q.configure(bg='')
+        self.q.attributes('-fullscreen', True)
         # Add no size update
 
         Button(self.q, command=self.toogleWin, text='Menu', border=0, bg="#12c4c0").place(x=5, y=10)
