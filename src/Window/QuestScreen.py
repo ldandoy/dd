@@ -1,25 +1,11 @@
-from ctypes import resize
-import json
-import logging
-import time
-from tkinter import *
-from tkinter.ttk import Combobox
-from turtle import width
-from xxlimited import new
-import pygame
 import os
-import tkinter as tk
 from random import *
-from functools import partial
+from tkinter import *
 from PIL import Image, ImageTk
-
-
 from Rooms.rooms import Room
-from    Utils.load_json import LoadJson
-from    Utils.load_json import LoadJson
-from Window.quest import start_quest_frame
+from Utils.load_json import LoadJson
 from Utils.Sound import Sound
-
+from Window.quest import start_quest_frame
 
 def renderReward(self,frame,item, x,y,Playsound):
     
@@ -28,38 +14,24 @@ def renderReward(self,frame,item, x,y,Playsound):
         frame.itemconfigure(DescriptionItem, text=item["DescriptionItem"])
         Playsound('button_menu')
 
-
     def onExitMouse(event):
         frame.itemconfigure(NameItem, text="")
         frame.itemconfigure(DescriptionItem, text="")
 
-
-    # logging.getLogger('PIL').setLevel(logging.WARNING)
-    img=(Image.open(os.path.join(self.base_folder, '../medias/'+item["ImageItem"]+'.png')))
-    resized_image= img.resize((100,100), Image.ANTIALIAS)
-    new_image= ImageTk.PhotoImage(resized_image)
-    # frame.create_image(10,10, anchor=NW, image=new_image)
-
-
-
-    itemImagePath = os.path.join(self.base_folder, '../medias/'+item["ImageItem"]+'.png')
-    # image = PhotoImage(file=itemImagePath)
+    imageItem=(Image.open(os.path.join(self.base_folder, '../medias/'+item["ImageItem"]+'.png')))
+    resized_image= imageItem.resize((100,100), Image.ANTIALIAS)
+    imageItemResized= ImageTk.PhotoImage(resized_image)
     itemContainer = Canvas(frame, width=100,height=100, bd=1, highlightthickness=0, bg="black")
     itemContainer.pack()
-    itemContainer.create_image(0,0,anchor="nw", image=new_image)
-    itemContainer.image = new_image
+    itemContainer.create_image(0,0,anchor="nw", image=imageItemResized)
+    itemContainer.image = imageItemResized
     itemContainer.place(x=x,y=y)
     itemContainer.bind('<Enter>',onEnterMouse)
     itemContainer.bind('<Leave>',onExitMouse)
-
     nameItemFont = ('Calibri (Body)', 16, 'bold','italic','underline')
     descriptionItemFont =  ('Calibri (Body)', 14, 'bold','italic')
-
     NameItem = frame.create_text(512/2, 540, text="",fill="white", justify="center",font=nameItemFont)
     DescriptionItem = frame.create_text(512/2, 580, text="",fill="white", justify="center",font=descriptionItemFont)
-
-
-    
 
 def renderQuest(self, frame, Playsound, quest,x,y,choice):
 
@@ -70,14 +42,9 @@ def renderQuest(self, frame, Playsound, quest,x,y,choice):
     def onExitMouse(event):
         questContainer["bg"] ="black"
 
-
-
     img=(Image.open(os.path.join(self.base_folder, '../medias/'+quest["Image"]+'.png')))
     resized_image= img.resize((512,700), Image.ANTIALIAS)
     new_image= ImageTk.PhotoImage(resized_image)
-
-    # questImagePath = os.path.join(self.base_folder, '../medias/'+quest["Image"]+'.png')
-    # new_image = PhotoImage(file=questImagePath)
     questContainer = Canvas(frame, width=512, height=700, bd=2, highlightthickness=0, bg="black")
     questContainer.pack(fill="both", expand=True)
     questContainer.create_image(0, 0, image=new_image, anchor="nw")
