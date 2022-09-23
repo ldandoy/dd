@@ -7,6 +7,7 @@ from tkinter import *
 from Utils.load_json import LoadJson
 from Window.character_selection import character_selection_frame
 from Window.new_character import new_character_frame
+from PIL import Image, ImageTk
 from Utils.load_json import LoadJson
 from Utils.Sound import Sound
 from News.News import News
@@ -19,16 +20,14 @@ class MainWindow:
         self.base_folder = os.path.dirname(__file__)
         self.q = Tk()
         self.q.title("Donjon & Dragon")
-        # TODO: Dynamic window resizing
         pygame.mixer.init()
-        w = self.q.winfo_screenwidth()
-        h = self.q.winfo_screenheight()
-        self.q.geometry(f"{w}x{h}")
+        self.w = self.q.winfo_screenwidth()
+        self.h = self.q.winfo_screenheight()
+        self.q.geometry(f"{self.w}x{self.h}")
         self.q.configure(bg='')
-        self.news = News.getAllNews(self.base_folder)
+        self.news = self.getAllNews()
         self.q.attributes('-fullscreen', True)
         # Add no size update
-
         self.renderHomeScreen()
 
         self.q.mainloop()
@@ -78,14 +77,17 @@ class MainWindow:
     #            activebackground='#12c4c0', bg="#12c4c0").place(x=5, y=10)
 
     def renderHomeScreen(self):
-        homeFrame = Frame(self.q, width=1024, height=600)
+        homeFrame = Frame(self.q, width=self.w, height=self.h)
         homeFrame.place(x=0, y=0)
         homeFrame.lower()
 
         bg_image_path = os.path.join(
             self.base_folder, '../medias/montagne.png')
-        background_image = PhotoImage(file=r'' + bg_image_path)
-        background_canvas = Canvas(homeFrame, width=1024, height=600)
+        image = Image.open(bg_image_path)
+        image = image.resize((self.w, self.h), Image.ANTIALIAS)
+        background_image = ImageTk.PhotoImage(image)
+
+        background_canvas = Canvas(homeFrame, width=self.w, height=self.h)
         background_canvas.pack(fill="both", expand=True)
         background_canvas.create_image(
             0, 0, image=background_image, anchor="nw")
@@ -94,7 +96,7 @@ class MainWindow:
         home_title = Label(homeFrame, text="Bienvenue dans Donjon et Dragon", fg='black',
                            bg="white")
         home_title.config(font=('Calibri (Body)', 36, 'bold'))
-        home_title.place(x=250, y=100)
+        home_title.place(x=self.w/2, y=100, anchor="center")
 
         for i, news in enumerate(self.news):
             if i > self.lastNewsCount - 1:
@@ -113,7 +115,7 @@ class MainWindow:
             new_character_frame(self)
 
         # Button to start the game
-        PlayButton = Button(textwelcomeframe, text="Jouer", command=play, border=0, activebackground='#12c4c0',
+        PlayButton = Button(homeFrame, text="Jouer", command=play, border=0, activebackground='#12c4c0',
                             bg="#12c4c0")
         PlayButton.place(x=950, y=550)
 
@@ -122,6 +124,6 @@ class MainWindow:
         #        border=0, bg="#12c4c0").place(x=5, y=10)
 
         # Button to create a character 
-        PersoButton = Button(textwelcomeframe, text="Creation de perso", command=perso, border=0, activebackground='#12c4c0',
+        PersoButton = Button(homeFrame, text="Creation de perso", command=perso, border=0, activebackground='#12c4c0',
                             bg="#12c4c0")
         PersoButton.place(x=820, y=550)
