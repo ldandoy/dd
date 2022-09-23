@@ -91,7 +91,7 @@ class MainWindow:
         def dele():
             f1.pack_forget()
             f1.destroy()
-            if (self.newsToggleFrameOpen):
+            if self.newsToggleFrameOpen:
                 self.newsToggleFrame.pack_forget()
                 self.newsToggleFrame.destroy()
 
