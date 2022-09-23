@@ -4,7 +4,7 @@ races = {
 }
 
 class PointCharacter:
-    max = 25
+    max = 10
     maxPoint = 5
     indexPoint = 0
     currentPoint = maxPoint

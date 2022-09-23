@@ -79,67 +79,71 @@ def reloadPointStats(frame, label, race):
 
 
 def new_character_frame(self):
-    vcmd = (self.q.register(isDigit))
+
     """
     Create new person page
     """
-    frame = Frame(self.q, width=1024, height=600)
-    print(frame)
+
+    w = self.q.winfo_screenwidth()
+    h = self.q.winfo_screenheight()
+
+    frame = Frame(self.q, width=w, height=h)
+    vcmd = (frame.register(isDigit))
 
     # background
     bg_path = os.path.join('src', 'medias', 'new_person.png')
     bg = PhotoImage(file=bg_path)
-    background_label = tk.Label(self.q, image=bg)
-    background_label.place(x=0, y=0, relwidth=1, relheight=1)
+    background_label = tk.Label(frame, image=bg)
+    background_label.place(x=0, y=0, width=w, height=h)
     background_label.image = bg
 
     # main message
-    Label(self.q,
-          text="Créer votre personnage",
-          bg='black',
-          fg='white',
-          font=('Calibri (Body)', 24, 'bold')).grid(column=0, row=1)
+    Label(frame,
+        text="Créer votre personnage",
+        bg='black',
+        fg='white',
+        font=('Calibri (Body)', 24, 'bold')).grid(column=0, row=1)
 
-    lbl = Label(self.q, text="Point restants 5")
+    lbl = Label(frame, text="Point restants 5")
 
     lbl.grid(column=0, row=2)
     
-    orcButton = Button(self.q, text="orc", command=lambda: reloadPointStats(self.q, lbl, "orc"))
+    orcButton = Button(frame, text="orc", command=lambda: reloadPointStats(frame, lbl, "orc"))
     orcButton.grid(column=0, row=3)
     
-    humanButton = Button(self.q, text="human", command=lambda: reloadPointStats(self.q, lbl, "human"))
+    humanButton = Button(frame, text="human", command=lambda: reloadPointStats(frame, lbl, "human"))
     humanButton.grid(column=1, row=3)
     
-    stats = reloadPointStats(self.q, lbl, "orc")
+    stats = reloadPointStats(frame, lbl, "orc")
     indexRow = 11
     values = {}
 
     for key in keysString:
-        label = tk.StringVar(self.q)
+        label = tk.StringVar(frame)
         label.set(keysString[key])
-        Label(self.q, textvariable=label).grid(column=0, row=indexRow)
+        Label(frame, textvariable=label).grid(column=0, row=indexRow)
         # name entry
-        value = tk.StringVar(self.q)
-        Entry(self.q, textvariable=value, bd=0).grid(column=1, row=indexRow)
+        value = tk.StringVar(frame)
+        Entry(frame, textvariable=value, bd=0).grid(column=1, row=indexRow)
         values[key] = value
         indexRow += 1
     for key in keysInt:
-        label = tk.StringVar(self.q)
+        label = tk.StringVar(frame)
         label.set(keysInt[key])
-        Label(self.q, textvariable=label).grid(column=0, row=indexRow)
+        Label(frame, textvariable=label).grid(column=0, row=indexRow)
         # name entry
-        value = tk.IntVar(self.q)
-        Entry(self.q, textvariable=value, bd=0, validate='all',
+        value = tk.IntVar(frame)
+        Entry(frame, textvariable=value, bd=0, validate='all',
               validatecommand=(vcmd, '%P')).grid(column=1, row=indexRow)
         values[key] = value
         indexRow += 1
 
     # for display errors
-    scrollbar = Scrollbar(self.q)
+    scrollbar = Scrollbar(frame)
     scrollbar.pack_forget()
     indexRow += 1
     scrollbar.grid(column=0, row=indexRow, columnspan=3)
-    errors_list = Listbox(self.q, yscrollcommand=scrollbar.set, width=65)
+    errors_list = Listbox(frame, yscrollcommand=scrollbar.set, width=65)
     # function executed when form submitted
     def create_person():
         person = Person(values["name"],
@@ -177,14 +181,22 @@ def new_character_frame(self):
             Sound.play(self.base_folder, "perso_created")
         # pygame.mixer.init()
             
+    def returnPage():
+        frame.pack_forget()
+        frame.destroy()
 
     # submit button
     indexRow += 1
-    tk.Button(self.q,
+    tk.Button(frame,
+        text='Retour',
+        height=1,
+        width=10,
+        command=returnPage
+    ).grid(column=0, row=indexRow)
+    tk.Button(frame,
         text='Créer',
         height=1,
         width=10,
         command=create_person
-    ).grid(column=0, row=indexRow)
-
-    frame.place(x=0, y=0)
+    ).grid(column=1, row=indexRow)
+    frame.pack(fill="both", expand=TRUE)

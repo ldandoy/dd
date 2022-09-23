@@ -130,13 +130,16 @@ class MainWindow:
         Button(f1, text="close", command=dele, border=0, activebackground='#12c4c0', bg="#12c4c0").place(x=5, y=10)
 
     def textWelcomeFrame(self):
-        textwelcomeframe = Frame(self.q, width=1024, height=600)
+        w = self.q.winfo_screenwidth()
+        h = self.q.winfo_screenheight()
+
+        textwelcomeframe = Frame(self.q, width=w, height=h)
         textwelcomeframe.place(x=0, y=0)
         textwelcomeframe.lower()
 
         image_path = os.path.join(self.base_folder, '../medias/montagne.png')
         bg = PhotoImage(file=r'' + image_path)
-        canvas1 = Canvas(textwelcomeframe, width=1024, height=600)
+        canvas1 = Canvas(textwelcomeframe, width=w, height=h)
         canvas1.pack(fill="both", expand=True)
         canvas1.create_image(0, 0, image=bg, anchor="nw")
         canvas1.image = bg
