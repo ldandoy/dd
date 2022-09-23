@@ -96,6 +96,20 @@ def renderQuest(self, frame, Playsound, quest, x, y, choice):
     startButton.place(relx=0.5, rely=0.9, anchor="center")
 
 
+    inventoryButton = Button(questContainer, text="Inventory", command=lambda self=self : OpenInventory(self),
+                         border=0, activebackground='#12c4c0', bg="#12c4c0")
+    inventoryButton.place(relx=0.5, rely=0.94, anchor="center")
+
+
+def OpenInventory(self):
+    print('Open Inventory')
+    inventory_frame = Frame(self.q, width=1920, height=1080)
+    w = self.q.winfo_screenwidth()
+    h = self.q.winfo_screenheight()
+
+    inventory_frame.pack(expand=TRUE)
+
+
 def Quest(self):
 
     json = LoadJson()
