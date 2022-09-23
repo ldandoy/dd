@@ -9,13 +9,13 @@ from Window.quest import start_quest_frame
 
 def renderReward(self,frame,item, x,y,Playsound):
     
-    def onEnterMouse(event):
-        frame.itemconfigure(NameItem, text=item["NameItem"])
+    def onMouseEnter(event):
+        frame.itemconfigure(ItemName, text=item["NameItem"])
         frame.itemconfigure(DescriptionItem, text=item["DescriptionItem"])
         Playsound('button_menu')
 
-    def onExitMouse(event):
-        frame.itemconfigure(NameItem, text="")
+    def onMouseExit(event):
+        frame.itemconfigure(ItemName, text="")
         frame.itemconfigure(DescriptionItem, text="")
 
     imageItem=(Image.open(os.path.join(self.base_folder, '../medias/'+item["ImageItem"]+'.png')))
@@ -26,20 +26,20 @@ def renderReward(self,frame,item, x,y,Playsound):
     itemContainer.create_image(0,0,anchor="nw", image=imageItemResized)
     itemContainer.image = imageItemResized
     itemContainer.place(x=x,y=y)
-    itemContainer.bind('<Enter>',onEnterMouse)
-    itemContainer.bind('<Leave>',onExitMouse)
+    itemContainer.bind('<Enter>',onMouseEnter)
+    itemContainer.bind('<Leave>',onMouseExit)
     nameItemFont = ('Calibri (Body)', 16, 'bold','italic','underline')
     descriptionItemFont =  ('Calibri (Body)', 14, 'bold','italic')
-    NameItem = frame.create_text(512/2, 540, text="",fill="white", justify="center",font=nameItemFont)
-    DescriptionItem = frame.create_text(512/2, 580, text="",fill="white", justify="center",font=descriptionItemFont)
+    ItemName = frame.create_text(512/2, 540, text="",fill="white", justify="center",font=nameItemFont)
+    descriptionItem = frame.create_text(512/2, 580, text="",fill="white", justify="center",font=descriptionItemFont)
 
 def renderQuest(self, frame, Playsound, quest,x,y,choice):
 
-    def onEnterMouse(event):
+    def onMouseEnter(event):
         Playsound('selection')
         questContainer["bg"] ="white"
 
-    def onExitMouse(event):
+    def onMouseExit(event):
         questContainer["bg"] ="black"
 
     img=(Image.open(os.path.join(self.base_folder, '../medias/'+quest["Image"]+'.png')))
@@ -50,8 +50,8 @@ def renderQuest(self, frame, Playsound, quest,x,y,choice):
     questContainer.create_image(0, 0, image=new_image, anchor="nw")
     questContainer.image = new_image
     questContainer.place(x=x, y=y)
-    questContainer.bind('<Enter>',onEnterMouse)
-    questContainer.bind('<Leave>',onExitMouse)
+    questContainer.bind('<Enter>',onMouseEnter)
+    questContainer.bind('<Leave>',onMouseExit)
 
     questLabelFont = ('Calibri (Body)', 24, 'bold','italic','underline')
     difficultyFont =  ('Calibri (Body)', 16, 'bold','italic')
