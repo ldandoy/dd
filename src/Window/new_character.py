@@ -11,10 +11,20 @@ from Perso.person import Person
 from Utils.Sound import Sound
 from Perso.PointCharacter import PointCharacter
 
-races = {
-    "human": {"force": 3, "dexterite": 2, "intelligence": 3, "charisme": 2, "constitution": 3, "sagesse": 0, "vitesse": 5},
-    "orc": {"force": 5,"dexterite": 2,"intelligence": 1,"charisme": 0,"constitution": 3,"sagesse": 0,"vitesse": 3}
+
+keysString = {
+    "name": "Nom",
+    "eyes": "Yeux",
+    "skin": "Peau",
+    "class_entry": "Classe",
+    "alignment": "Alignement",
 }
+keysInt = {
+    "age": "Age",
+    "height": "Taille",
+    "weight": "Poids",
+}
+
 def isDigit(P):
     if str.isdigit(P) or P == "":
         return True
@@ -24,12 +34,10 @@ def isDigit(P):
 
 def drawBarStats(frame, gridRow=0, label="Force", pointStats=None, who="strenght"):
     def increment():
-        print("hello conayaro")
         if pointStats.increment(who):
             drawBarStats(frame, gridRow, label, pointStats, who)
 
     def decrement():
-        print("hello body")
         if pointStats.decrement(who):
             drawBarStats(frame, gridRow, label, pointStats, who)
 
@@ -61,11 +69,10 @@ def drawBarStats(frame, gridRow=0, label="Force", pointStats=None, who="strenght
     buttonAddPoint.grid(column=3, row=gridRow)
 
 
-
 def reloadPointStats(frame, label, race):
     pointStats = PointCharacter(label, race)
     indexRow = 4
-    for key in race.keys():
+    for key in pointStats.points.keys():
         drawBarStats(frame, indexRow, key, pointStats=pointStats, who=key)
         indexRow += 1
     return pointStats
@@ -93,250 +100,91 @@ def new_character_frame(self):
           fg='white',
           font=('Calibri (Body)', 24, 'bold')).grid(column=0, row=1)
 
-    # main_message = tk.Text(self.q, text='Créer un personnage', fg='black')
-    # main_message.config(font=('Calibri (Body)', 24, 'bold'))
-
     lbl = Label(self.q, text="Point restants 5")
 
     lbl.grid(column=0, row=2)
     
-    orcButton = Button(self.q, text="orc", command=lambda: reloadPointStats(self.q, lbl, races["orc"]))
+    orcButton = Button(self.q, text="orc", command=lambda: reloadPointStats(self.q, lbl, "orc"))
     orcButton.grid(column=0, row=3)
     
-    humanButton = Button(self.q, text="human", command=lambda: reloadPointStats(self.q, lbl, races["human"]))
+    humanButton = Button(self.q, text="human", command=lambda: reloadPointStats(self.q, lbl, "human"))
     humanButton.grid(column=1, row=3)
     
-    stats = reloadPointStats(self.q, lbl, races["orc"])
-        # pe,           à changer
-        # strength,     à changer
-        # dexterity,    à changer
-        # intelligence, à changer
-        # charisma,     à changer
-        # constitution, à changer
-        # wisdom,       à changer
-        # speed         à changer
-    # # name label
-    # name_label = tk.StringVar(self.q)
-    # name_label.set("Nom")
-    # Label(self.q, textvariable=name_label, bg="black", fg='white').pack()
+    stats = reloadPointStats(self.q, lbl, "orc")
+    indexRow = 11
+    values = {}
 
-    # # name entry
-    # name = tk.StringVar(self.q)
-    # Entry(self.q, textvariable=name, width=100, bd=0).pack()
+    for key in keysString:
+        label = tk.StringVar(self.q)
+        label.set(keysString[key])
+        Label(self.q, textvariable=label).grid(column=0, row=indexRow)
+        # name entry
+        value = tk.StringVar(self.q)
+        Entry(self.q, textvariable=value, bd=0).grid(column=1, row=indexRow)
+        values[key] = value
+        indexRow += 1
+    for key in keysInt:
+        label = tk.StringVar(self.q)
+        label.set(keysInt[key])
+        Label(self.q, textvariable=label).grid(column=0, row=indexRow)
+        # name entry
+        value = tk.IntVar(self.q)
+        Entry(self.q, textvariable=value, bd=0, validate='all',
+              validatecommand=(vcmd, '%P')).grid(column=1, row=indexRow)
+        values[key] = value
+        indexRow += 1
 
-    # # age label
-    # age_label = tk.StringVar(self.q)
-    # age_label.set("Age")
-    # Label(self.q, textvariable=age_label, bg="black", fg='white').pack()
-    # # age entry
-    # age = tk.IntVar(self.q)
-    # Entry(self.q, textvariable=age, width=100, bd=0, validate='all', validatecommand=(vcmd, '%P')).pack()
+    # for display errors
+    scrollbar = Scrollbar(self.q)
+    scrollbar.pack_forget()
+    indexRow += 1
+    scrollbar.grid(column=0, row=indexRow, columnspan=3)
+    errors_list = Listbox(self.q, yscrollcommand=scrollbar.set, width=65)
+    # function executed when form submitted
+    def create_person():
+        person = Person(values["name"],
+            values["age"],
+            values["eyes"],
+            values["height"],
+            values["weight"],
+            values["skin"],
+            stats.race,
+            values["class_entry"],
+            values["alignment"],
+            stats.getPointsFor("force"),
+            stats.getPointsFor("dexterite"),
+            stats.getPointsFor("intelligence"),
+            stats.getPointsFor("charisme"),
+            stats.getPointsFor("constitution"),
+            stats.getPointsFor("sagesse"),
+            stats.getPointsFor("vitesse")
+        )
+        # verify inputs
+        errors_messages = person.verify_inputs()
 
-    # # eyes label
-    # eyes_label = tk.StringVar(self.q)
-    # eyes_label.set("Yeux")
-    # Label(self.q, textvariable=eyes_label, bg="black", fg='white').pack()
+        # if there are errors, then display them in a list box
+        if len(errors_messages) > 0:
+            errors_list.delete(0, END)
+            errors_list.insert(END, "ERREUR DE FORMULAIRE:")
+            for msg in errors_messages:
+                errors_list.insert(END, msg)
 
-    # # eyes entry
-    # eyes = tk.StringVar(self.q)
-    # Entry(self.q, textvariable=eyes, width=100, bd=0).pack()
+            errors_list.grid(column=0, row=20, columnspan=5)
+            scrollbar.config(command=errors_list.yview)
 
-    # # height label
-    # height_label = tk.StringVar(self.q)
-    # height_label.set("Taille (en centimètres)")
-    # Label(self.q, textvariable=height_label, bg="black", fg='white').pack()
-
-    # # height entry
-    # height = tk.IntVar(self.q)
-    # Entry(self.q, textvariable=height, width=100, bd=0, validate='all', validatecommand=(vcmd, '%P')).pack()
-
-    # # weight label
-    # weight_label = tk.StringVar(self.q)
-    # weight_label.set("Poids (en Kilogrammes)")
-    # Label(self.q, textvariable=weight_label, bg="black", fg='white').pack()
-
-    # # weight entry
-    # weight = tk.IntVar(self.q)
-    # Entry(self.q, textvariable=weight, width=100, bd=0, validate='all', validatecommand=(vcmd, '%P')).pack()
-
-    # # skin label
-    # skin_label = tk.StringVar(self.q)
-    # skin_label.set("Couleur de peau")
-    # Label(self.q, textvariable=skin_label, bg="black", fg='white').pack()
-
-    # # skin entry
-    # skin = tk.StringVar(self.q)
-    # Entry(self.q, textvariable=skin, width=100, bd=0).pack()
-
-    # # race label
-    # race_label = tk.StringVar(self.q)
-    # race_label.set("Origine ethnique")
-    # Label(self.q, textvariable=race_label, bg="black", fg='white').pack()
-
-    # # race entry
-    # race = tk.StringVar(self.q)
-    # Entry(self.q, textvariable=race, width=100, bd=0).pack()
-
-    # # class label
-    # class_label = tk.StringVar(self.q)
-    # class_label.set("Classe")
-    # Label(self.q, textvariable=class_label, bg="black", fg='white').pack()
-
-    # # class entry
-    # class_entry = tk.StringVar(self.q)
-    # Entry(self.q, textvariable=class_entry, width=100, bd=0).pack()
-
-    # # alignment label
-    # alignment_label = tk.StringVar(self.q)
-    # alignment_label.set("Alignement")
-    # Label(self.q, textvariable=alignment_label, bg="black", fg='white').pack()
-
-    # # alignment entry
-    # alignment = tk.StringVar(self.q)
-    # Entry(self.q, textvariable=alignment, width=100, bd=0).pack()
-
-    # # pe label
-    # pe_label = tk.StringVar(self.q)
-    # pe_label.set("PE")
-    # Label(self.q, textvariable=pe_label, bg="black", fg='white').pack()
-
-    # # pe entry
-    # pe = tk.IntVar(self.q)
-    # Entry(self.q, textvariable=pe, width=100, bd=0).pack()
-
-    # # strength label
-    # strength_label = tk.StringVar(self.q)
-    # strength_label.set("Force")
-    # Label(self.q, textvariable=strength_label, bg="black", fg='white').pack()
-
-    # # strength entry
-    # strength = tk.IntVar(self.q)
-    # Entry(self.q, textvariable=strength, width=100, bd=0, validate='all', validatecommand=(vcmd, '%P')).pack()
-
-    # # dexterity label
-    # dexterity_label = tk.StringVar(self.q)
-    # dexterity_label.set("Dextérité")
-    # Label(self.q, textvariable=dexterity_label, bg="black", fg='white').pack()
-
-    # # dexterity entry
-    # dexterity = tk.IntVar(self.q)
-    # Entry(self.q, textvariable=dexterity, width=100, bd=0, validate='all', validatecommand=(vcmd, '%P')).pack()
-
-    # # intelligence label
-    # intelligence_label = tk.StringVar(self.q)
-    # intelligence_label.set("Intelligence")
-    # Label(self.q, textvariable=intelligence_label, bg="black", fg='white').pack()
-
-    # # intelligence entry
-    # intelligence = tk.IntVar(self.q)
-    # Entry(self.q, textvariable=intelligence, width=100, bd=0, validate='all', validatecommand=(vcmd, '%P')).pack()
-
-    # # charisma label
-    # charisma_label = tk.StringVar(self.q)
-    # charisma_label.set("Charisme")
-    # Label(self.q, textvariable=charisma_label, bg="black", fg='white').pack()
-
-    # # charisma entry
-    # charisma = tk.IntVar(self.q)
-    # Entry(self.q, textvariable=charisma, width=100, bd=0, validate='all', validatecommand=(vcmd, '%P')).pack()
-
-    # # constitution label
-    # constitution_label = tk.StringVar(self.q)
-    # constitution_label.set("Constitution")
-    # Label(self.q, textvariable=constitution_label, bg="black", fg='white').pack()
-
-    # # constitution entry
-    # constitution = tk.IntVar(self.q)
-    # Entry(self.q, textvariable=constitution, width=100, bd=0, validate='all', validatecommand=(vcmd, '%P')).pack()
-
-    # # wisdom label
-    # wisdom_label = tk.StringVar(self.q)
-    # wisdom_label.set("Sagesse")
-    # Label(self.q, textvariable=wisdom_label, bg="black", fg='white').pack()
-
-    # # wisdom entry
-    # wisdom = tk.IntVar(self.q)
-    # Entry(self.q, textvariable=wisdom, width=100, bd=0, validate='all', validatecommand=(vcmd, '%P')).pack()
-
-    # # speed label
-    # speed_label = tk.StringVar(self.q)
-    # speed_label.set("Vitesse")
-    # Label(self.q, textvariable=speed_label, bg="black", fg='white').pack()
-
-    # # speed entry
-    # speed = tk.IntVar(self.q)
-    # Entry(self.q, textvariable=speed, width=100, bd=0, validate='all', validatecommand=(vcmd, '%P')).pack()
-
-    # # for display errors
-    # scrollbar = Scrollbar(self.q)
-    # scrollbar.pack_forget()
-    # scrollbar.pack(side=RIGHT, fill=Y)
-    # errors_list = Listbox(self.q, yscrollcommand=scrollbar.set, width=65)
-
-    # # function executed when form submitted
-    # def create_person():
-    #     person = Person(name,
-    #                     age,
-    #                     eyes,
-    #                     height,
-    #                     weight,
-    #                     skin,
-    #                     race,
-    #                     class_entry,
-    #                     alignment,
-    #                     pe,
-    #                     strength,
-    #                     dexterity,
-    #                     intelligence,
-    #                     charisma,
-    #                     constitution,
-    #                     wisdom,
-    #                     speed
-    #                     )
-    #     # verify inputs
-    #     errors_messages = person.verify_inputs()
-
-    #     # if there are errors, then display them in a list box
-    #     if len(errors_messages) > 0:
-    #         errors_list.delete(0, END)
-    #         errors_list.insert(END, "ERREUR DE FORMULAIRE:")
-
-    #         for msg in errors_messages:
-    #             errors_list.insert(END, msg)
-
-    #         errors_list.pack(side=LEFT, fill=BOTH)
-    #         scrollbar.config(command=errors_list.yview)
-
-    #     else:
-    #         person.save()
-    #         Sound.play(self.base_folder, "perso_created")
-    #     # pygame.mixer.init()
+        else:
+            person.save()
+            Sound.play(self.base_folder, "perso_created")
+        # pygame.mixer.init()
             
 
-    # # submit button
-    # tk.Button(self.q,
-    #           text='Créer',
-    #           height=1,
-    #           width=10,
-    #           command=create_person).pack()
+    # submit button
+    indexRow += 1
+    tk.Button(self.q,
+        text='Créer',
+        height=1,
+        width=10,
+        command=create_person
+    ).grid(column=0, row=indexRow)
 
     frame.place(x=0, y=0)
-
-
-# name,
-# age,          à changer fait
-# eyes,
-# height,       à changer fait
-# weight,       à changer fait
-# skin,
-# # race,       à changer
-# class_entry,  à changer
-# alignment,
-# pe,           à changer
-# strength,     à changer
-# dexterity,    à changer
-# intelligence, à changer
-# charisma,     à changer
-# constitution, à changer
-# wisdom,       à changer
-# speed         à changer
