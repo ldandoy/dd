@@ -81,22 +81,22 @@ class MainWindow:
         homeFrame.place(x=0, y=0)
         homeFrame.lower()
 
-        bg_image_path = os.path.join(
+        bgImagePath = os.path.join(
             self.base_folder, '../medias/montagne.png')
-        image = Image.open(bg_image_path)
+        image = Image.open(bgImagePath)
         image = image.resize((self.w, self.h), Image.ANTIALIAS)
-        background_image = ImageTk.PhotoImage(image)
+        bgImage = ImageTk.PhotoImage(image)
 
-        background_canvas = Canvas(homeFrame, width=self.w, height=self.h)
-        background_canvas.pack(fill="both", expand=True)
-        background_canvas.create_image(
-            0, 0, image=background_image, anchor="nw")
-        background_canvas.image = background_image
+        gbCanvas = Canvas(homeFrame, width=self.w, height=self.h)
+        gbCanvas.pack(fill="both", expand=True)
+        gbCanvas.create_image(
+            0, 0, image=bgImage, anchor="nw")
+        gbCanvas.image = bgImage
 
-        home_title = Label(homeFrame, text="Bienvenue dans Donjon et Dragon", fg='black',
+        homeTitle = Label(homeFrame, text="Bienvenue dans Donjon et Dragon", fg='black',
                            bg="white")
-        home_title.config(font=('Calibri (Body)', 36, 'bold'))
-        home_title.place(x=self.w/2, y=100, anchor="center")
+        homeTitle.config(font=('Calibri (Body)', 36, 'bold'))
+        homeTitle.place(x=self.w/2, y=100, anchor="center")
 
         for i, news in enumerate(self.news):
             if i > self.lastNewsCount - 1:
