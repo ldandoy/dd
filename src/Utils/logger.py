@@ -1,6 +1,7 @@
 import logging
 import sys
 logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
+logging.getLogger("PIL").setLevel(logging.WARNING)
 logging.debug('Logger have successfully started')
 
 
