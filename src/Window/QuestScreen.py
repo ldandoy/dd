@@ -11,12 +11,12 @@ def renderReward(self,frame,item, x,y,Playsound):
     
     def onMouseEnter(event):
         frame.itemconfigure(ItemName, text=item["NameItem"])
-        frame.itemconfigure(DescriptionItem, text=item["DescriptionItem"])
+        frame.itemconfigure(ItemDescription, text=item["DescriptionItem"])
         Playsound('button_menu')
 
     def onMouseExit(event):
         frame.itemconfigure(ItemName, text="")
-        frame.itemconfigure(DescriptionItem, text="")
+        frame.itemconfigure(ItemDescription, text="")
 
     imageItem=(Image.open(os.path.join(self.base_folder, '../medias/'+item["ImageItem"]+'.png')))
     resized_image= imageItem.resize((100,100), Image.ANTIALIAS)
@@ -28,10 +28,10 @@ def renderReward(self,frame,item, x,y,Playsound):
     itemContainer.place(x=x,y=y)
     itemContainer.bind('<Enter>',onMouseEnter)
     itemContainer.bind('<Leave>',onMouseExit)
-    nameItemFont = ('Calibri (Body)', 16, 'bold','italic','underline')
-    descriptionItemFont =  ('Calibri (Body)', 14, 'bold','italic')
-    ItemName = frame.create_text(512/2, 540, text="",fill="white", justify="center",font=nameItemFont)
-    descriptionItem = frame.create_text(512/2, 580, text="",fill="white", justify="center",font=descriptionItemFont)
+    itemNameFont = ('Calibri (Body)', 16, 'bold','italic','underline')
+    itemDescriptionFontF =  ('Calibri (Body)', 14, 'bold','italic')
+    ItemName = frame.create_text(512/2, 540, text="",fill="white", justify="center",font=itemNameFont)
+    descriptionItem = frame.create_text(512/2, 580, text="",fill="white", justify="center",font=itemDescriptionFontF)
 
 def renderQuest(self, frame, Playsound, quest,x,y,choice):
 
