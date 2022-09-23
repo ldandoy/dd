@@ -2,7 +2,6 @@ SOURCEDIR     = docs
 
 init:
 	pip install -r requirements.txt
-	sphinx-quickstart
 
 test:
 	py.test tests
