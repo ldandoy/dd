@@ -1,21 +1,24 @@
 [
 	{
 		"Name": "The forgotten town",
-		"Description": "find a way out in this town cursed",
+		"Description": "find a way out \n in this town cursed",
 		"Difficulty": "Easy",
 		"Image": "forgottenTown",
+		"Done": false,
 		"Rewards": [
 			{
 				"NameItem": "Magical Sword",
+				"ImageItem": "magicalSword",
 				"SellPrice": 20,
 				"Sellable": true,
-				"Description": "A magical sword created by the hand of god"
+				"DescriptionItem": "A magical sword created \n by the hand of god"
 			},
 			{
 				"NameItem": "Helmet",
+				"ImageItem": "helmet",
 				"SellPrice": 2,
 				"Sellable": true,
-				"Description": "A basic helmet "
+				"DescriptionItem": "A basic helmet "
 			}
 		]
 	},
@@ -24,38 +27,37 @@
 		"Description": "Find the exile of the lake",
 		"Difficulty": "Hard",
 		"Image": "mysterious",
+		"Done": false,
 		"Rewards": [
 			{
 				"NameItem": "Magical Necklace",
+				"ImageItem": "magicalNecklace",
 				"SellPrice": 0,
 				"Sellable": false,
-				"Description": "A mysterious necklace"
+				"DescriptionItem": "A mysterious necklace"
 			},
 			{
 				"NameItem": "Fairy potion",
+				"ImageItem": "fairyPotion",
 				"SellPrice": 50,
 				"Sellable": true,
-				"Description": "drink that potion and a fairy might come with you"
+				"DescriptionItem": "drink that potion and a \n fairy might come with you"
 			}
 		]
 	},
 	{
 		"Name": "The city's breath",
-		"Description": "Venture out and unravel the secrets of this city",
+		"Description": "Venture out and unravel \n the secrets of this city",
 		"Difficulty": "Medium",
 		"Image": "MagicalCity",
+		"Done": false,
 		"Rewards": [
 			{
-				"NameItem": "Magical Sword",
-				"SellPrice": 20,
-				"Sellable": true,
-				"Description": "A magical sword created by the hand of god"
-			},
-			{
-				"NameItem": "Helmet",
-				"SellPrice": 2,
-				"Sellable": true,
-				"Description": "A basic helmet "
+				"NameItem": "Secret Key",
+				"ImageItem": "secretKey",
+				"SellPrice": 0,
+				"Sellable": false,
+				"DescriptionItem": "A key that open a secret door"
 			}
 		]
 	}
