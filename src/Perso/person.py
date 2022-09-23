@@ -232,8 +232,8 @@ class Person(DefaultController):
             return 5
 
     @staticmethod
-    def update(filename, perso):
-        json_file_path = open(os.path.join('Datas', 'Perso', filename.lower() + '.json'), "w")
+    def update(perso):
+        json_file_path = open(os.path.join('Datas', 'Perso', perso.name.lower() + '.json'), "w")
         print('my perso from update ' + str(perso))
         json_to_save = {
             'name': perso.get('name'),

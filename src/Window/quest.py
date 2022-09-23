@@ -11,7 +11,7 @@ from Utils.resized_image import ResizedImage
 
 from Window.main_window import *
 from Combat.combat import Combat
-from Inventory.inventory import *
+from Inventory.Inventory import *
 from Perso.perso import Perso
 from Perso.person import Person
 from Rooms.rooms import Room
