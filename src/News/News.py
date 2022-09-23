@@ -28,11 +28,11 @@ class News:
         canvas.create_text(
             128, 50, text=self.infos["title"] + "\n" + self.infos["date"], fill="white", justify="center", font=("Arial", 18))
 
-        news_Button = Button(canvas, text="En savoir plus",
+        newsButton = Button(canvas, text="En savoir plus",
                              border=0,
                              activebackground='#12c4c0',
                              bg="#12c4c0", command=self.renderShowMoreNewsScreen)
-        news_Button.place(relx=0.5, rely=0.7, anchor="center")
+        newsButton.place(relx=0.5, rely=0.7, anchor="center")
 
     def renderShowMoreNewsScreen(self):
         showMoreNewsFrame = Frame(self.q, width=self.w, height=self.h)
@@ -58,11 +58,11 @@ class News:
         canvas.create_text(
             self.w/2, 400, text=self.infos["author"], fill="white", justify="center", font=("Arial", 14))
 
-        news_Button = Button(canvas, text="Retour",
+        returnButton = Button(canvas, text="Retour",
                              border=0,
                              activebackground='#12c4c0',
                              bg="#12c4c0", command=lambda frame=showMoreNewsFrame:self.closeFrame(frame))
-        news_Button.place(relx=0.5, rely=0.8, anchor="center")
+        returnButton.place(relx=0.5, rely=0.8, anchor="center")
 
         showMoreNewsFrame.place(x=0, y=0)
     
