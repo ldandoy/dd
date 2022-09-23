@@ -147,39 +147,9 @@ class MainWindow:
                             bg="#12c4c0")
         PersoButton.place(x=820, y=550)
 
-        label_textinfo_x_position = 25
-        label_showmore_y_position = 100
-        lastFeaturesObj = GetLastFeatures()
-        label_textinfo_config = ('Calibri (Body)', 24, 'bold')
-
-        for i, feature in enumerate(lastFeaturesObj):
-            label_textinfo = Label(self.inventoryToggleFrame, text=feature['title'][0:50], fg='white',
-                                   bg='#000000', )
-            label_textinfo.config(font=label_textinfo_config)
-            label_textinfo.place(x=100, y=50 + (i * 40))
-            news_Button = Button(self.inventoryToggleFrame, text="En savoir plus",
-                                 border=0,
-                                 activebackground='#12c4c0',
-                                 bg="#12c4c0")
-            news_Button.place(x=5, y=50 + (i * 40))
-
-        def inventoryToggleClose():
-            self.inventoryToggleFrame.pack_forget()
-            self.inventoryFrame.destroy()
-
-        Button(self.inventoryToggleFrame, text="close", command=inventoryToggleClose, border=0, activebackground='#12c4c0',
-               bg="#12c4c0").place(x=650, y=10)
-
     def inventoryToggleWin(self):
         f1 = Frame(self.q, width=300, height=600, bg='#12c4c0')
         f1.place(x=0, y=0)
-
-        def dele():
-            f1.pack_forget()
-            f1.destroy()
-            if (self.inventoryToggleFrameOpen):
-                self.inventoryFrame.pack_forget()
-                self.inventoryFrame.destroy()
 
         def bttn(x, y, text, bcolor, fcolor, cmd):
             def onEnter(e):
