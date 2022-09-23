@@ -127,3 +127,16 @@ class MainWindow:
         PersoButton = Button(homeFrame, text="Creation de perso", command=perso, border=0, activebackground='#12c4c0',
                             bg="#12c4c0")
         PersoButton.place(x=820, y=550)
+
+        myButton = Button(homeFrame,
+                              width=42,
+                              height=2,
+                              fg="#262626",
+                              bg="#0f9d9a",
+                              border=0,
+                              activeforeground="#262626",
+                              activebackground="#12c4c0",)
+
+
+        Button(homeFrame, text="╳", command=self.q.destroy, border=0,
+               activebackground='#12c4c0', bg="#12c4c0").place(x=5, y=10)
