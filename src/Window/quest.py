@@ -18,7 +18,7 @@ from Rooms.rooms import Room
 from Window.QuestEndingScreen import questEnding
 from Window.QuestEscapeScreen import questEscape
 from Utils.load_json import LoadJson
-from int import open_inventory_management
+# from int import open_inventory_management
 
 
 def quest_frame(self):
@@ -56,7 +56,7 @@ def quest_frame(self):
     questButton.place(x=w*0.25, y=h*0.1)
 
     frame.place(x=0, y=0)
-    frame.lower()
+    # frame.lower()
 
 
 def start_quest_frame(self):
@@ -73,6 +73,9 @@ def start_quest_frame(self):
         started_quest_frame.pack_forget()
         started_quest_frame.destroy()
         combat(self, 1)
+    
+    def open_inventory():
+        print('OPEN INVENTORY')
 
     def run_away():
         difficult = randint(1, 10) + self.difficultFactor
@@ -119,6 +122,11 @@ def start_quest_frame(self):
         runButton = Button(started_quest_frame, text="Fuir !", command=run_away, border=0,
                            activebackground='#12c4c0', bg="#12c4c0")
         runButton.place(x=w*0.8, y=h*0.85)
+
+        inventoryButton = Button(started_quest_frame, text="Inventory", command=open_inventory, border=0,
+                           activebackground='#12c4c0', bg="#12c4c0")
+        inventoryButton.place(x=750, y=300)
+
     elif self.rooms.donjon[self.donjonRoom]["name"] == "Boss":
         started_quest_frame = Frame(self.q, width=w, height=h, bg="#FF0000")
         started_quest_frame.place(x=0, y=0)
@@ -209,7 +217,7 @@ def combat(self, isBoss):
     heroHp = hero.get('pdv')
     Combatframe = Frame(self.q, width=w, height=h)
     Combatframe.place(x=0, y=0)
-    Combatframe.lower()
+    # Combatframe.lower()
 
     canvas = Canvas(Combatframe, width=w, height=h)
     canvas.pack(fill="both", expand=True)
@@ -298,7 +306,6 @@ def combat(self, isBoss):
         questEscape(self)
 
 
-<<<<<<< HEAD
         # Afficher mes objets sous forme de liste
         for i, item in enumerate(getItems):
             itemTab.insert(i, Button(Combatframe,
@@ -349,8 +356,6 @@ def combat(self, isBoss):
         #
         ## Fin -> Inventaire
 
-=======
->>>>>>> 5adfe10 (wip)
     AttackButton = Button(Combatframe, text="Attack", command=selectWeapon, border=0, activebackground='#12c4c0',
                           bg="#12c4c0")
     AttackButton.place(x=w*0.8, y=h*0.8)
@@ -405,7 +410,7 @@ def death(self):
     h = self.q.winfo_screenheight()
     death_frame = Frame(self.q, width=w, height=h)
     death_frame.place(x=0, y=0)
-    death_frame.lower()
+    # death_frame.lower()
 
     resized_image = ResizedImage.resize(self, '../medias/dead.png')
     canvas = Canvas(death_frame, width=w, height=h)
@@ -428,7 +433,7 @@ def win(self, isBoss):
     h = self.q.winfo_screenheight()
     win_frame = Frame(self.q, width=w, height=h)
     win_frame.place(x=0, y=0)
-    win_frame.lower()
+    # win_frame.lower()
     if isBoss == 1:
         resized_image = ResizedImage.resize(self, '../medias/sortie.png')
     else:
