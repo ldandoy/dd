@@ -64,6 +64,7 @@ def quest_frame(self):
 
 
 def start_quest_frame(self):
+    print(self.rooms.donjon[self.donjonRoom]["name"])
     def fight():
 
         started_quest_frame.pack_forget()
@@ -105,7 +106,6 @@ def start_quest_frame(self):
     if self.rooms.donjon[self.donjonRoom]["name"] == "Rencontre":
         started_quest_frame = Frame(self.q, width=1024, height=600, bg="#FF0000")
         started_quest_frame.place(x=0, y=0)
-        started_quest_frame.lower()
 
         image_path = os.path.join(self.base_folder, '../medias/encounter.png')
         bg = PhotoImage(file=r'' + image_path)
@@ -124,7 +124,6 @@ def start_quest_frame(self):
     elif self.rooms.donjon[self.donjonRoom]["name"] == "Boss":
         started_quest_frame = Frame(self.q, width=1024, height=600, bg="#FF0000")
         started_quest_frame.place(x=0, y=0)
-        started_quest_frame.lower()
 
         image_path = os.path.join(self.base_folder, '../medias/boss.png')
         bg = PhotoImage(file=r'' + image_path)
@@ -140,7 +139,6 @@ def start_quest_frame(self):
     elif self.rooms.donjon[self.donjonRoom]["name"] == "Trésor":
         started_quest_frame = Frame(self.q, width=1024, height=600)
         started_quest_frame.place(x=0, y=0)
-        started_quest_frame.lower()
 
         image_path = os.path.join(self.base_folder, '../medias/treasure.png')
         bg = PhotoImage(file=r'' + image_path)
@@ -156,7 +154,6 @@ def start_quest_frame(self):
     elif self.rooms.donjon[self.donjonRoom]["name"] == "Couloir":
         started_quest_frame = Frame(self.q, width=1024, height=600, bg="#FF0000")
         started_quest_frame.place(x=0, y=0)
-        started_quest_frame.lower()
 
         image_path = os.path.join(self.base_folder, '../medias/corridor.png')
         bg = PhotoImage(file=r'' + image_path)
@@ -172,7 +169,6 @@ def start_quest_frame(self):
     elif self.rooms.donjon[self.donjonRoom]["name"] == "Rien":
         started_quest_frame = Frame(self.q, width=1024, height=600, bg="#FF0000")
         started_quest_frame.place(x=0, y=0)
-        started_quest_frame.lower()
 
         image_path = os.path.join(self.base_folder, '../medias/nothing.png')
         bg = PhotoImage(file=r'' + image_path)
