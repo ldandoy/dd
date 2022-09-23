@@ -7,7 +7,7 @@ test:
 	py.test tests
 
 doc:
-	sphinx-build -b html docs docs/build
+	cd docs && sphinx-build -b html . html && cd ..
 
 run:
 	python src/__main__.py
