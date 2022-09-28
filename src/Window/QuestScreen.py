@@ -10,6 +10,10 @@ from Window.quest import start_quest_frame
 
 def renderReward(self, frame, item, x, y, Playsound):
 
+
+    componentWidth = self.w /4
+    componentHeight = self.h/1.5
+
     def onMouseEnter(event):
         frame.itemconfigure(ItemName, text=item["NameItem"])
         frame.itemconfigure(descriptionItem, text=item["DescriptionItem"])
@@ -19,12 +23,14 @@ def renderReward(self, frame, item, x, y, Playsound):
         frame.itemconfigure(ItemName, text="")
         frame.itemconfigure(descriptionItem, text="")
 
+    rewardResizedImage = 100
+
     imageItem = (Image.open(os.path.join(self.base_folder,
                  '../medias/'+item["ImageItem"]+'.png')))
-    resizedImage = imageItem.resize((100, 100), Image.ANTIALIAS)
+    resizedImage = imageItem.resize((rewardResizedImage, rewardResizedImage), Image.ANTIALIAS)
     imageItemResized = ImageTk.PhotoImage(resizedImage)
-    itemContainer = Canvas(frame, width=100, height=100,
-                           bd=1, highlightthickness=0, bg="black")
+    itemContainer = Canvas(frame, width=rewardResizedImage, height=rewardResizedImage,
+                           bd=1, highlightthickness=0, bg="green")
     itemContainer.pack()
     itemContainer.create_image(0, 0, anchor="nw", image=imageItemResized)
     itemContainer.image = imageItemResized
@@ -34,9 +40,9 @@ def renderReward(self, frame, item, x, y, Playsound):
     itemNameFont = ('Calibri (Body)', 16, 'bold', 'italic', 'underline')
     itemDescriptionFontF = ('Calibri (Body)', 14, 'bold', 'italic')
     ItemName = frame.create_text(
-        512/2, 540, text="", fill="white", justify="center", font=itemNameFont)
+        componentWidth / 2, componentHeight /1.7, text="", fill="white", justify="center", font=itemNameFont)
     descriptionItem = frame.create_text(
-        512/2, 580, text="", fill="white", justify="center", font=itemDescriptionFontF)
+        componentWidth / 2, componentHeight /1.5, text="", fill="white", justify="center", font=itemDescriptionFontF)
 
 
 def renderQuest(self, frame, Playsound, quest, x, y, choice):
@@ -48,12 +54,18 @@ def renderQuest(self, frame, Playsound, quest, x, y, choice):
     def onMouseExit(event):
         questContainer["bg"] = "black"
 
+
+    componentWidth = self.w /4
+    componentHeight = self.h/1.5
+
+
+
     img = (Image.open(os.path.join(self.base_folder,
            '../medias/'+quest["Image"]+'.png')))
     resizedImage = img.resize((512, 700), Image.ANTIALIAS)
     newImage = ImageTk.PhotoImage(resizedImage)
-    questContainer = Canvas(frame, width=512, height=700,
-                            bd=2, highlightthickness=0, bg="black")
+    questContainer = Canvas(frame, width=componentWidth, height=componentHeight,
+                            bd=2, highlightthickness=0)
     questContainer.pack(fill="both", expand=True)
     questContainer.create_image(0, 0, image=newImage, anchor="nw")
     questContainer.image = newImage
@@ -67,17 +79,17 @@ def renderQuest(self, frame, Playsound, quest, x, y, choice):
     rewardLabelFont = ('Calibri (Body)', 18, 'bold', 'italic')
 
     questContainer.create_text(
-        512/2, 50, text=quest["Name"], fill="white", justify="center", font=questLabelFont)
-    questContainer.create_text(512/2, 150, text="Description :" + "\n" +
+        (componentWidth) / 2, componentHeight /15, text=quest["Name"], fill="white", justify="center", font=questLabelFont)
+    questContainer.create_text((componentWidth) / 2, componentHeight / 3, text="Description :" + "\n" +
                                quest["Description"], fill="white", justify="center", font=descriptionFont)
-    questContainer.create_text(512/2, 250, text="Difficulty :" +
+    questContainer.create_text((componentWidth) / 2, componentHeight / 6, text="Difficulty :" +
                                quest["Difficulty"], fill="white", justify="center", font=difficultyFont)
-    questContainer.create_text(512/2, 340, text='Rewards Available',
+    questContainer.create_text((componentWidth) / 2, componentHeight / 2, text='Rewards Available',
                                fill="white", justify="center", font=rewardLabelFont)
 
     for i, reward in enumerate(quest["Rewards"]):
         renderReward(self, questContainer, reward,
-                     60 + 240 * i, 400, Playsound)
+        (self.w / 24) + self.w/ 10 * i , self.h/2.1, Playsound)
 
     startButton = Button(questContainer, text="Commencer", command=choice,
                          border=0, activebackground='#12c4c0', bg="#12c4c0")
@@ -102,7 +114,7 @@ def Quest(self):
         self.rooms = Room()
         start_quest_frame(self)
 
-    questFrame = Frame(self.q, width=1920, height=1080)
+    questFrame = Frame(self.q, width=w, height=h)
     backgroundImagePath = os.path.join(self.base_folder, '../medias/city4.png')
     bgImage = PhotoImage(file=r'' + backgroundImagePath, width=w, height=h)
     mainCanvas = Canvas(questFrame, width=w, height=h,
@@ -111,10 +123,10 @@ def Quest(self):
     mainCanvas.create_image(0, 0, image=bgImage, anchor="nw")
     mainCanvas.image = bgImage
     labelTextcityFrame_config = ('Calibri (Body)', 30, 'bold')
-    mainCanvas.create_text(w/2, 100, fill='white', anchor='c', text="Bienvenue à Erthilia " + self.perso.get(
+    mainCanvas.create_text(w/2, h/10, fill='white', anchor='c', text="Bienvenue à Erthilia " + self.perso.get(
         'name') + ",\n Quel destin veux-tu choisir ?", font=labelTextcityFrame_config, justify='center')
     questFrame.pack(expand=TRUE)
 
     for i, quest in enumerate(questJson):
         renderQuest(self, questFrame, Playsound,
-                    quest, 150 + 550 * i, 200, choice)
+                    quest, w/20+ w/3 * i, h/5, choice)
