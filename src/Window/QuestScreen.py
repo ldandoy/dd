@@ -23,7 +23,7 @@ def renderReward(self, frame, item, x, y, Playsound):
         frame.itemconfigure(ItemName, text="")
         frame.itemconfigure(descriptionItem, text="")
 
-    rewardResizedImage = 100
+    rewardResizedImage = int(componentWidth / 5)
 
     imageItem = (Image.open(os.path.join(self.base_folder,
                  '../medias/'+item["ImageItem"]+'.png')))
