@@ -1,8 +1,8 @@
 from tkinter import *
+from tkinter import messagebox
 import pygame
 import os
 from random import *
-from tkinter import *
 
 from Utils.load_json import LoadJson
 from Window.character_selection import character_selection_frame
@@ -128,15 +128,24 @@ class MainWindow:
                             bg="#12c4c0")
         PersoButton.place(x=820, y=550)
 
+            
         myButton = Button(homeFrame,
-                              width=42,
-                              height=2,
-                              fg="#262626",
-                              bg="#0f9d9a",
-                              border=0,
-                              activeforeground="#262626",
-                              activebackground="#12c4c0",)
+                                width=42,
+                                height=2,
+                                fg="#262626",
+                                bg="#0f9d9a",
+                                border=0,
+                                activeforeground="#262626",
+                                activebackground="#12c4c0",)
 
 
-        Button(homeFrame, text="╳", command=self.q.destroy, border=0,
-               activebackground='#12c4c0', bg="#12c4c0").place(x=5, y=10)
+
+        def askMe():
+            res = messagebox.askquestion('ATTENTION', 'Are you sure you want to leave?')
+            if res == 'yes':
+                self.q.destroy()
+            
+
+        Button(homeFrame, text="╳", command=askMe, border=0,
+                activebackground='#12c4c0', bg="#12c4c0").place(x=10, y=10)
+
