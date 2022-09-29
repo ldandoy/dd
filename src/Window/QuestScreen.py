@@ -23,13 +23,13 @@ def renderReward(self, frame, item, x, y, Playsound):
         frame.itemconfigure(ItemName, text="")
         frame.itemconfigure(descriptionItem, text="")
 
-    rewardResizedImage = int(componentWidth / 5)
+    rewardImageDimension = int(componentWidth / 5)
 
     imageItem = (Image.open(os.path.join(self.base_folder,
                  '../medias/'+item["ImageItem"]+'.png')))
-    resizedImage = imageItem.resize((rewardResizedImage, rewardResizedImage), Image.ANTIALIAS)
+    resizedImage = imageItem.resize((rewardImageDimension, rewardImageDimension), Image.ANTIALIAS)
     imageItemResized = ImageTk.PhotoImage(resizedImage)
-    itemContainer = Canvas(frame, width=rewardResizedImage, height=rewardResizedImage,
+    itemContainer = Canvas(frame, width=rewardImageDimension, height=rewardImageDimension,
                            bd=1, highlightthickness=0, bg="green")
     itemContainer.pack()
     itemContainer.create_image(0, 0, anchor="nw", image=imageItemResized)
@@ -55,8 +55,8 @@ def renderQuest(self, frame, Playsound, quest, x, y, choice):
         questContainer["bg"] = "black"
 
 
-    componentWidth = self.w /4
-    componentHeight = self.h/1.5
+    questContainerWidth = self.w /4
+    questContainerHeight = self.h/1.5
 
 
 
@@ -64,7 +64,7 @@ def renderQuest(self, frame, Playsound, quest, x, y, choice):
            '../medias/'+quest["Image"]+'.png')))
     resizedImage = img.resize((512, 700), Image.ANTIALIAS)
     newImage = ImageTk.PhotoImage(resizedImage)
-    questContainer = Canvas(frame, width=componentWidth, height=componentHeight,
+    questContainer = Canvas(frame, width=questContainerWidth, height=questContainerHeight,
                             bd=2, highlightthickness=0)
     questContainer.pack(fill="both", expand=True)
     questContainer.create_image(0, 0, image=newImage, anchor="nw")
@@ -79,12 +79,12 @@ def renderQuest(self, frame, Playsound, quest, x, y, choice):
     rewardLabelFont = ('Calibri (Body)', 18, 'bold', 'italic')
 
     questContainer.create_text(
-        (componentWidth) / 2, componentHeight /15, text=quest["Name"], fill="white", justify="center", font=questLabelFont)
-    questContainer.create_text((componentWidth) / 2, componentHeight / 3, text="Description :" + "\n" +
+        (questContainerWidth) / 2, questContainerHeight /15, text=quest["Name"], fill="white", justify="center", font=questLabelFont)
+    questContainer.create_text((questContainerWidth) / 2, questContainerHeight / 3, text="Description :" + "\n" +
                                quest["Description"], fill="white", justify="center", font=descriptionFont)
-    questContainer.create_text((componentWidth) / 2, componentHeight / 6, text="Difficulty :" +
+    questContainer.create_text((questContainerWidth) / 2, questContainerHeight / 6, text="Difficulty :" +
                                quest["Difficulty"], fill="white", justify="center", font=difficultyFont)
-    questContainer.create_text((componentWidth) / 2, componentHeight / 2, text='Rewards Available',
+    questContainer.create_text((questContainerWidth) / 2, questContainerHeight / 2, text='Rewards Available',
                                fill="white", justify="center", font=rewardLabelFont)
 
     for i, reward in enumerate(quest["Rewards"]):
