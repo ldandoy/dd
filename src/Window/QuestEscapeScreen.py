@@ -71,13 +71,13 @@ def renderQuest(self, frame, Playsound, quest, x, y, choice):
     questContainer.bind('<Leave>', onMouseExit)
 
     questLabelFont = ('Calibri (Body)', 24, 'bold', 'italic', 'underline')
-    difficultyFont = ('Calibri (Body)', 16, 'bold', 'italic')
+    escapeFont = ('Calibri (Body)', 16, 'bold', 'italic')
     rewardLabelFont = ('Calibri (Body)', 18, 'bold', 'italic')
 
     questContainer.create_text(
         (questContainerWidth) / 2, questContainerHeight /15, text=quest["Name"], fill="white", justify="center", font=questLabelFont)
     questContainer.create_text((questContainerWidth) / 2, questContainerHeight / 3, text=
-                               quest["Escape"], fill="white", justify="center", font=difficultyFont)
+                               quest["Escape"], fill="white", justify="center", font=escapeFont)
     questContainer.create_text((questContainerWidth) / 2, questContainerHeight / 2, text='These Awards Will Not Be Obtained!',
                                fill="white", justify="center", font=rewardLabelFont)
 
@@ -85,9 +85,9 @@ def renderQuest(self, frame, Playsound, quest, x, y, choice):
         renderReward(self, questContainer, reward,
         int(questContainerWidth/2.9) + int(questContainerWidth/4) * i , self.h/2.1, Playsound)
 
-    startButton = Button(questContainer, text="Return to the town", command=choice,
+    returnCityButton = Button(questContainer, text="Return to the town", command=choice,
                          border=0, activebackground='#12c4c0', bg="#12c4c0")
-    startButton.place(relx=0.5, rely=0.9, anchor="center")
+    returnCityButton.place(relx=0.5, rely=0.9, anchor="center")
 
 
 def questEscape(self):
