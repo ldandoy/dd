@@ -10,6 +10,7 @@ class Inventory:
         self.w = q.winfo_screenwidth()
         self.h = q.winfo_screenheight()
         self.q = q
+        self.perso = perso
         self.items = []
         self.inventoryTitle = "Inventaire"
         for item in perso["inventaire"]:
@@ -24,6 +25,14 @@ class Inventory:
     def updateInventory(self):
         Person.update(self.perso)
 
+    def selectItem(self, item):
+        print("select item")
+
+    def deleteItem(self, item):
+        print(item.name)
+        # items = self.perso["inventaire"]
+        # updatedList = list(filter(lambda i: i['name'] != item.name, items))
+    
     def renderInventory(self):
         inventoryFrame = Frame(self.q, width=self.w, height=self.h)
         inventoryFrame.place(x=0, y=0)
@@ -31,12 +40,6 @@ class Inventory:
         def closeInventory():
             inventoryFrame.pack_forget()
             inventoryFrame.destroy()
-
-        def selectItem():
-            print('Select Item')
-
-        def deleteItem():
-            print('Delete Item')
 
         backButton = Button(inventoryFrame, text="Retour", command=closeInventory, border=0,
                              activebackground='#12c4c0', bg="#12c4c0")
@@ -47,7 +50,7 @@ class Inventory:
         canvas.place(x=750, y=200)
 
         for index, item in enumerate(self.items):
-            selectButton = Button(canvas, text="Select item", command=selectItem, border=0,
+            selectButton = Button(canvas, text="Select item", command=lambda item=item: self.selectItem(item), border=0,
                                 activebackground='#12c4c0', bg="#12c4c0")
             selectButton.grid(column=0, row=index)
             stringVarLabelName = StringVar(canvas)
@@ -58,7 +61,7 @@ class Inventory:
             labelAmount = Label(canvas, textvariable=stringVarLabelAmount)
             labelName.grid(column=1, row=index)
             labelAmount.grid(column=2, row=index)
-            deleteButton = Button(canvas, text="Delete item", command=deleteItem, border=0,
+            deleteButton = Button(canvas, text="Delete item", command=lambda item=item: self.deleteItem(item), border=0,
                                 activebackground='#12c4c0', bg="#12c4c0")
             deleteButton.grid(column=3, row=index)
            
