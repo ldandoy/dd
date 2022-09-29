@@ -28,11 +28,17 @@ class Inventory:
         inventoryFrame = Frame(self.q, width=self.w, height=self.h)
         inventoryFrame.place(x=0, y=0)
 
-        def close_inventory():
+        def closeInventory():
             inventoryFrame.pack_forget()
             inventoryFrame.destroy()
 
-        backButton = Button(inventoryFrame, text="Retour", command=close_inventory, border=0,
+        def selectItem():
+            print('Select Item')
+
+        def deleteItem():
+            print('Delete Item')
+
+        backButton = Button(inventoryFrame, text="Retour", command=closeInventory, border=0,
                              activebackground='#12c4c0', bg="#12c4c0")
         backButton.place(x=750, y=350)
 
@@ -41,17 +47,22 @@ class Inventory:
         canvas.place(x=750, y=200)
 
         for index, item in enumerate(self.items):
+            selectButton = Button(canvas, text="Select item", command=selectItem, border=0,
+                                activebackground='#12c4c0', bg="#12c4c0")
+            selectButton.grid(column=0, row=index)
             stringVarLabelName = StringVar(canvas)
             stringVarLabelName.set(item.name)
             stringVarLabelAmount = StringVar(canvas)
             stringVarLabelAmount.set(item.amount)
             labelName = Label(canvas, textvariable=stringVarLabelName)
             labelAmount = Label(canvas, textvariable=stringVarLabelAmount)
-            labelName.grid(column=0, row=index)
-            labelAmount.grid(column=1, row=index)
+            labelName.grid(column=1, row=index)
+            labelAmount.grid(column=2, row=index)
+            deleteButton = Button(canvas, text="Delete item", command=deleteItem, border=0,
+                                activebackground='#12c4c0', bg="#12c4c0")
+            deleteButton.grid(column=3, row=index)
+           
 
-            
-            
         # imagePath = os.path.join(
         #     os.path.dirname(__file__), f'../medias/news/{self.infos["picture"]}')
         # image = Image.open(imagePath)
