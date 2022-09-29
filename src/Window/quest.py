@@ -76,22 +76,8 @@ def start_quest_frame(self):
     def open_inventory():
         inventory = Inventory(self.perso, self.q)
         inventory.renderInventory()
-        # def close_inventory():
-        #     inventory_frame.pack_forget()
-        #     inventory_frame.destroy()
-
-        # inventory_frame = Frame(self.q, width=1024, height=600, bg="#ffffff")
-        # inventory_frame.place(x=0, y=0)
-
         # print(self.perso["inventaire"])
         # bg = PhotoImage(file=r'' + image_path)
-        # started_quest_frame.lower()
-        # inventory = Inventory(self.perso, self.q)
-        # inventory.renderInventory()
-
-        # def back():
-        #     frame.pack_forget()
-        #     frame.destroy()
 
 
     def run_away():

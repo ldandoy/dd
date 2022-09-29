@@ -8,5 +8,8 @@ class Item:
         self.description = itemInfos.description | "No description available."
         self.amount = itemInfos.amount
 
-    def useItem(self ):
+    def useItem(self):
         print(f"use item : {self.name}")
+
+    def renderItem(self):
+        print('Render items')
