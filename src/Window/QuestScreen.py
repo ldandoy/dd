@@ -11,8 +11,8 @@ from Window.quest import start_quest_frame
 def renderReward(self, frame, item, x, y, Playsound):
 
 
-    componentWidth = self.w /4
-    componentHeight = self.h/1.5
+    questContainerWidth = self.w /4
+    questContainerHeight = self.h/1.5
 
     def onMouseEnter(event):
         frame.itemconfigure(ItemName, text=item["NameItem"])
@@ -23,7 +23,7 @@ def renderReward(self, frame, item, x, y, Playsound):
         frame.itemconfigure(ItemName, text="")
         frame.itemconfigure(descriptionItem, text="")
 
-    rewardImageDimension = int(componentWidth / 5)
+    rewardImageDimension = int(questContainerWidth / 5)
 
     imageItem = (Image.open(os.path.join(self.base_folder,
                  '../medias/'+item["ImageItem"]+'.png')))
@@ -40,9 +40,9 @@ def renderReward(self, frame, item, x, y, Playsound):
     itemNameFont = ('Calibri (Body)', 16, 'bold', 'italic', 'underline')
     itemDescriptionFontF = ('Calibri (Body)', 14, 'bold', 'italic')
     ItemName = frame.create_text(
-        componentWidth / 2, componentHeight /1.7, text="", fill="white", justify="center", font=itemNameFont)
+        questContainerWidth / 2, questContainerHeight /1.7, text="", fill="white", justify="center", font=itemNameFont)
     descriptionItem = frame.create_text(
-        componentWidth / 2, componentHeight /1.5, text="", fill="white", justify="center", font=itemDescriptionFontF)
+        questContainerWidth / 2, questContainerHeight /1.5, text="", fill="white", justify="center", font=itemDescriptionFontF)
 
 
 def renderQuest(self, frame, Playsound, quest, x, y, choice):
