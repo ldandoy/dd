@@ -10,8 +10,8 @@ class Inventory:
         self.w = q.winfo_screenwidth()
         self.h = q.winfo_screenheight()
         self.inventoryTitle = "Inventaire"
-        for item in perso.inventory:
-            self.items.append(Item(item))
+        # for item in perso["inventaire"]:
+        #     self.items.append(Item(item))
 
     def add_item(self, item):
         self.items.append(Item(item))

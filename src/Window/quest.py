@@ -64,7 +64,6 @@ def start_quest_frame(self):
     h = self.q.winfo_screenheight()
     print(self.rooms.donjon[self.donjonRoom]["name"])
     def fight():
-
         started_quest_frame.pack_forget()
         started_quest_frame.destroy()
         combat(self, 0)
@@ -75,7 +74,27 @@ def start_quest_frame(self):
         combat(self, 1)
     
     def open_inventory():
-        print('OPEN INVENTORY')
+        def close_inventory():
+            inventory_frame.pack_forget()
+            inventory_frame.destroy()
+
+        inventory_frame = Frame(self.q, width=1024, height=600, bg="#ffffff")
+        inventory_frame.place(x=0, y=0)
+
+        backButton = Button(inventory_frame, text="Retour", command=close_inventory, border=0,
+                             activebackground='#12c4c0', bg="#12c4c0")
+        backButton.place(x=750, y=200)
+
+        # print(self.perso["inventaire"])
+        # bg = PhotoImage(file=r'' + image_path)
+        # started_quest_frame.lower()
+        # inventory = Inventory(self.perso, self.q)
+        # inventory.renderInventory()
+
+        # def back():
+        #     frame.pack_forget()
+        #     frame.destroy()
+
 
     def run_away():
         difficult = randint(1, 10) + self.difficultFactor
@@ -294,9 +313,6 @@ def combat(self, isBoss):
     def openInventory():
         print("open inventory")
         #destroy the combat window
-        Combatframe.destroy()
-        #open the inventory window
-        self.inventory()
     
 
     def fuite():
