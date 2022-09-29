@@ -88,14 +88,15 @@ class MainWindow:
         image = image.resize((self.w, self.h), Image.ANTIALIAS)
         bgImage = ImageTk.PhotoImage(image)
 
-        bgCanvas = Canvas(homeFrame, width=self.w, height=self.h)
-        bgCanvas.pack(fill="both", expand=True, anchor="nw")
-        bgCanvas.create_image(
+        gbCanvas = Canvas(homeFrame, width=self.w, height=self.h)
+        gbCanvas.pack(fill="both", expand=True, )
+        gbCanvas.create_image(
             0, 0, image=bgImage, anchor="nw")
         bgCanvas.image = bgImage
 
-        homeTitle = Label(homeFrame, text="Bienvenue dans Donjon et Dragon", fg="black", bg="white")
-        homeTitle.config(font=('Calibri (Body)', 36, 'bold'))
+        homeTitle = Label(homeFrame, text="Bienvenue dans Donjon et Dragon", fg='black',
+                           bg="white")
+        homeTitle.config(font=('calibri (font)', 36, 'bold'))
         homeTitle.place(x=self.w/2, y=100, anchor="center")
 
         newsGridCanvas = Canvas(homeFrame, bg="black", width=self.w)
@@ -120,8 +121,15 @@ class MainWindow:
         def perso():
             new_character_frame(self)
 
+        # Button to see more news
+        ShowMoreNewsButton = Button(homeFrame, text="Voir plus d'actualités", border=0, activebackground='#12c4c0',font=('calibri (font)', 28, 'bold'), 
+                            padx=20, 
+                            pady=0,
+                            bg="#12c4c0")
+        ShowMoreNewsButton.place(x=self.w / 2.68, y=self.h / 1.8)
+
         # Button to start the game
-        playButton = Button(homeFrame, text="Jouer", command=play, border=0, activebackground='#12c4c0',
+        playButton = Button(homeFrame, text="Jouer", command=play, border=0, activebackground='#12c4c0',font=('calibri (font)', 58, 'bold'), 
                             bg="#12c4c0")
         playButton.place(relx=.5, rely=.6, anchor="center")
 
@@ -133,7 +141,10 @@ class MainWindow:
         # Button(self.q, text='Menu',
         #        border=0, bg="#12c4c0").place(x=5, y=10)
 
-        # Button to create a character
-        newsListButton = Button(homeFrame, text="Creation de perso", command=perso, border=0, activebackground='#12c4c0',
-                                bg="#12c4c0")
-        newsListButton.place(relx=.5, rely=.85, anchor="center")
+        # Button to create a character 
+        PersoButton = Button(homeFrame, text="Creation de perso", command=perso, border=0, activebackground='#12c4c0',
+                            font=('calibri (font)', 28, 'bold'),
+                            bg="#12c4c0",
+
+                            )
+        PersoButton.place(x=self.w / 2.45, y=self.h * 0.80)

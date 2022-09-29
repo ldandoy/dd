@@ -130,3 +130,4 @@ def Quest(self):
     for i, quest in enumerate(questJson):
         renderQuest(self, questFrame, Playsound,
                     quest, w/20+ w/3 * i, h/5, choice)
+    
