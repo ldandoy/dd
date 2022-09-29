@@ -74,16 +74,14 @@ def start_quest_frame(self):
         combat(self, 1)
     
     def open_inventory():
-        def close_inventory():
-            inventory_frame.pack_forget()
-            inventory_frame.destroy()
+        inventory = Inventory(self.perso, self.q)
+        inventory.renderInventory()
+        # def close_inventory():
+        #     inventory_frame.pack_forget()
+        #     inventory_frame.destroy()
 
-        inventory_frame = Frame(self.q, width=1024, height=600, bg="#ffffff")
-        inventory_frame.place(x=0, y=0)
-
-        backButton = Button(inventory_frame, text="Retour", command=close_inventory, border=0,
-                             activebackground='#12c4c0', bg="#12c4c0")
-        backButton.place(x=750, y=200)
+        # inventory_frame = Frame(self.q, width=1024, height=600, bg="#ffffff")
+        # inventory_frame.place(x=0, y=0)
 
         # print(self.perso["inventaire"])
         # bg = PhotoImage(file=r'' + image_path)
