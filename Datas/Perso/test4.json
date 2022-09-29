@@ -16,8 +16,7 @@
   "constitution": 1,
   "sagesse": 1,
   "vitesse": 1,
-  "pdv": 100,
-  "description": "Je m'appelle test4, je suis un P et je ne vis que pour servir les miens. Que les orcs vivent \u00e0 jamais !! ",
+  "pdv": 67,
   "armes": [
     {
       "name": "Epee courte",
@@ -43,6 +42,5 @@
       "name": "mega-potion",
       "amount": 1
     }
-  ],
-  "budget": 30
+  ]
 }

@@ -12,6 +12,8 @@ from Inventory.inventory import Inventory
 from Perso.perso import Perso
 from Perso.person import Person
 from Rooms.rooms import Room
+from Window.QuestEndingScreen import questEnding
+from Window.QuestEscapeScreen import questEscape
 from Utils.load_json import LoadJson
 
 
@@ -87,7 +89,7 @@ def start_quest_frame(self):
             started_quest_frame.pack_forget()
             started_quest_frame.destroy()
             print("Fuyez vite")
-            quest_frame(self)
+            exit_room()
             self.difficultFactor += 1
         print(difficult)
         print(self.difficultFactor)
@@ -95,7 +97,7 @@ def start_quest_frame(self):
     def exit_room():
         started_quest_frame.pack_forget()
         started_quest_frame.destroy()
-        quest_frame(self)
+        questEscape(self)
 
     def next_room():
         self.donjonRoom += 1
@@ -284,6 +286,9 @@ def combat(self, isBoss):
 
     def fuite():
         print("Vous tentez de prendre la fuite")
+        Combatframe.pack_forget()
+        Combatframe.destroy()
+        questEscape(self)
 
     ## Début -> Inventaire
     #
@@ -408,7 +413,7 @@ def death(self):
     def Retry():
         self.donjonRoom = 0
         death_frame.destroy()
-        self.textWelcomeFrame()
+        self.renderHomeScreen()
 
     retryButton = Button(death_frame, text="Retry", command=Retry, border=0, activebackground='#12c4c0',
                          bg="#12c4c0")
@@ -433,7 +438,7 @@ def win(self, isBoss):
     def next_room():
         win_frame.destroy()
         if isBoss == 1:
-            self.textWelcomeFrame()
+            questEnding(self)
         else:
             self.donjonRoom += 1
             self.actualMonster += 1
