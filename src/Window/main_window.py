@@ -33,7 +33,7 @@ class MainWindow:
 
         self.q.mainloop()
 
-    lastNewsCount = 10
+    lastNewsCount = 4
     rooms = []
     perso = None
 
@@ -88,9 +88,9 @@ class MainWindow:
         image = image.resize((self.w, self.h), Image.ANTIALIAS)
         bgImage = ImageTk.PhotoImage(image)
 
-        gbCanvas = Canvas(homeFrame, width=self.w, height=self.h)
-        gbCanvas.pack(fill="both", expand=True, )
-        gbCanvas.create_image(
+        bgCanvas = Canvas(homeFrame, width=self.w, height=self.h)
+        bgCanvas.pack(fill="both", expand=True, )
+        bgCanvas.create_image(
             0, 0, image=bgImage, anchor="nw")
         bgCanvas.image = bgImage
 
@@ -102,7 +102,7 @@ class MainWindow:
         newsGridCanvas = Canvas(homeFrame, bg="black", width=self.w)
         newsGridCanvas.grid_columnconfigure(tuple(range(5)), weight=1)
 
-        newsGridCanvas.place(x=self.w/2, y=400, anchor="center")
+        newsGridCanvas.place(x=self.w/2, y=250, anchor="center")
 
         for i, news in enumerate(self.newsList.newsList):
             if i > self.lastNewsCount - 1:
@@ -122,20 +122,16 @@ class MainWindow:
             new_character_frame(self)
 
         # Button to see more news
-        ShowMoreNewsButton = Button(homeFrame, text="Voir plus d'actualités", border=0, activebackground='#12c4c0',font=('calibri (font)', 28, 'bold'), 
+        ShowMoreNewsButton = Button(homeFrame, text="Voir plus d'actualités", command=self.newsList.renderNewsListPage, border=0, activebackground='#12c4c0',font=('calibri (font)', 28, 'bold'), 
                             padx=20, 
                             pady=0,
                             bg="#12c4c0")
-        ShowMoreNewsButton.place(x=self.w / 2.68, y=self.h / 1.8)
+        ShowMoreNewsButton.place(relx=.5, rely=.5,anchor= CENTER)
 
         # Button to start the game
         playButton = Button(homeFrame, text="Jouer", command=play, border=0, activebackground='#12c4c0',font=('calibri (font)', 58, 'bold'), 
                             bg="#12c4c0")
-        playButton.place(relx=.5, rely=.6, anchor="center")
-
-        newsListButton = Button(homeFrame, text="See All News", command=self.newsList.renderNewsListPage, border=0, activebackground='#12c4c0',
-                                bg="#12c4c0")
-        newsListButton.place(relx=.5, rely=.75, anchor="center")
+        playButton.place(relx=.5, rely=.70, anchor="center")
 
         # TODO : This is not used and we're discussing about deleting it
         # Button(self.q, text='Menu',
@@ -147,4 +143,4 @@ class MainWindow:
                             bg="#12c4c0",
 
                             )
-        PersoButton.place(x=self.w / 2.45, y=self.h * 0.80)
+        PersoButton.place(relx=.5, rely=.85,anchor= CENTER)
