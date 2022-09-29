@@ -1,19 +1,19 @@
-from tkinter import Canvas, Frame, Button
+from operator import index
+from tkinter import Canvas, Frame, Button, Label, StringVar
 from Inventory.Item import Item
 from Perso.person import Person
 
 
 class Inventory:
-    items: list[Item]
 
     def __init__(self, perso, q):
-        print('INVENTORY INSTANCE')
         self.w = q.winfo_screenwidth()
         self.h = q.winfo_screenheight()
         self.q = q
+        self.items = []
         self.inventoryTitle = "Inventaire"
-        # for item in perso["inventaire"]:
-        #     self.items.append(Item(item))
+        for item in perso["inventaire"]:
+            self.items.append(Item(item))
 
     def add_item(self, item):
         self.items.append(Item(item))
@@ -34,17 +34,31 @@ class Inventory:
 
         backButton = Button(inventoryFrame, text="Retour", command=close_inventory, border=0,
                              activebackground='#12c4c0', bg="#12c4c0")
-        backButton.place(x=750, y=200)
+        backButton.place(x=750, y=350)
 
+        canvas = Canvas(inventoryFrame, width=500, height=500)
 
+        canvas.place(x=750, y=200)
+
+        for index, item in enumerate(self.items):
+            stringVarLabelName = StringVar(canvas)
+            stringVarLabelName.set(item.name)
+            stringVarLabelAmount = StringVar(canvas)
+            stringVarLabelAmount.set(item.amount)
+            labelName = Label(canvas, textvariable=stringVarLabelName)
+            labelAmount = Label(canvas, textvariable=stringVarLabelAmount)
+            labelName.grid(column=0, row=index)
+            labelAmount.grid(column=1, row=index)
+
+            
+            
         # imagePath = os.path.join(
         #     os.path.dirname(__file__), f'../medias/news/{self.infos["picture"]}')
         # image = Image.open(imagePath)
         # image = image.resize((self.w, self.h), Image.ANTIALIAS)
         # imageTk = ImageTk.PhotoImage(image)
 
-        # canvas = Canvas(inventoryFrame, width=self.w, height=self.h)
-        # canvas.pack(fill="both", expand=True)
+       
         # canvas.create_image(0, 0, image=imageTk, anchor="nw")
         # canvas.image = imageTk
         # canvas.place(x=0, y=0)
