@@ -5,3 +5,4 @@ pyinstaller
 auto-py-to-exe
 pygame
 Pillow
+furo
