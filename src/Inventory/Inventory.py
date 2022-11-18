@@ -13,6 +13,7 @@ class Inventory:
         self.perso = perso
         self.items = []
         self.inventoryTitle = "Inventaire"
+        self.inventoryFrame = Frame(self.q, width=self.w, height=self.h)
         for item in perso["inventaire"]:
             self.items.append(Item(item))
 
@@ -29,23 +30,26 @@ class Inventory:
         print("select item")
 
     def deleteItem(self, item):
-        print(item.name)
-        # items = self.perso["inventaire"]
-        # updatedList = list(filter(lambda i: i['name'] != item.name, items))
-    
+        items = self.perso["inventaire"]
+        updatedList = list(filter(lambda i: i['name'] != item.name, items))
+        self.perso["inventaire"] = updatedList
+        Person.update(self.perso)
+        self.closeInventory()
+        self.renderInventory()
+
+    def closeInventory(self):
+        print('close')
+        self.inventoryFrame.pack_forget()
+        self.inventoryFrame.destroy()
+
     def renderInventory(self):
-        inventoryFrame = Frame(self.q, width=self.w, height=self.h)
-        inventoryFrame.place(x=0, y=0)
+        self.inventoryFrame.place(x=0, y=0)
 
-        def closeInventory():
-            inventoryFrame.pack_forget()
-            inventoryFrame.destroy()
-
-        backButton = Button(inventoryFrame, text="Retour", command=closeInventory, border=0,
+        backButton = Button(self.inventoryFrame, text="Retour", command=self.closeInventory, border=0,
                              activebackground='#12c4c0', bg="#12c4c0")
         backButton.place(x=750, y=350)
 
-        canvas = Canvas(inventoryFrame, width=500, height=500)
+        canvas = Canvas(self.inventoryFrame, width=500, height=500)
 
         canvas.place(x=750, y=200)
 
@@ -64,7 +68,6 @@ class Inventory:
             deleteButton = Button(canvas, text="Delete item", command=lambda item=item: self.deleteItem(item), border=0,
                                 activebackground='#12c4c0', bg="#12c4c0")
             deleteButton.grid(column=3, row=index)
-           
 
         # imagePath = os.path.join(
         #     os.path.dirname(__file__), f'../medias/news/{self.infos["picture"]}')
