@@ -1,64 +1,70 @@
 [
-	{
-		"Name": "The forgotten town",
-		"Description": "find a way out \n in this town cursed",
-		"Difficulty": "Easy",
-		"Image": "forgottenTown",
-		"Done": false,
-		"Rewards": [
-			{
-				"NameItem": "Magical Sword",
-				"ImageItem": "magicalSword",
-				"SellPrice": 20,
-				"Sellable": true,
-				"DescriptionItem": "A magical sword created \n by the hand of god"
-			},
-			{
-				"NameItem": "Helmet",
-				"ImageItem": "helmet",
-				"SellPrice": 2,
-				"Sellable": true,
-				"DescriptionItem": "A basic helmet "
-			}
-		]
-	},
-	{
-		"Name": "The exile of the lake",
-		"Description": "Find the exile of the lake",
-		"Difficulty": "Hard",
-		"Image": "mysterious",
-		"Done": false,
-		"Rewards": [
-			{
-				"NameItem": "Magical Necklace",
-				"ImageItem": "magicalNecklace",
-				"SellPrice": 0,
-				"Sellable": false,
-				"DescriptionItem": "A mysterious necklace"
-			},
-			{
-				"NameItem": "Fairy potion",
-				"ImageItem": "fairyPotion",
-				"SellPrice": 50,
-				"Sellable": true,
-				"DescriptionItem": "drink that potion and a \n fairy might come with you"
-			}
-		]
-	},
-	{
-		"Name": "The city's breath",
-		"Description": "Venture out and unravel \n the secrets of this city",
-		"Difficulty": "Medium",
-		"Image": "MagicalCity",
-		"Done": false,
-		"Rewards": [
-			{
-				"NameItem": "Secret Key",
-				"ImageItem": "secretKey",
-				"SellPrice": 0,
-				"Sellable": false,
-				"DescriptionItem": "A key that open a secret door"
-			}
-		]
-	}
+  {
+    "Name": "The forgotten town",
+    "Description": "find a way out \n in this town cursed",
+    "Epilogue": "You find your way! Take your loot and leave!",
+    "Escape": "Escape from quest 1",
+    "Difficulty": "Easy",
+    "Image": "forgottenTown",
+    "Done": false,
+    "Rewards": [
+      {
+        "NameItem": "Magical Sword",
+        "ImageItem": "magicalSword",
+        "SellPrice": 20,
+        "Sellable": true,
+        "DescriptionItem": "A magical sword created \n by the hand of god"
+      },
+      {
+        "NameItem": "Helmet",
+        "ImageItem": "helmet",
+        "SellPrice": 2,
+        "Sellable": true,
+        "DescriptionItem": "A basic helmet "
+      }
+    ]
+  },
+  {
+    "Name": "The exile of the lake",
+    "Description": "Find the exile of the lake",
+    "Epilogue": "You find your way! Take your loot and leave!",
+    "Escape": "Escape from quest 2",
+    "Difficulty": "Hard",
+    "Image": "mysterious",
+    "Done": false,
+    "Rewards": [
+      {
+        "NameItem": "Magical Necklace",
+        "ImageItem": "magicalNecklace",
+        "SellPrice": 0,
+        "Sellable": false,
+        "DescriptionItem": "A mysterious necklace"
+      },
+      {
+        "NameItem": "Fairy potion",
+        "ImageItem": "fairyPotion",
+        "SellPrice": 50,
+        "Sellable": true,
+        "DescriptionItem": "drink that potion and a \n fairy might come with you"
+      }
+    ]
+  },
+  {
+    "Name": "The city's breath",
+    "Description": "Venture out and unravel \n the secrets of this city",
+    "Epilogue": "You find your way! Take your loot and leave!",
+    "Escape": "Escape from quest 3",
+    "Difficulty": "Medium",
+    "Image": "MagicalCity",
+    "Done": false,
+    "Rewards": [
+      {
+        "NameItem": "Secret Key",
+        "ImageItem": "secretKey",
+        "SellPrice": 0,
+        "Sellable": false,
+        "DescriptionItem": "A key that open a secret door"
+      }
+    ]
+  }
 ]
