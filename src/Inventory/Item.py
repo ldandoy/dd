@@ -1,8 +1,7 @@
 class Item:
-    def __init__(self, itemInfos):
-        self.name = itemInfos["name"]
-        # self.description = itemInfos["description"] | "No description available."
-        self.amount = itemInfos["amount"]
+    def __init__(self, item):
+        self.name = item["name"]
+        self.qty = item["qty"]
 
     def useItem(self):
         print(f"use item : {self.name}")

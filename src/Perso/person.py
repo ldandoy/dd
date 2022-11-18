@@ -163,15 +163,15 @@ class Person(DefaultController):
                 'inventaire': [
                     {
                         "name": "potion",
-                        "amount": 1
+                        "qty": 1
                     },
                     {
                         "name": "super-potion",
-                        "amount": 1
+                        "qty": 1
                     },
                     {
                         "name": "mega-potion",
-                        "amount": 1
+                        "qty": 1
                     }
                 ],
                 "budget": 30
