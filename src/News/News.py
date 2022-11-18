@@ -26,7 +26,7 @@ class News:
         imageTk = ImageTk.PhotoImage(image)
 
         canvas = Canvas(frame, width=self.newsW, height=self.newsH, bd=0,
-                        highlightthickness=0, relief='ridge')
+                        highlightthickness=1,highlightbackground="white",bg="white", relief='ridge')
         canvas.create_image(0, 0, image=imageTk, anchor="nw")
         canvas.image = imageTk
 

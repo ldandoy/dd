@@ -33,7 +33,7 @@ class MainWindow:
 
         self.q.mainloop()
 
-    lastNewsCount = 10
+    lastNewsCount = 4
     rooms = []
     perso = None
 
@@ -89,19 +89,20 @@ class MainWindow:
         bgImage = ImageTk.PhotoImage(image)
 
         bgCanvas = Canvas(homeFrame, width=self.w, height=self.h)
-        bgCanvas.pack(fill="both", expand=True, anchor="nw")
+        bgCanvas.pack(fill="both", expand=True, )
         bgCanvas.create_image(
             0, 0, image=bgImage, anchor="nw")
         bgCanvas.image = bgImage
 
-        homeTitle = Label(homeFrame, text="Bienvenue dans Donjon et Dragon", fg="black", bg="white")
-        homeTitle.config(font=('Calibri (Body)', 36, 'bold'))
+        homeTitle = Label(homeFrame, text="Bienvenue dans Donjon et Dragon", fg='black',
+                           bg="white")
+        homeTitle.config(font=('calibri (font)', 36, 'bold'))
         homeTitle.place(x=self.w/2, y=100, anchor="center")
 
         newsGridCanvas = Canvas(homeFrame, bg="black", width=self.w)
         newsGridCanvas.grid_columnconfigure(tuple(range(5)), weight=1)
 
-        newsGridCanvas.place(x=self.w/2, y=400, anchor="center")
+        newsGridCanvas.place(x=self.w/2, y=250, anchor="center")
 
         for i, news in enumerate(self.newsList.newsList):
             if i > self.lastNewsCount - 1:
@@ -120,20 +121,26 @@ class MainWindow:
         def perso():
             new_character_frame(self)
 
-        # Button to start the game
-        playButton = Button(homeFrame, text="Jouer", command=play, border=0, activebackground='#12c4c0',
+        # Button to see more news
+        ShowMoreNewsButton = Button(homeFrame, text="Voir plus d'actualités", command=self.newsList.renderNewsListPage, border=0, activebackground='#12c4c0',font=('calibri (font)', 28, 'bold'), 
+                            padx=20, 
+                            pady=0,
                             bg="#12c4c0")
-        playButton.place(relx=.5, rely=.6, anchor="center")
+        ShowMoreNewsButton.place(relx=.5, rely=.5,anchor= CENTER)
 
-        newsListButton = Button(homeFrame, text="See All News", command=self.newsList.renderNewsListPage, border=0, activebackground='#12c4c0',
-                                bg="#12c4c0")
-        newsListButton.place(relx=.5, rely=.75, anchor="center")
+        # Button to start the game
+        playButton = Button(homeFrame, text="Jouer", command=play, border=0, activebackground='#12c4c0',font=('calibri (font)', 58, 'bold'), 
+                            bg="#12c4c0")
+        playButton.place(relx=.5, rely=.70, anchor="center")
 
         # TODO : This is not used and we're discussing about deleting it
         # Button(self.q, text='Menu',
         #        border=0, bg="#12c4c0").place(x=5, y=10)
 
-        # Button to create a character
-        newsListButton = Button(homeFrame, text="Creation de perso", command=perso, border=0, activebackground='#12c4c0',
-                                bg="#12c4c0")
-        newsListButton.place(relx=.5, rely=.85, anchor="center")
+        # Button to create a character 
+        PersoButton = Button(homeFrame, text="Creation de perso", command=perso, border=0, activebackground='#12c4c0',
+                            font=('calibri (font)', 28, 'bold'),
+                            bg="#12c4c0",
+
+                            )
+        PersoButton.place(relx=.5, rely=.85,anchor= CENTER)
