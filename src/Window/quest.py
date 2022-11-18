@@ -36,7 +36,8 @@ def quest_frame(self):
 
     # Get the welcome message
     json = LoadJson()
-    quest = json.load(os.path.join(self.base_folder, '../../Datas/Story/initialQuest.json'))
+    quest = json.load(os.path.join(self.base_folder,
+                      '../../Datas/Story/initialQuest.json'))
 
     def choice():
         frame.pack_forget()
@@ -72,14 +73,13 @@ def start_quest_frame(self):
         started_quest_frame.pack_forget()
         started_quest_frame.destroy()
         combat(self, 1)
-    
+
     def open_inventory():
         inventory = Inventory(self.perso, self.q)
-        items = inventory.formatInventory(self.perso, [])
+        items = inventory.initInventory(self.perso, [])
         inventory.renderInventory(items)
         # print(self.perso["inventaire"])
         # bg = PhotoImage(file=r'' + image_path)
-
 
     def run_away():
         difficult = randint(1, 10) + self.difficultFactor
@@ -128,7 +128,7 @@ def start_quest_frame(self):
         runButton.place(x=w*0.8, y=h*0.85)
 
         inventoryButton = Button(started_quest_frame, text="Inventory", command=open_inventory, border=0,
-                           activebackground='#12c4c0', bg="#12c4c0")
+                                 activebackground='#12c4c0', bg="#12c4c0")
         inventoryButton.place(x=750, y=300)
 
     elif self.rooms.donjon[self.donjonRoom]["name"] == "Boss":
@@ -191,15 +191,18 @@ def start_quest_frame(self):
                                 activebackground='#12c4c0', bg="#12c4c0")
         continueButton.place(x=w*0.5, y=h*0.5)
 
-    tQuestStarted = Label(started_quest_frame, text=self.rooms.donjon[self.donjonRoom]["name"], fg='dark grey')
+    tQuestStarted = Label(
+        started_quest_frame, text=self.rooms.donjon[self.donjonRoom]["name"], fg='dark grey')
     tQuestStartedFont = ('Calibri (Body)', 24, 'bold')
     tQuestStarted.config(font=tQuestStartedFont)
     tQuestStarted.place(x=w*0.5, y=h*0.25)
 
-    lQuestStarted = Label(started_quest_frame, text=self.rooms.donjon[self.donjonRoom]["description"], fg='dark grey')
+    lQuestStarted = Label(
+        started_quest_frame, text=self.rooms.donjon[self.donjonRoom]["description"], fg='dark grey')
     lQuestStartedFont = ('Calibri (Body)', 18, 'bold')
     lQuestStarted.config(font=lQuestStartedFont)
     lQuestStarted.place(x=w*0.35, y=h*0.3)
+
 
 def combat(self, isBoss):
     w = self.q.winfo_screenwidth()
@@ -294,11 +297,10 @@ def combat(self, isBoss):
             x = x + x*0.1
             selectButton[count].place(x=x, y=500)
             x += 100
-    
+
     def openInventory():
         print("open inventory")
-        #destroy the combat window
-    
+        # destroy the combat window
 
     def fuite():
         print("Vous tentez de prendre la fuite")
@@ -378,12 +380,14 @@ def combat(self, isBoss):
     monsterDmgLabelfont = ('Calibri (Body)', 24, 'bold')
     monsterDmgLabel.config(font=monsterDmgLabelfont)
 
-    heroHpLabel = Label(Combatframe, text=(str(hero.get('pdv')) + '/' + str(heroHp)), fg='white', bg='black')
+    heroHpLabel = Label(Combatframe, text=(
+        str(hero.get('pdv')) + '/' + str(heroHp)), fg='white', bg='black')
     heroHpLabelfont = ('Calibri (Body)', 24, 'bold')
     heroHpLabel.config(font=heroHpLabelfont)
     heroHpLabel.place(x=30, y=30)
 
-    monsterHpLabel = Label(Combatframe, text=str(combat.monster_hp), fg='white', bg='black')
+    monsterHpLabel = Label(Combatframe, text=str(
+        combat.monster_hp), fg='white', bg='black')
     monsterHpLabelfont = ('Calibri (Body)', 24, 'bold')
     monsterHpLabel.config(font=monsterHpLabelfont)
     monsterHpLabel.place(x=30, y=300)

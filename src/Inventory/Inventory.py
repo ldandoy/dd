@@ -15,7 +15,7 @@ class Inventory:
         self.items = []
         self.inventoryTitle = "Inventaire"
         self.inventoryFrame = Frame(self.q, width=self.w, height=self.h)
-        self.formatInventory(perso, self.items)
+        self.initInventory(perso, self.items)
 
     def addItem(self, itemsToAdd):
         for item in itemsToAdd:
@@ -41,7 +41,7 @@ class Inventory:
         print('Update consumable quantity')
         itemToUpdate[0]['qty'] += item['qty']
 
-    def formatInventory(self, perso, items):
+    def initInventory(self, perso, items):
         for item in perso["inventaire"]:
             if item["type"] == "consumable":
                 items.append(Consumable(item))
