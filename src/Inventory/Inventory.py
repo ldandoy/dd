@@ -1,6 +1,6 @@
 from operator import index
 from tkinter import Canvas, Frame, Button, Label, StringVar
-from Inventory.Item import Item
+from Inventory.Consumable import Consumable
 from Perso.person import Person
 
 
@@ -19,9 +19,11 @@ class Inventory:
     def addItem(self, itemsToAdd):
         for item in itemsToAdd:
             if item['type'] == 'consumable':
-                itemToUpdate = self.findItemByName(itemsToAdd, self.perso["inventaire"])
+                itemToUpdate = self.findItemByName(
+                    itemsToAdd, self.perso["inventaire"])
                 if len(itemToUpdate) == 1:
-                    self.incrementConsumableQuantity(itemToUpdate, self.perso["inventaire"])
+                    self.incrementConsumableQuantity(
+                        itemToUpdate, self.perso["inventaire"])
                     print(itemToUpdate)
                 else:
                     self.perso["inventaire"].append(item)
@@ -40,10 +42,11 @@ class Inventory:
 
     def formatInventory(self, perso, items):
         for item in perso["inventaire"]:
-            items.append(Item(item))
+            items.append(Consumable(item))
         return items
 
-    def removeItem(self, i):
+    def removeItem(self,# TODO: create Weapon and Consumable class
+ i):
         self.items.pop(i)
 
     def updateInventory(self):
