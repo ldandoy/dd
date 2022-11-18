@@ -19,28 +19,38 @@
   "pdv": 45,
   "armes": [
     {
-      "name": "Epee courte",
-      "degat": "1d10",
-      "test": "force"
-    },
-    {
+      "qty_max": 1,
+      "type": "weapon",
       "name": "Arc Long",
       "degat": "1d10",
       "test": "dexterite"
+    },
+    {
+      "qty_max": 1,
+      "type": "weapon",
+      "name": "Epee courte",
+      "degat": "1d10",
+      "test": "force"
     }
   ],
   "inventaire": [
     {
       "name": "potion",
-      "amount": 1
+      "qty_max": 30,
+      "type": "consumable",
+      "heal": 20
     },
     {
       "name": "super-potion",
-      "amount": 1
+      "qty_max": 30,
+      "type": "consumable",
+      "heal": 50
     },
     {
       "name": "mega-potion",
-      "amount": 1
+      "qty_max": 30,
+      "type": "consumable",
+      "heal": 200
     }
   ]
 }
