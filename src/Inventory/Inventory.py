@@ -14,11 +14,15 @@ class Inventory:
         self.items = []
         self.inventoryTitle = "Inventaire"
         self.inventoryFrame = Frame(self.q, width=self.w, height=self.h)
-        for item in perso["inventaire"]:
-            self.items.append(Item(item))
+        self.formatInventory(perso, self.items)
 
     def add_item(self, item):
         self.items.append(Item(item))
+
+    def formatInventory(self, perso, items):
+        for item in perso["inventaire"]:
+            items.append(Item(item))
+        return items
 
     def remove_item(self, i):
         self.items.pop(i)
@@ -34,15 +38,16 @@ class Inventory:
         updatedList = list(filter(lambda i: i['name'] != item.name, items))
         self.perso["inventaire"] = updatedList
         Person.update(self.perso)
-        self.closeInventory()
-        self.renderInventory()
+        # self.closeInventory()
+        self.renderInventory(self.items)
 
     def closeInventory(self):
         print('close')
         self.inventoryFrame.pack_forget()
         self.inventoryFrame.destroy()
 
-    def renderInventory(self):
+    def renderInventory(self, items):
+        print('Render inventory')
         self.inventoryFrame.place(x=0, y=0)
 
         backButton = Button(self.inventoryFrame, text="Retour", command=self.closeInventory, border=0,
@@ -53,7 +58,7 @@ class Inventory:
 
         canvas.place(x=750, y=200)
 
-        for index, item in enumerate(self.items):
+        for index, item in enumerate(items):
             selectButton = Button(canvas, text="Select item", command=lambda item=item: self.selectItem(item), border=0,
                                 activebackground='#12c4c0', bg="#12c4c0")
             selectButton.grid(column=0, row=index)

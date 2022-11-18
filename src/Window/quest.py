@@ -75,7 +75,8 @@ def start_quest_frame(self):
     
     def open_inventory():
         inventory = Inventory(self.perso, self.q)
-        inventory.renderInventory()
+        items = inventory.formatInventory(self.perso, [])
+        inventory.renderInventory(items)
         # print(self.perso["inventaire"])
         # bg = PhotoImage(file=r'' + image_path)
 
