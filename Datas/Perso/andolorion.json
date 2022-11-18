@@ -56,8 +56,6 @@
       "heal": 200
     },
     {
-      "qty_max": 1,
-      "qty": 1,
       "type": "weapon",
       "name": "Arc Long",
       "degat": "1d10",

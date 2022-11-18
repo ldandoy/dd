@@ -16,18 +16,34 @@ class Inventory:
         self.inventoryFrame = Frame(self.q, width=self.w, height=self.h)
         self.formatInventory(perso, self.items)
 
-    def add_item(self, items):
-        for item in items:
-            self.perso["inventaire"].append(item)
+    def addItem(self, itemsToAdd):
+        for item in itemsToAdd:
+            if item['type'] == 'consumable':
+                itemToUpdate = self.findItemByName(itemsToAdd, self.perso["inventaire"])
+                if len(itemToUpdate) == 1:
+                    self.incrementConsumableQuantity(itemToUpdate, self.perso["inventaire"])
+                    print(itemToUpdate)
+                else:
+                    self.perso["inventaire"].append(item)
+            if item['type'] == 'weapon':
+                self.perso["inventaire"].append(item)
         print(self.perso["inventaire"])
         Person.update(self.perso)
+
+    def findItemByName(self, itemsToAdd, inventory):
+        for item in itemsToAdd:
+            print(list(filter(lambda i: item['name'] == i['name'], inventory)))
+
+    def incrementConsumableQuantity(self, itemToUpdate, item):
+        print('Update consumable quantity')
+        itemToUpdate[0]['qty'] += item['qty']
 
     def formatInventory(self, perso, items):
         for item in perso["inventaire"]:
             items.append(Item(item))
         return items
 
-    def remove_item(self, i):
+    def removeItem(self, i):
         self.items.pop(i)
 
     def updateInventory(self):
@@ -42,6 +58,7 @@ class Inventory:
         self.perso["inventaire"] = updatedList
         Person.update(self.perso)
         self.closeInventory()
+        # TODO: create reloadFrame function
         # self.renderInventory(self.formatInventory(self.perso, []))
 
     def closeInventory(self):
@@ -76,21 +93,19 @@ class Inventory:
                                   activebackground='#12c4c0', bg="#12c4c0")
             deleteButton.grid(column=3, row=index)
 
-
-        addButton = Button(canvas, text="Add Item", command=lambda item=[{
-            "name": "mega-potion_t",
+        addButton = Button(canvas, text="Add Item", command=lambda items=[{
+            "name": "mega-potion",
             "qty_max": 30,
-            "qty": 29,
+            "qty": 1,
             "type": "consumable",
             "heal": 200
-        },   {
-            "qty_max": 1,
-            "qty": 1,
+        },
+            {
             "type": "weapon",
             "name": "Epee en or",
             "degat": "1d10",
             "test": "force"
-        }]: self.add_item(item), border=0,
+        }]: self.addItem(items), border=0,
             activebackground='#12c4c0', bg="#12c4c0")
         addButton.grid(column=3, row=index+1)
         # imagePath = os.path.join(
