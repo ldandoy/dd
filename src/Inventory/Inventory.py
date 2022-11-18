@@ -38,8 +38,8 @@ class Inventory:
         updatedList = list(filter(lambda i: i['name'] != item.name, items))
         self.perso["inventaire"] = updatedList
         Person.update(self.perso)
-        # self.closeInventory()
-        self.renderInventory(self.formatInventory(self.perso, []))
+        self.closeInventory()
+        # self.renderInventory(self.formatInventory(self.perso, []))
 
     def closeInventory(self):
         print('close')
@@ -47,8 +47,6 @@ class Inventory:
         self.inventoryFrame.destroy()
 
     def renderInventory(self, items):
-        print('Updated items')
-        print(items)
         self.inventoryFrame.place(x=0, y=0)
 
         backButton = Button(self.inventoryFrame, text="Retour", command=self.closeInventory, border=0,
