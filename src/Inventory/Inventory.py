@@ -1,6 +1,7 @@
-from operator import index
 from tkinter import Canvas, Frame, Button, Label, StringVar
 from Inventory.Consumable import Consumable
+from Inventory.Weapon import Weapon
+from Inventory.Item import Item
 from Perso.person import Person
 
 
@@ -42,12 +43,13 @@ class Inventory:
 
     def formatInventory(self, perso, items):
         for item in perso["inventaire"]:
-            items.append(Consumable(item))
+            if item["type"] == "consumable":
+                items.append(Consumable(item))
+            if item["type"] == "weapon":
+                items.append(Weapon(item))
+            if item["type"] != "weapon" and item["type"] != "consumable":
+                items.append(Item(item))
         return items
-
-    def removeItem(self,# TODO: create Weapon and Consumable class
- i):
-        self.items.pop(i)
 
     def updateInventory(self):
         Person.update(self.perso)

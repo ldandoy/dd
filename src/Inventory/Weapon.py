@@ -6,4 +6,4 @@ class Weapon:
         self.test = item["test"]
 
     def useWeapon(self):
-        print("use consumable")
+        print("use weapon")
