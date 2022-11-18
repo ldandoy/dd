@@ -50,7 +50,7 @@ class News:
         image = image.resize((self.w, self.h), Image.ANTIALIAS)
         imageTk = ImageTk.PhotoImage(image)
 
-        canvas = Canvas(NewsDetailsFrame, tuple(width=self.w, height=self.h))
+        canvas = Canvas(NewsDetailsFrame, width=self.w, height=self.h)
         canvas.pack(fill="both", expand=True)
         canvas.create_image(0, 0, image=imageTk, anchor="nw")
         canvas.image = imageTk
