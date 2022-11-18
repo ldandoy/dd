@@ -16,7 +16,7 @@
   "constitution": 1,
   "sagesse": 1,
   "vitesse": 1,
-  "pdv": 8,
+  "pdv": 16,
   "armes": [
     {
       "name": "Epee courte",
