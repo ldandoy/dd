@@ -131,8 +131,6 @@ class MainWindow:
                 menuFrame.destroy()
 
             Button(menuFrame, text="╳", command=destroy, border=0,activebackground='#12c4c0', bg="#12c4c0").place(x=5, y=10)
-            # 2 big buttons in the center of the screen : close the window, mute the music
-            # bandeau qui prend toute la largeur de l'écran au milieu de l'écran avec 2 boutons : fermer la fenêtre, mute la musique
 
             def closeWindow():
                 self.q.destroy()
