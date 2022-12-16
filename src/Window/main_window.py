@@ -4,7 +4,6 @@ import os
 from random import *
 from tkinter import *
 
-from Utils.load_json import LoadJson
 from Window.character_selection import character_selection_frame
 from Window.new_character import new_character_frame
 from PIL import Image, ImageTk
@@ -12,16 +11,18 @@ from Utils.load_json import LoadJson
 from Utils.Sound import Sound
 from News.News import NewsList
 
-from Window.character_selection import character_selection_frame
+
 
 
 class MainWindow:
 
     def __init__(self):
+        
         self.base_folder = os.path.dirname(__file__)
         self.q = Tk()
         self.q.title("Donjon & Dragon")
         pygame.mixer.init()
+        
         self.w = self.q.winfo_screenwidth()
         self.h = self.q.winfo_screenheight()
         self.q.geometry(f"{self.w}x{self.h}")
@@ -78,7 +79,10 @@ class MainWindow:
     #            activebackground='#12c4c0', bg="#12c4c0").place(x=5, y=10)
 
     def renderHomeScreen(self):
-        homeFrame = Frame(self.q, width=self.w, height=self.h, bg='blue')
+        Sound().background(self.base_folder, audio_name="epic.ogg")
+        pygame.mixer.music.set_volume(1)
+
+        homeFrame = Frame(self.q, width=self.w, height=self.h)
         homeFrame.place(x=0, y=0)
         # homeFrame.lower()
 
@@ -103,6 +107,71 @@ class MainWindow:
         newsGridCanvas.grid_columnconfigure(tuple(range(5)), weight=1)
 
         newsGridCanvas.place(x=self.w/2, y=250, anchor="center")
+
+        def newMenuFrame():
+            """
+            Create new menu frame
+            """
+            menuFrame = Frame(self.q, width=self.w, height=self.h)
+            menuFrame.place(x=0, y=0)
+            
+            bgImagePath = os.path.join(
+                self.base_folder, '../medias/montagne_blured.png')
+            image = Image.open(bgImagePath)
+            image = image.resize((self.w, self.h), Image.ANTIALIAS)
+            bgImage = ImageTk.PhotoImage(image)
+
+            bgCanvas = Canvas(menuFrame, width=self.w, height=self.h)
+            bgCanvas.pack(fill="both", expand=True, )
+            bgCanvas.create_image(
+                0, 0, image=bgImage, anchor="nw")
+            bgCanvas.image = bgImage
+            
+            def destroy():
+                menuFrame.destroy()
+
+            Button(menuFrame, text="╳", command=destroy, border=0,activebackground='#12c4c0', bg="#12c4c0").place(x=5, y=10)
+            # 2 big buttons in the center of the screen : close the window, mute the music
+            # bandeau qui prend toute la largeur de l'écran au milieu de l'écran avec 2 boutons : fermer la fenêtre, mute la musique
+
+            def closeWindow():
+                self.q.destroy()
+                self.q.quit()
+            
+            def muteMusic():
+                pygame.mixer.music.set_volume(0)
+            
+            def unmuteMusic():
+                pygame.mixer.music.set_volume(1)
+
+            def createMenuBtn(x, y, text, cmd):
+                    
+                    myButton = Button(menuFrame,
+                                    text=text,
+                                    width=42,
+                                    height=2,
+                                    fg="#262626",
+                                    bg="#0f9d9a",
+                                    border=0,
+                                    activeforeground="#262626",
+                                    activebackground="#12c4c0",
+                                    command=cmd)
+    
+                    myButton.place(relx=.5, rely=y,anchor= CENTER)
+
+            createMenuBtn(self.w/2, 0.5, "Fermer la fenêtre", closeWindow)
+
+            print(pygame.mixer.music.get_volume())
+            
+            # TO DO : Create a tkinter variable for modify the text of the button
+            # if pygame.mixer.music.get_volume() == 1.0:
+            #     createMenuBtn(self.w/2, 0.6, "Mute la musique", muteMusic)
+
+            # else:
+            #     createMenuBtn(self.w/2, 0.6, "Unmute la musique", unmuteMusic)
+
+                                    
+        Button(homeFrame, text="☰", command=newMenuFrame, border=0,activebackground='#12c4c0', bg="#12c4c0").place(x=5, y=10)
 
         for i, news in enumerate(self.newsList.newsList):
             if i > self.lastNewsCount - 1:
