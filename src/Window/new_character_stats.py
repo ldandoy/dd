@@ -1,15 +1,10 @@
-import json
-from logging import root
-import time
 from tkinter import *
-import pygame
-import os, glob
 import tkinter as tk
 from random import *
-from functools import partial
 from Perso.person import Person
 from Utils.Sound import Sound
 from Perso.PointCharacter import PointCharacter
+from Utils.utils import imageTk
 
 
 keysString = {
@@ -78,23 +73,19 @@ def reloadPointStats(frame, label, race):
     return pointStats
 
 
-def new_character_frame(self):
+def new_character_stats_frame(self, person: dict):
 
     """
     Create new person page
     """
 
-    w = self.q.winfo_screenwidth()
-    h = self.q.winfo_screenheight()
-
-    frame = Frame(self.q, width=w, height=h)
+    frame = Frame(self.q, width=self.w, height=self.h)
     vcmd = (frame.register(isDigit))
 
     # background
-    bg_path = os.path.join('src', 'medias', 'new_person.png')
-    bg = PhotoImage(file=bg_path)
+    bg = imageTk(self, "new_person")
     background_label = tk.Label(frame, image=bg)
-    background_label.place(x=0, y=0, width=w, height=h)
+    background_label.place(x=0, y=0, width=self.w, height=self.h)
     background_label.image = bg
 
     # main message
@@ -108,35 +99,9 @@ def new_character_frame(self):
 
     lbl.grid(column=0, row=2)
     
-    orcButton = Button(frame, text="orc", command=lambda: reloadPointStats(frame, lbl, "orc"))
-    orcButton.grid(column=0, row=3)
-    
-    humanButton = Button(frame, text="human", command=lambda: reloadPointStats(frame, lbl, "human"))
-    humanButton.grid(column=1, row=3)
-    
-    stats = reloadPointStats(frame, lbl, "orc")
-    indexRow = 11
-    values = {}
+    stats = reloadPointStats(frame, lbl, person["race"])
 
-    for key in keysString:
-        label = tk.StringVar(frame)
-        label.set(keysString[key])
-        Label(frame, textvariable=label).grid(column=0, row=indexRow)
-        # name entry
-        value = tk.StringVar(frame)
-        Entry(frame, textvariable=value, bd=0).grid(column=1, row=indexRow)
-        values[key] = value
-        indexRow += 1
-    for key in keysInt:
-        label = tk.StringVar(frame)
-        label.set(keysInt[key])
-        Label(frame, textvariable=label).grid(column=0, row=indexRow)
-        # name entry
-        value = tk.IntVar(frame)
-        Entry(frame, textvariable=value, bd=0, validate='all',
-              validatecommand=(vcmd, '%P')).grid(column=1, row=indexRow)
-        values[key] = value
-        indexRow += 1
+    indexRow = 2
 
     # for display errors
     scrollbar = Scrollbar(frame)
@@ -144,17 +109,24 @@ def new_character_frame(self):
     indexRow += 1
     scrollbar.grid(column=0, row=indexRow, columnspan=3)
     errors_list = Listbox(frame, yscrollcommand=scrollbar.set, width=65)
+
+    # detroy actual frame
+    def returnPage():
+        frame.pack_forget()
+        frame.destroy()
+
     # function executed when form submitted
     def create_person():
-        person = Person(values["name"],
-            values["age"],
-            values["eyes"],
-            values["height"],
-            values["weight"],
-            values["skin"],
-            stats.race,
-            values["class_entry"],
-            values["alignment"],
+        personSaved = Person(
+            person["name"],
+            person["age"],
+            person["eyes"],
+            person["height"],
+            person["weight"],
+            person["skin"],
+            person["race"],
+            person["class_entry"],
+            person["alignment"],
             stats.getPointsFor("force"),
             stats.getPointsFor("dexterite"),
             stats.getPointsFor("intelligence"),
@@ -164,7 +136,7 @@ def new_character_frame(self):
             stats.getPointsFor("vitesse")
         )
         # verify inputs
-        errors_messages = person.verify_inputs()
+        errors_messages = personSaved.verify_inputs()
 
         # if there are errors, then display them in a list box
         if len(errors_messages) > 0:
@@ -177,13 +149,9 @@ def new_character_frame(self):
             scrollbar.config(command=errors_list.yview)
 
         else:
-            person.save()
+            personSaved.save()
             Sound.play(self.base_folder, "perso_created")
-        # pygame.mixer.init()
-            
-    def returnPage():
-        frame.pack_forget()
-        frame.destroy()
+            returnPage()
 
     # submit button
     indexRow += 1
@@ -193,10 +161,12 @@ def new_character_frame(self):
         width=10,
         command=returnPage
     ).grid(column=0, row=indexRow)
+
     tk.Button(frame,
         text='Créer',
         height=1,
         width=10,
         command=create_person
     ).grid(column=1, row=indexRow)
+
     frame.pack(fill="both", expand=TRUE)
