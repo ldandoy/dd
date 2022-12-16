@@ -6,6 +6,7 @@ import os
 import tkinter as tk
 from random import *
 from functools import partial
+from Utils.resized_image import ResizedImage
 
 from Combat.combat import Combat
 from Inventory.inventory import Inventory
@@ -18,14 +19,17 @@ from Utils.load_json import LoadJson
 
 
 def quest_frame(self):
-    frame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+    w = self.q.winfo_screenwidth()
+    h = self.q.winfo_screenheight()
+    frame = Frame(self.q, width=w, height=h, bg="#FF0000")
 
-    image_path = os.path.join(self.base_folder, '../medias/entrance.png')
-    bg = PhotoImage(file=r'' + image_path)
-    canvas = Canvas(frame, width=1024, height=600)
+    # image_path = Image.open(os.path.join(self.base_folder, '../medias/entrance.png'))
+    # resized_image = image_path.resize((w, h), Image.ANTIALIAS)
+    resized_image = ResizedImage.resize(self, '../medias/entrance.png')
+    canvas = Canvas(frame, width=w, height=h)
     canvas.pack(fill="both", expand=True)
-    canvas.create_image(0, 0, image=bg, anchor="nw")
-    canvas.image = bg
+    canvas.create_image(0, 0, image=resized_image, anchor="nw")
+    canvas.image = resized_image
 
     # Get the welcome message
     json = LoadJson()
@@ -42,11 +46,11 @@ def quest_frame(self):
                                 fg='dark grey', bg=None)
     labelTextQuestFrame_config = ('Calibri (Body)', 20, 'bold')
     labelTextQuestFrame.config(font=labelTextQuestFrame_config)
-    labelTextQuestFrame.place(x=100, y=200)
+    labelTextQuestFrame.place(x=w*0.25, y=h*0.05)
 
     questButton = Button(quest_frame, text="Démarrer une quête", command=choice, border=0,
                          activebackground='#12c4c0', bg="#12c4c0")
-    questButton.place(x=490, y=300)
+    questButton.place(x=w*0.25, y=h*0.1)
 
     frame.place(x=0, y=0)
     frame.lower()
@@ -66,6 +70,8 @@ def quest_frame(self):
 
 
 def start_quest_frame(self):
+    w = self.q.winfo_screenwidth()
+    h = self.q.winfo_screenheight()
     print(self.rooms.donjon[self.donjonRoom]["name"])
     def fight():
 
@@ -106,118 +112,114 @@ def start_quest_frame(self):
         start_quest_frame(self)
 
     if self.rooms.donjon[self.donjonRoom]["name"] == "Rencontre":
-        started_quest_frame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+        started_quest_frame = Frame(self.q, width=w, height=h, bg="#FF0000")
         started_quest_frame.place(x=0, y=0)
 
-        image_path = os.path.join(self.base_folder, '../medias/encounter.png')
-        bg = PhotoImage(file=r'' + image_path)
-        canvas = Canvas(started_quest_frame, width=1024, height=600)
+        resized_image = ResizedImage.resize(self, '../medias/encounter.png')
+        canvas = Canvas(started_quest_frame, width=w, height=h)
         canvas.pack(fill="both", expand=True)
-        canvas.create_image(0, 0, image=bg, anchor="nw")
-        canvas.image = bg
+        canvas.create_image(0, 0, image=resized_image, anchor="nw")
+        canvas.image = resized_image
 
         fightButton = Button(started_quest_frame, text="Combattre !", command=fight, border=0,
                              activebackground='#12c4c0', bg="#12c4c0")
-        fightButton.place(x=750, y=200)
+        fightButton.place(x=w*0.8, y=h*0.8)
 
         runButton = Button(started_quest_frame, text="Fuir !", command=run_away, border=0,
                            activebackground='#12c4c0', bg="#12c4c0")
-        runButton.place(x=750, y=250)
+        runButton.place(x=w*0.8, y=h*0.85)
     elif self.rooms.donjon[self.donjonRoom]["name"] == "Boss":
-        started_quest_frame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+        started_quest_frame = Frame(self.q, width=w, height=h, bg="#FF0000")
         started_quest_frame.place(x=0, y=0)
 
-        image_path = os.path.join(self.base_folder, '../medias/boss.png')
-        bg = PhotoImage(file=r'' + image_path)
-        canvas = Canvas(started_quest_frame, width=1024, height=600)
+        resized_image = ResizedImage.resize(self, '../medias/boss.png')
+        canvas = Canvas(started_quest_frame, width=w, height=h)
         canvas.pack(fill="both", expand=True)
-        canvas.create_image(0, 0, image=bg, anchor="nw")
-        canvas.image = bg
+        canvas.create_image(0, 0, image=resized_image, anchor="nw")
+        canvas.image = resized_image
 
         fightButton = Button(started_quest_frame, text="Combattre !", command=boss_fight, border=0,
                              activebackground='#12c4c0', bg="#12c4c0")
-        fightButton.place(x=750, y=200)
+        fightButton.place(x=w*0.5, y=h*0.5)
 
     elif self.rooms.donjon[self.donjonRoom]["name"] == "Trésor":
-        started_quest_frame = Frame(self.q, width=1024, height=600)
+        started_quest_frame = Frame(self.q, width=w, height=h)
         started_quest_frame.place(x=0, y=0)
 
-        image_path = os.path.join(self.base_folder, '../medias/treasure.png')
-        bg = PhotoImage(file=r'' + image_path)
-        canvas = Canvas(started_quest_frame, width=1024, height=600)
-        canvas.pack(fill="both", expand=False)
-        canvas.create_image(0, 0, image=bg, anchor="nw")
-        canvas.image = bg
+        resized_image = ResizedImage.resize(self, '../medias/treasure.png')
+        canvas = Canvas(started_quest_frame, width=w, height=h)
+        canvas.pack(fill="both", expand=True)
+        canvas.create_image(0, 0, image=resized_image, anchor="nw")
+        canvas.image = resized_image
 
         continueButton = Button(started_quest_frame, text="Continuer", command=next_room, border=0,
                                 activebackground='#12c4c0', bg="#12c4c0")
-        continueButton.place(x=750, y=200)
+        continueButton.place(x=w*0.5, y=h*0.5)
 
     elif self.rooms.donjon[self.donjonRoom]["name"] == "Couloir":
-        started_quest_frame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+        started_quest_frame = Frame(self.q, width=w, height=h, bg="#FF0000")
         started_quest_frame.place(x=0, y=0)
 
-        image_path = os.path.join(self.base_folder, '../medias/corridor.png')
-        bg = PhotoImage(file=r'' + image_path)
-        canvas = Canvas(started_quest_frame, width=1024, height=600)
+        resized_image = ResizedImage.resize(self, '../medias/corridor.png')
+        canvas = Canvas(started_quest_frame, width=w, height=h)
         canvas.pack(fill="both", expand=True)
-        canvas.create_image(0, 0, image=bg, anchor="nw")
-        canvas.image = bg
+        canvas.create_image(0, 0, image=resized_image, anchor="nw")
+        canvas.image = resized_image
 
         continueButton = Button(started_quest_frame, text="Continuer", command=next_room, border=0,
                                 activebackground='#12c4c0', bg="#12c4c0")
-        continueButton.place(x=750, y=200)
+        continueButton.place(x=w*0.5, y=h*0.5)
 
     elif self.rooms.donjon[self.donjonRoom]["name"] == "Rien":
-        started_quest_frame = Frame(self.q, width=1024, height=600, bg="#FF0000")
+        started_quest_frame = Frame(self.q, width=w, height=h, bg="#FF0000")
         started_quest_frame.place(x=0, y=0)
 
-        image_path = os.path.join(self.base_folder, '../medias/nothing.png')
-        bg = PhotoImage(file=r'' + image_path)
-        canvas = Canvas(started_quest_frame, width=1024, height=600)
+        resized_image = ResizedImage.resize(self, '../medias/nothing.png')
+        canvas = Canvas(started_quest_frame, width=w, height=h)
         canvas.pack(fill="both", expand=True)
-        canvas.create_image(0, 0, image=bg, anchor="nw")
-        canvas.image = bg
+        canvas.create_image(0, 0, image=resized_image, anchor="nw")
+        canvas.image = resized_image
 
         continueButton = Button(started_quest_frame, text="Continuer", command=next_room, border=0,
                                 activebackground='#12c4c0', bg="#12c4c0")
-        continueButton.place(x=750, y=200)
+        continueButton.place(x=w*0.5, y=h*0.5)
 
     tQuestStarted = Label(started_quest_frame, text=self.rooms.donjon[self.donjonRoom]["name"], fg='dark grey')
     tQuestStartedFont = ('Calibri (Body)', 24, 'bold')
     tQuestStarted.config(font=tQuestStartedFont)
-    tQuestStarted.place(x=50, y=70)
+    tQuestStarted.place(x=w*0.5, y=h*0.25)
 
     lQuestStarted = Label(started_quest_frame, text=self.rooms.donjon[self.donjonRoom]["description"], fg='dark grey')
     lQuestStartedFont = ('Calibri (Body)', 18, 'bold')
     lQuestStarted.config(font=lQuestStartedFont)
-    lQuestStarted.place(x=50, y=120)
+    lQuestStarted.place(x=w*0.35, y=h*0.3)
 
 def combat(self, isBoss):
+    w = self.q.winfo_screenwidth()
+    h = self.q.winfo_screenheight()
     if isBoss == 1:
         print("boss FIGHT")
         monstre = self.rooms.boss
-        image_path = os.path.join(self.base_folder, '../medias/bestiaire/' + str(self.rooms.boss) + '.png')
+        resized_image = ResizedImage.resize(self, '../medias/bestiaire/' + str(self.rooms.boss) + '.png')
     else:
         print("normal FIGHT")
         # List des monstres générés pour le donjon : self.rooms.monsters[self.actualMonster]
         # Ajouter +1 à "actualMonster" pour passer au prochain monstre
         monstre = self.rooms.monsters[self.actualMonster]
-        image_path = os.path.join(self.base_folder,
-                                  '../medias/bestiaire/' + str(self.rooms.monsters[self.actualMonster]) + '.png')
+        resized_image = ResizedImage.resize(self, '../medias/bestiaire/' + str(self.rooms.monsters[self.actualMonster]) + '.png')
+
 
     selectButton = []
     hero = self.perso
     heroHp = hero.get('pdv')
-    Combatframe = Frame(self.q, width=1024, height=600)
+    Combatframe = Frame(self.q, width=w, height=h)
     Combatframe.place(x=0, y=0)
     Combatframe.lower()
 
-    bg = PhotoImage(file=r'' + image_path)
-    canvas1 = Canvas(Combatframe, width=1024, height=600)
-    canvas1.pack(fill="both", expand=True)
-    canvas1.create_image(0, 0, image=bg, anchor="nw")
-    canvas1.image = bg
+    canvas = Canvas(Combatframe, width=w, height=h)
+    canvas.pack(fill="both", expand=True)
+    canvas.create_image(0, 0, image=resized_image, anchor="nw")
+    canvas.image = resized_image
     combat = Combat(hero, monstre, isBoss)
     combat.initiative()
 
@@ -234,18 +236,18 @@ def combat(self, isBoss):
 
     def updateLabel(hp, dmg, isHero):
         if isHero:
-            heroDmgLabel.place(x=300, y=30)
+            heroDmgLabel.place(x=w*0.45, y=h*0.2)
             heroDmgLabel.config(text="hero deal : " + str(dmg))
             monsterHpLabel.config(text=str(hp))
         else:
-            monsterDmgLabel.place(x=300, y=300)
+            monsterDmgLabel.place(x=w*0.45, y=h*0.4)
             monsterDmgLabel.config(text="monster deal : " + str(dmg))
             heroHpLabel.config(text=str(hp) + '/' + str(heroHp))
 
     def attack(selectWeapon, button):
-        AttackButton.place(x=750, y=500)
-        InventaireButton.place(x=850, y=500)
-        FuiteButton.place(x=850, y=550)
+        AttackButton.place(x=w*0.8, y=h*0.8)
+        InventaireButton.place(x=w*0.85, y=h*0.8)
+        FuiteButton.place(x=w*0.8, y=h*0.85)
         for x in range(len(button)):
             selectButton[x].place_forget()
         monsterHpBeforeHit = combat.monster_hp
@@ -274,15 +276,15 @@ def combat(self, isBoss):
         initLabel.place_forget()
         weaponList = self.perso.get('armes')
         print(weaponList)
-        x = 750
+        x = w*0.8
         for count, weapon in enumerate(weaponList):
             print(weaponList[count].get('name'))
             selectButton.insert(count, Button(Combatframe, text=weapon.get('name'),
                                               command=lambda weapon=weapon, count=count: attack(weapon.get('name'),
                                                                                                 selectButton),
                                               border=0, activebackground='#12c4c0', bg="#12c4c0"))
-            selectButton[count].place(x=x, y=500)
-            x += 100
+            selectButton[count].place(x=x, y=h*0.8)
+            x = x + x*0.1
 
     def fuite():
         print("Vous tentez de prendre la fuite")
@@ -309,7 +311,7 @@ def combat(self, isBoss):
                                      border=0,
                                      activebackground='#12c4c0',
                                      bg="#12c4c0"))
-            itemTab[i].place(x=850, y=500 + (i * 25))
+            itemTab[i].place(x=w*0.85, y=h*0.8 + (i * h*0.05))
 
         # Faire disparaître les anciens boutons de la frame combat
         AttackButton.place_forget()
@@ -332,9 +334,9 @@ def combat(self, isBoss):
                 itemTab[i].place_forget()
 
             returnButton.place_forget()
-            AttackButton.place(x=750, y=500)
-            InventaireButton.place(x=850, y=500)
-            FuiteButton.place(x=850, y=550)
+            AttackButton.place(x=w*0.8, y=h*0.8)
+            InventaireButton.place(x=w*0.85, y=h*0.8)
+            FuiteButton.place(x=w*0.8, y=h*0.85)
 
         # Bouton pour sortir de l'inventaire
         returnButton = Button(Combatframe,
@@ -343,7 +345,7 @@ def combat(self, isBoss):
                               border=0,
                               activebackground='#12c4c0',
                               bg="#12c4c0")
-        returnButton.place(x=750, y=500)
+        returnButton.place(x=w*0.8, y=h*0.85)
 
         #
         #
@@ -351,16 +353,16 @@ def combat(self, isBoss):
 
     AttackButton = Button(Combatframe, text="Attack", command=selectWeapon, border=0, activebackground='#12c4c0',
                           bg="#12c4c0")
-    AttackButton.place(x=750, y=500)
+    AttackButton.place(x=w*0.8, y=h*0.8)
 
     InventaireButton = Button(Combatframe, text="Inventaire", command=inventory, border=0,
                               activebackground='#12c4c0',
                               bg="#12c4c0")
-    InventaireButton.place(x=850, y=500)
+    InventaireButton.place(x=w*0.85, y=h*0.8)
 
     FuiteButton = Button(Combatframe, text="Fuite", command=fuite, border=0, activebackground='#12c4c0',
                          bg="#12c4c0")
-    FuiteButton.place(x=850, y=550)
+    FuiteButton.place(x=w*0.8, y=h*0.85)
 
     heroDmgLabel = Label(Combatframe, text="", fg='white', bg='black')
     heroDmgLabelfont = ('Calibri (Body)', 24, 'bold')
@@ -383,7 +385,7 @@ def combat(self, isBoss):
     initLabel = Label(Combatframe, text="", fg='white', bg='black')
     initLabelfont = ('Calibri (Body)', 24, 'bold')
     initLabel.config(font=initLabelfont)
-    initLabel.place(x=200, y=150)
+    initLabel.place(x=w*0.35, y=h*0.2)
     if isBoss == 1:
         nameLabel = Label(Combatframe, text="vous rencontrer un " + str(self.rooms.boss),
                           fg='white', bg='black')
@@ -393,22 +395,23 @@ def combat(self, isBoss):
 
     nameLabelfont = ('Calibri (Body)', 24, 'bold')
     nameLabel.config(font=nameLabelfont)
-    nameLabel.place(x=100, y=100)
+    nameLabel.place(x=w*0.4, y=h*0.5)
 
     whoStart(heroHp, combat.hero_hp)
 
 
 def death(self):
-    death_frame = Frame(self.q, width=1024, height=600)
+    w = self.q.winfo_screenwidth()
+    h = self.q.winfo_screenheight()
+    death_frame = Frame(self.q, width=w, height=h)
     death_frame.place(x=0, y=0)
     death_frame.lower()
 
-    image_path = os.path.join(self.base_folder, '../medias/dead.png')
-    bg = PhotoImage(file=r'' + image_path)
-    canvas1 = Canvas(death_frame, width=1024, height=600)
-    canvas1.pack(fill="both", expand=True)
-    canvas1.create_image(0, 0, image=bg, anchor="nw")
-    canvas1.image = bg
+    resized_image = ResizedImage.resize(self, '../medias/dead.png')
+    canvas = Canvas(death_frame, width=w, height=h)
+    canvas.pack(fill="both", expand=True)
+    canvas.create_image(0, 0, image=resized_image, anchor="nw")
+    canvas.image = resized_image
 
     def Retry():
         self.donjonRoom = 0
@@ -417,23 +420,24 @@ def death(self):
 
     retryButton = Button(death_frame, text="Retry", command=Retry, border=0, activebackground='#12c4c0',
                          bg="#12c4c0")
-    retryButton.place(x=500, y=300)
+    retryButton.place(x=w*0.5, y=h*0.5)
 
 
 def win(self, isBoss):
-    win_frame = Frame(self.q, width=1024, height=600)
+    w = self.q.winfo_screenwidth()
+    h = self.q.winfo_screenheight()
+    win_frame = Frame(self.q, width=w, height=h)
     win_frame.place(x=0, y=0)
     win_frame.lower()
     if isBoss == 1:
-        image_path = os.path.join(self.base_folder, '../medias/sortie.png')
+        resized_image = ResizedImage.resize(self, '../medias/sortie.png')
     else:
-        image_path = os.path.join(self.base_folder, '../medias/treasure.png')
+        resized_image = ResizedImage.resize(self, '../medias/treasure.png')
 
-    bg = PhotoImage(file=r'' + image_path)
-    canvas1 = Canvas(win_frame, width=1024, height=600)
-    canvas1.pack(fill="both", expand=True)
-    canvas1.create_image(0, 0, image=bg, anchor="nw")
-    canvas1.image = bg
+    canvas = Canvas(win_frame, width=w, height=h)
+    canvas.pack(fill="both", expand=True)
+    canvas.create_image(0, 0, image=resized_image, anchor="nw")
+    canvas.image = resized_image
 
     def next_room():
         win_frame.destroy()
@@ -446,14 +450,16 @@ def win(self, isBoss):
 
     nextButton = Button(win_frame, text="next", command=next_room, border=0, activebackground='#12c4c0',
                         bg="#12c4c0")
-    nextButton.place(x=500, y=300)
+    nextButton.place(x=w*0.5, y=h*0.5)
     if isBoss == 1:
         winLabel = Label(win_frame,
-                         text="bravo vous avez vaincu " + str(self.rooms.boss) + " ici s'achève votre aventure",
+                         text="Bravo vous avez vaincu " + str(self.rooms.boss) + " ici s'achève votre aventure",
                          fg='white', bg='black')
+        winLabel.place(x=w*0.25, y=h*0.4)
     else:
-        winLabel = Label(win_frame, text="bravo vous avez vaincu " + str(self.rooms.monsters[self.actualMonster]),
+        winLabel = Label(win_frame, text="Bravo vous avez vaincu " + str(self.rooms.monsters[self.actualMonster]),
                          fg='white', bg='black')
+        winLabel.place(x=w*0.4, y=h*0.4)
     winLabelfont = ('Calibri (Body)', 24, 'bold')
     winLabel.config(font=winLabelfont)
-    winLabel.place(x=200, y=150)
+    
