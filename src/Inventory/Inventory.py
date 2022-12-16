@@ -14,7 +14,8 @@ class Inventory:
         self.perso = perso
         self.items = []
         self.inventoryTitle = "Inventaire"
-        self.inventoryFrame = Frame(self.q, width=self.w, height=self.h)
+        self.inventoryFrame = Frame(
+            self.q, width=self.w, height=self.h, background="red")
         self.initInventory(perso, self.items)
 
     def addItem(self, itemsToAdd):
@@ -78,18 +79,20 @@ class Inventory:
     def renderInventory(self, items):
         self.inventoryFrame.place(x=0, y=0)
 
-        backButton = Button(self.inventoryFrame, text="Retour", command=self.closeInventory, border=0,
+        canvas = Canvas(self.inventoryFrame, width=self.w,
+                        height=self.h, background="blue")
+        canvas.pack(fill="both", expand=True)
+        canvas.place(x=750, y=200)
+
+        backButton = Button(canvas, text="Retour", command=self.closeInventory, border=0,
                             activebackground='#12c4c0', bg="#12c4c0")
         backButton.place(x=750, y=350)
 
-        canvas = Canvas(self.inventoryFrame, width=500, height=500)
-
-        canvas.place(x=750, y=200)
 
         for index, item in enumerate(items):
             if item.type == "consumable":
                 selectButton = Button(canvas, text="Select item", command=lambda item=item: self.selectItem(item), border=0,
-                                    activebackground='#12c4c0', bg="#12c4c0")
+                                      activebackground='#12c4c0', bg="#12c4c0")
                 selectButton.grid(column=0, row=index)
                 stringVarLabelName = StringVar(canvas)
                 stringVarLabelName.set(item.name)
@@ -100,18 +103,19 @@ class Inventory:
                 labelName.grid(column=1, row=index)
                 labelQty.grid(column=2, row=index)
                 deleteButton = Button(canvas, text="Delete item", command=lambda item=item: self.deleteItem(item), border=0,
-                                    activebackground='#12c4c0', bg="#12c4c0")
+                                      activebackground='#12c4c0', bg="#12c4c0")
                 deleteButton.grid(column=3, row=index)
             else:
                 selectWeapon = Button(canvas, text="Select weapon", command=lambda item=item: self.selectItem(item), border=0,
-                                    activebackground='#12c4c0', bg="#12c4c0")
+                                      activebackground='#12c4c0', bg="#12c4c0")
                 selectWeapon.grid(column=0, row=index)
                 stringVarWeaponName = StringVar(canvas)
                 stringVarWeaponName.set(item.name)
-                waponLabelName = Label(canvas, textvariable=stringVarWeaponName)
+                waponLabelName = Label(
+                    canvas, textvariable=stringVarWeaponName)
                 waponLabelName.grid(column=1, row=index)
                 deleteButton = Button(canvas, text="Delete item", command=lambda item=item: self.deleteItem(item), border=0,
-                                    activebackground='#12c4c0', bg="#12c4c0")
+                                      activebackground='#12c4c0', bg="#12c4c0")
                 deleteButton.grid(column=3, row=index)
 
         addButton = Button(canvas, text="Add Item", command=lambda items=[{

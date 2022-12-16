@@ -17,20 +17,7 @@
   "sagesse": 2,
   "vitesse": 2,
   "pdv": 45,
-  "armes": [
-    {
-      "type": "weapon",
-      "name": "Arc Long",
-      "degat": "1d10",
-      "test": "dexterite"
-    },
-    {
-      "type": "weapon",
-      "name": "Epee courte",
-      "degat": "1d10",
-      "test": "force"
-    }
-  ],
+  "armes": null,
   "inventaire": [
     {
       "name": "potion",
@@ -40,18 +27,17 @@
       "heal": 20
     },
     {
-      "name": "super-potion",
-      "qty_max": 30,
-      "qty": 29,
-      "type": "consumable",
-      "heal": 50
-    },
-    {
       "name": "mega-potion",
       "qty_max": 30,
-      "qty": 29,
+      "qty": 1,
       "type": "consumable",
       "heal": 200
+    },
+    {
+      "type": "weapon",
+      "name": "Epee en or",
+      "degat": "1d10",
+      "test": "force"
     },
     {
       "name": "mega-potion",

@@ -144,7 +144,6 @@ class MainWindow:
 
                             )
         PersoButton.place(relx=.5, rely=.85,anchor= CENTER)
-                            bg="#12c4c0")
         PersoButton.place(x=820, y=550)
 
     def inventoryToggleWin(self):
