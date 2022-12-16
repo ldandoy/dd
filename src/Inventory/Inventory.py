@@ -22,16 +22,18 @@ class Inventory:
             if item['type'] == 'consumable':
                 itemToUpdate = self.findItemByName(
                     itemsToAdd, self.perso["inventaire"])
-                if len(itemToUpdate) == 1:
+                if itemToUpdate:
                     self.incrementConsumableQuantity(
                         itemToUpdate, self.perso["inventaire"])
-                    print(itemToUpdate)
                 else:
                     self.perso["inventaire"].append(item)
             if item['type'] == 'weapon':
                 self.perso["inventaire"].append(item)
         print(self.perso["inventaire"])
         Person.update(self.perso)
+        self.closeInventory()
+        self.items = []
+        self.initInventory(self.perso, self.items)
 
     def findItemByName(self, itemsToAdd, inventory):
         for item in itemsToAdd:
@@ -44,18 +46,20 @@ class Inventory:
     def initInventory(self, perso, items):
         for item in perso["inventaire"]:
             if item["type"] == "consumable":
-                items.append(Consumable(item))
+                consumable = Consumable(item)
+                items.append(consumable)
             if item["type"] == "weapon":
-                items.append(Weapon(item))
+                weapon = Weapon(item)
+                items.append(weapon)
             if item["type"] != "weapon" and item["type"] != "consumable":
-                items.append(Item(item))
-        return items
+                itm = Item(item)
+                items.append(itm)
 
     def updateInventory(self):
         Person.update(self.perso)
 
     def selectItem(self, item):
-        print("select item")
+        print(item)
 
     def deleteItem(self, item):
         items = self.perso["inventaire"]
@@ -83,20 +87,32 @@ class Inventory:
         canvas.place(x=750, y=200)
 
         for index, item in enumerate(items):
-            selectButton = Button(canvas, text="Select item", command=lambda item=item: self.selectItem(item), border=0,
-                                  activebackground='#12c4c0', bg="#12c4c0")
-            selectButton.grid(column=0, row=index)
-            stringVarLabelName = StringVar(canvas)
-            stringVarLabelName.set(item.name)
-            stringVarLabelQty = StringVar(canvas)
-            stringVarLabelQty.set(item.qty)
-            labelName = Label(canvas, textvariable=stringVarLabelName)
-            labelQty = Label(canvas, textvariable=stringVarLabelQty)
-            labelName.grid(column=1, row=index)
-            labelQty.grid(column=2, row=index)
-            deleteButton = Button(canvas, text="Delete item", command=lambda item=item: self.deleteItem(item), border=0,
-                                  activebackground='#12c4c0', bg="#12c4c0")
-            deleteButton.grid(column=3, row=index)
+            if item.type == "consumable":
+                selectButton = Button(canvas, text="Select item", command=lambda item=item: self.selectItem(item), border=0,
+                                    activebackground='#12c4c0', bg="#12c4c0")
+                selectButton.grid(column=0, row=index)
+                stringVarLabelName = StringVar(canvas)
+                stringVarLabelName.set(item.name)
+                stringVarLabelQty = StringVar(canvas)
+                stringVarLabelQty.set(item.qty)
+                labelName = Label(canvas, textvariable=stringVarLabelName)
+                labelQty = Label(canvas, textvariable=stringVarLabelQty)
+                labelName.grid(column=1, row=index)
+                labelQty.grid(column=2, row=index)
+                deleteButton = Button(canvas, text="Delete item", command=lambda item=item: self.deleteItem(item), border=0,
+                                    activebackground='#12c4c0', bg="#12c4c0")
+                deleteButton.grid(column=3, row=index)
+            else:
+                selectWeapon = Button(canvas, text="Select weapon", command=lambda item=item: self.selectItem(item), border=0,
+                                    activebackground='#12c4c0', bg="#12c4c0")
+                selectWeapon.grid(column=0, row=index)
+                stringVarWeaponName = StringVar(canvas)
+                stringVarWeaponName.set(item.name)
+                waponLabelName = Label(canvas, textvariable=stringVarWeaponName)
+                waponLabelName.grid(column=1, row=index)
+                deleteButton = Button(canvas, text="Delete item", command=lambda item=item: self.deleteItem(item), border=0,
+                                    activebackground='#12c4c0', bg="#12c4c0")
+                deleteButton.grid(column=3, row=index)
 
         addButton = Button(canvas, text="Add Item", command=lambda items=[{
             "name": "mega-potion",
