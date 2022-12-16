@@ -80,10 +80,10 @@ class News:
 
 
 class NewsList:
-    newsList: list[News] = []
+    newsList = []
     title: str = "News List"
 
-    def __init__(self, newslist: list[News], q):
+    def __init__(self, newslist, q):
         self.q = q
         self.w = self.q.winfo_screenwidth()
         self.h = self.q.winfo_screenheight()

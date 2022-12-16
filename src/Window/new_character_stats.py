@@ -5,6 +5,7 @@ from Perso.person import Person
 from Utils.Sound import Sound
 from Perso.PointCharacter import PointCharacter
 from Utils.utils import imageTk
+from Perso.CreateCharacter import CreateCharacter
 
 
 keysString = {
@@ -73,13 +74,15 @@ def reloadPointStats(frame, label, race):
     return pointStats
 
 
-def new_character_stats_frame(self, person: dict):
+def new_character_stats_frame(self, person: CreateCharacter, destroyParent):
 
     """
     Create new person page
     """
+    containerFrame = Canvas(self.q)
+    containerFrame.place(x=0, y=0, width=self.w, height=self.h)
 
-    frame = Frame(self.q, width=self.w, height=self.h)
+    frame = Frame(containerFrame, width=self.w, height=self.h )
     vcmd = (frame.register(isDigit))
 
     # background
@@ -88,6 +91,7 @@ def new_character_stats_frame(self, person: dict):
     background_label.place(x=0, y=0, width=self.w, height=self.h)
     background_label.image = bg
 
+    scrollbar = Scrollbar(frame)
     # main message
     Label(frame,
         text="Créer votre personnage",
@@ -99,34 +103,27 @@ def new_character_stats_frame(self, person: dict):
 
     lbl.grid(column=0, row=2)
     
-    stats = reloadPointStats(frame, lbl, person["race"])
+    stats = reloadPointStats(frame, lbl, person.race)
 
     indexRow = 2
 
-    # for display errors
-    scrollbar = Scrollbar(frame)
-    scrollbar.pack_forget()
-    indexRow += 1
-    scrollbar.grid(column=0, row=indexRow, columnspan=3)
-    errors_list = Listbox(frame, yscrollcommand=scrollbar.set, width=65)
-
     # detroy actual frame
     def returnPage():
-        frame.pack_forget()
-        frame.destroy()
+        containerFrame.pack_forget()
+        containerFrame.destroy()
 
     # function executed when form submitted
     def create_person():
         personSaved = Person(
-            person["name"],
-            person["age"],
-            person["eyes"],
-            person["height"],
-            person["weight"],
-            person["skin"],
-            person["race"],
-            person["class_entry"],
-            person["alignment"],
+            person.name,
+            person.age,
+            person.eyes,
+            person.height,
+            person.weight,
+            person.skin,
+            person.race,
+            person.class_entry,
+            person.alignment,
             stats.getPointsFor("force"),
             stats.getPointsFor("dexterite"),
             stats.getPointsFor("intelligence"),
@@ -151,10 +148,11 @@ def new_character_stats_frame(self, person: dict):
         else:
             personSaved.save()
             Sound.play(self.base_folder, "perso_created")
+            destroyParent()
             returnPage()
 
     # submit button
-    indexRow += 1
+    indexRow = 7 + 4
     tk.Button(frame,
         text='Retour',
         height=1,
@@ -168,5 +166,12 @@ def new_character_stats_frame(self, person: dict):
         width=10,
         command=create_person
     ).grid(column=1, row=indexRow)
+
+    # for display errors
+    # scrollbar.pack_forget()
+    indexRow += 1
+    scrollbar.grid(column=0, row=indexRow, columnspan=3)
+    errors_list = Listbox(frame, width=65)
+
 
     frame.pack(fill="both", expand=TRUE)

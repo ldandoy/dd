@@ -8,29 +8,29 @@ class CreateCharacter():
     raceList = ["human", "orc", "elfe", "troll"]
     classList = ["paladin", "warrior", "mage", "thief"]
     keysString = {
-        "name": "Nom",
-        "eyes": "Yeux",
-        "skin": "Peau",
+        "name": "Name",
+        "eyes": "Eyes Color",
+        "skin": "Skin Color",
         # "class_entry": "Classe",
         # "alignment": "Alignement",
     }
     keysInt = {
         "age": "Age",
-        "height": "Taille",
-        "weight": "Poids",
+        "height": "Height",
+        "weight": "Weight",
     }
 
     def __init__(self, frame):
         self.frame = frame
         self.race: str = self.raceList[0]
-        self.name: str = ""
-        self.eyes: str = ""
-        self.skin: str = ""
+        self.name: str = "fares"
+        self.eyes: str = "black"
+        self.skin: str = "black"
         self.class_entry: str = self.classList[0]
         self.alignment: int = 60
-        self.age: int = 0
-        self.height: int = 0
-        self.weight: int = 0
+        self.age: int = 5
+        self.height: int = 5
+        self.weight: int = 5
         
         self.errors = {}
         self.initErrors()
@@ -49,6 +49,18 @@ class CreateCharacter():
         self.frameClass.grid_columnconfigure(index=0, weight=1)
         self.frameClass.pack(fill=Y, side=RIGHT, ipadx=paddingWidth)
         self.renderClass()
+
+    def toString(self) -> str:
+        return f"""
+            name: {self.name}
+            eyes: {self.eyes}
+            skin: {self.skin}
+            class_entry: {self.class_entry}
+            alignment: {self.alignment}
+            age: {self.age}
+            height: {self.height}
+            weight: {self.weight}
+        """
 
 
 

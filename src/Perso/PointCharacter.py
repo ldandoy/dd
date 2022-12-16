@@ -1,7 +1,11 @@
-races = {
-    "human": {"force": 3, "dexterite": 2, "intelligence": 3, "charisme": 2, "constitution": 3, "sagesse": 2, "vitesse": 5},
-    "orc": {"force": 7, "dexterite": 3, "intelligence": 1, "charisme": 0, "constitution": 6, "sagesse": 0, "vitesse": 3}
-}
+import json
+import os
+
+races = {}
+pathFile = os.path.join('Datas', 'Races', "Races.json") 
+with open(pathFile) as json_file:
+    races = json.load(json_file)
+
 
 class PointCharacter:
     max = 10

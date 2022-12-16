@@ -40,15 +40,15 @@ class Person(DefaultController):
                  vitesse: int) -> None:
         super().__init__()
         self.__allowed_skills_points__ = 25
-        self.name: str = name.get()
-        self.age: int = age.get()
-        self.yeux: str = yeux.get()
-        self.taille: int = taille.get()
-        self.poids: int = poids.get()
-        self.peau: str = peau.get()
+        self.name: str = name
+        self.age: int = age
+        self.yeux: str = yeux
+        self.taille: int = taille
+        self.poids: int = poids
+        self.peau: str = peau
         self.race: str = race
-        self.classe: str = classe.get()
-        self.alignement: str = alignement.get()
+        self.classe: str = classe
+        self.alignement: str = alignement
         self.pe: int = 0
         self.force: int = force
         self.dexterite: int = dexterite
@@ -99,8 +99,8 @@ class Person(DefaultController):
             errors.append('L\'origine ethnique ne peut pas etre vide')
         if not self.classe or self.classe.strip() == '':
             errors.append('La classe ne peut pas etre vide')
-        if not self.alignement or self.alignement.strip() == '':
-            errors.append('L\'alignement ne peut pas etre vide')
+        if not self.alignement or self.alignement < 0 or self.alignement > 100:
+            errors.append('L\'alignement ne peut pas etre vide et doit etre compris entre 0 et 100')
         if not self.force or self.force <= 0:
             errors.append('La force doit etre supérieure à 0')
         if not self.dexterite or self.dexterite <= 0:

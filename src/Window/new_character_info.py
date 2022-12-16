@@ -23,7 +23,11 @@ def new_character_info_frame(self):
     """
     
     # CONTAINER
-    frameContainer = Frame(self.q, bg="yellow")
+    containerFrame = Canvas(self.q)
+    containerFrame.place(x=0, y=0, width=self.w, height=self.h)
+
+    frameContainer = Frame(containerFrame, bg="yellow",
+                           width=self.w, height=self.h)
 
     # background
     bg = imageTk(self, "new_person")
@@ -60,29 +64,31 @@ def new_character_info_frame(self):
         frame.pack()
         Label(frame, text=character.keysString[key], width=labelWidth).grid(
             column=0, row=0)
-        value = tk.StringVar(frame)
+        value = tk.StringVar()
         Entry(frame, textvariable=value, bd=0).grid(column=1, row=0, pady=pady)
         values[key] = value
         error = tk.StringVar(frame)
-        Label(frame, text=error, width=labelWidth).grid(
+        Label(frame, text="", width=labelWidth).grid(
             column=2, row=0)
         errors[key] = error
 
     frame = Frame(frameInfo)
     frame.pack()
-    Label(frame, text="Alignement", width=20).grid(column=0, row=0)
+    Label(frame, text="Alignment", width=20).grid(column=0, row=0)
 
     frameAlignment = Frame(frame)
     frameAlignment.grid(column=1, row=0, pady=10)
 
-    Label(frameAlignment, text="Méchant").grid(column=0, row=0)
+    Label(frameAlignment, text="Bad").grid(column=0, row=0)
     value = tk.IntVar(frameAlignment)
     w2 = Scale(frameAlignment, variable=value, from_=0, to=100, orient=HORIZONTAL)
     w2.set(50)
     values["alignment"] = value
     w2.grid(column=1, row=0)
-    Label(frameAlignment, text="Gentille").grid(
+    Label(frameAlignment, text="Nice").grid(
         column=2, row=0)
+    Label(frameAlignment, text="", width=labelWidth-6).grid(
+        column=3, row=0)
     
     for key in character.keysInt:
         frame = Frame(frameInfo)
@@ -93,12 +99,12 @@ def new_character_info_frame(self):
               validatecommand=(vcmd, '%P')).grid(column=1, row=0, pady=pady)
         values[key] = value
         error = StringVar(frame, value=0)
-        Label(frame, text=error, width=labelWidth).grid(column=2, row=0)
+        Label(frame, text="", width=labelWidth).grid(column=2, row=0)
         errors[key] = error
     
     def destroyFrame():
-        frameContainer.pack_forget()
-        frameContainer.destroy()
+        containerFrame.pack_forget()
+        containerFrame.destroy()
 
     # function executed when form submitted
     def next():
@@ -112,8 +118,8 @@ def new_character_info_frame(self):
             print(character.errors)
         else:
             Sound.play(self.base_folder, "clic_person")
-            destroyFrame()
-            new_character_stats_frame(self, values)
+            character.alignment = values["alignment"].get()
+            new_character_stats_frame(self, character, destroyFrame)
 
     # return and submit button    
     frameActions = Frame(frameInfo)
