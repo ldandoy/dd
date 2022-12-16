@@ -90,37 +90,37 @@ class Inventory:
 
         backButton = Button(canvas, text="Retour", command=self.closeInventory, border=0,
                             activebackground='#12c4c0', bg="#12c4c0")
-        backButton.place(x=self.w * 0.3, y=self.h * 0.9, anchor="center")
+        backButton.place(x=self.w * 0.5, y=self.h * 0.9, anchor="center")
 
 
         for index, item in enumerate(items):
             if item.type == "consumable":
                 selectButton = Button(canvas, text="Select item", command=lambda item=item: self.selectItem(item), border=0,
                                       activebackground='#12c4c0', bg="#12c4c0")
-                selectButton.place(x=self.w * 0.3, y=self.h * 0.05 * index, anchor="center")
+                selectButton.place(x=self.w * 0.2, y=self.h * 0.1 * index, anchor="center")
                 stringVarLabelName = StringVar(canvas)
                 stringVarLabelName.set(item.name)
                 stringVarLabelQty = StringVar(canvas)
                 stringVarLabelQty.set(item.qty)
                 labelName = Label(canvas, textvariable=stringVarLabelName)
                 labelQty = Label(canvas, textvariable=stringVarLabelQty)
-                labelName.place(x=self.w * 0.5, y=self.h * 0.05 * index, anchor="center")
-                labelQty.place(x=self.w * 0.6, y=self.h * 0.05 * index, anchor="center")
+                labelName.place(x=self.w * 0.4, y=self.h * 0.1 * index, anchor="center")
+                labelQty.place(x=self.w * 0.7, y=self.h * 0.1 * index, anchor="center")
                 deleteButton = Button(canvas, text="Delete item", command=lambda item=item: self.deleteItem(item), border=0,
                                       activebackground='#12c4c0', bg="#12c4c0")
-                deleteButton.place(x=self.w * 0.7, y=self.h * 0.05 * index, anchor="center")
+                deleteButton.place(x=self.w * 0.8, y=self.h * 0.1 * index, anchor="center")
             else:
                 selectWeapon = Button(canvas, text="Select weapon", command=lambda item=item: self.selectItem(item), border=0,
                                       activebackground='#12c4c0', bg="#12c4c0")
-                selectWeapon.place(x=self.w * 0.3, y=self.h * 0.05 * index, anchor="center")
+                selectWeapon.place(x=self.w * 0.3, y=self.h * 0.1 * index, anchor="center")
                 stringVarWeaponName = StringVar(canvas)
                 stringVarWeaponName.set(item.name)
                 waponLabelName = Label(
                     canvas, textvariable=stringVarWeaponName)
-                waponLabelName.place(x=self.w * 0.5, y=self.h * 0.05* index, anchor="center")
+                waponLabelName.place(x=self.w * 0.5, y=self.h * 0.1* index, anchor="center")
                 deleteButton = Button(canvas, text="Delete item", command=lambda item=item: self.deleteItem(item), border=0,
                                       activebackground='#12c4c0', bg="#12c4c0")
-                deleteButton.place(x=self.w * 0.7, y=self.h * 0.05* index , anchor="center")
+                deleteButton.place(x=self.w * 0.8, y=self.h * 0.1* index , anchor="center")
 
         addButton = Button(canvas, text="Add Item", command=lambda items=[{
             "name": "mega-potion",
@@ -136,7 +136,7 @@ class Inventory:
             "test": "force"
         }]: self.addItem(items), border=0,
             activebackground='#12c4c0', bg="#12c4c0")
-        addButton.place(x=self.w * 0.7, y=self.h * 0.9, anchor="center")
+        addButton.place(x=self.w * 0.5, y=self.h * 0.9, anchor="center")
         
         # imagePath = os.path.join(
         #     os.path.dirname(__file__), f'../medias/news/{self.infos["picture"]}')

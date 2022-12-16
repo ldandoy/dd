@@ -20,11 +20,31 @@
   "armes": null,
   "inventaire": [
     {
-      "name": "potion",
+      "name": "mega-potion",
       "qty_max": 30,
-      "qty": 29,
+      "qty": 1,
       "type": "consumable",
-      "heal": 20
+      "heal": 200
+    },
+    {
+      "name": "mega-potion",
+      "qty_max": 30,
+      "qty": 1,
+      "type": "consumable",
+      "heal": 200
+    },
+    {
+      "name": "mega-potion",
+      "qty_max": 30,
+      "qty": 1,
+      "type": "consumable",
+      "heal": 200
+    },
+    {
+      "type": "weapon",
+      "name": "Epee en or",
+      "degat": "1d10",
+      "test": "force"
     },
     {
       "name": "mega-potion",
