@@ -113,8 +113,8 @@ class MainWindow:
         def play():
             pygame.mixer.init()
             Sound.play(self.base_folder, "button_menu")
-            homeFrame.pack_forget()
-            homeFrame.destroy()
+            # homeFrame.pack_forget()
+            # homeFrame.destroy()
 
             character_selection_frame(self)
 

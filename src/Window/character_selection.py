@@ -12,8 +12,8 @@ from Window.new_character import new_character_frame
 from Window.city import cityFrame
 from Utils.Sound import Sound
 from Window.QuestScreen import Quest
-
 from Window.city import cityFrame
+from Window.character_show import Personnage
 
 
 def character_selection_frame(self):
@@ -67,7 +67,9 @@ def character_selection_frame(self):
                              text=descr, width=400, justify=LEFT)
 
     selectButton = []
+    print("persoJson")
     persoJson = Person.list_person()
+    print("persoJson")
     tempPerso = []
     for person in persoJson:
         print(person)
@@ -113,10 +115,8 @@ def character_selection_frame(self):
 
     # Button in choice PersoFrame window ChoiceButton = Button(choicePersoFrame, text="Choisir", command=choice,
     # border=0, activebackground='#12c4c0', bg="#12c4c0")
-   
     
-
-
+    
     #Button to return in the mainWindow
     character_frame.place(x=0, y=0)
     returnButton = Button(character_frame, text="Retour", command=returnPage, border=0,
@@ -124,6 +124,3 @@ def character_selection_frame(self):
     # ChoiceButton.place(x=950, y=550)
 
     returnButton.place(x=780, y=550)
-
-  
-     
