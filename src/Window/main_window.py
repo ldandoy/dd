@@ -6,14 +6,13 @@ from tkinter import *
 
 from Utils.load_json import LoadJson
 from Window.character_selection import character_selection_frame
-from Window.new_character import new_character_frame
-from PIL import Image, ImageTk
+from Window.new_character_info import new_character_info_frame
 from Utils.load_json import LoadJson
 from Utils.Sound import Sound
 from News.News import NewsList
 
 from Window.character_selection import character_selection_frame
-
+from Utils.utils import imageTk
 
 class MainWindow:
 
@@ -82,11 +81,7 @@ class MainWindow:
         homeFrame.place(x=0, y=0)
         # homeFrame.lower()
 
-        bgImagePath = os.path.join(
-            self.base_folder, '../medias/montagne.png')
-        image = Image.open(bgImagePath)
-        image = image.resize((self.w, self.h), Image.ANTIALIAS)
-        bgImage = ImageTk.PhotoImage(image)
+        bgImage = imageTk(self, "montagne")
 
         bgCanvas = Canvas(homeFrame, width=self.w, height=self.h)
         bgCanvas.pack(fill="both", expand=True, )
@@ -113,13 +108,13 @@ class MainWindow:
         def play():
             pygame.mixer.init()
             Sound.play(self.base_folder, "button_menu")
-            homeFrame.pack_forget()
-            homeFrame.destroy()
+            # homeFrame.pack_forget()
+            # homeFrame.destroy()
 
             character_selection_frame(self)
 
         def perso():
-            new_character_frame(self)
+            new_character_info_frame(self)
 
         # Button to see more news
         ShowMoreNewsButton = Button(homeFrame, text="Voir plus d'actualités", command=self.newsList.renderNewsListPage, border=0, activebackground='#12c4c0',font=('calibri (font)', 28, 'bold'), 
@@ -132,6 +127,10 @@ class MainWindow:
         playButton = Button(homeFrame, text="Jouer", command=play, border=0, activebackground='#12c4c0',font=('calibri (font)', 58, 'bold'), 
                             bg="#12c4c0")
         playButton.place(relx=.5, rely=.70, anchor="center")
+
+        # TODO : This is not used and we're discussing about deleting it
+        # Button(self.q, text='Menu',
+        #        border=0, bg="#12c4c0").place(x=5, y=10)
 
         # TODO : This is not used and we're discussing about deleting it
         # Button(self.q, text='Menu',

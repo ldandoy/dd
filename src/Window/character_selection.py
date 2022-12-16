@@ -8,7 +8,6 @@ from tkinter import *
 
 import pygame
 from Perso.person import Person
-from Window.new_character import new_character_frame
 from Window.city import cityFrame
 from Utils.Sound import Sound
 from Window.QuestScreen import Quest

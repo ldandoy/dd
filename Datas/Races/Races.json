@@ -1,0 +1,38 @@
+{
+  "elfe": {
+    "force": 4,
+    "dexterite": 5,
+    "intelligence": 6,
+    "charisme": 2,
+    "constitution": 2,
+    "sagesse": 4,
+    "vitesse": 2
+  },
+  "troll": {
+    "force": 6,
+    "dexterite": 3,
+    "intelligence": 0,
+    "charisme": 1,
+    "constitution": 5,
+    "sagesse": 1,
+    "vitesse": 4
+  },
+  "orc": {
+    "force": 7,
+    "dexterite": 3,
+    "intelligence": 1,
+    "charisme": 0,
+    "constitution": 6,
+    "sagesse": 0,
+    "vitesse": 3
+  },
+  "human": {
+    "force": 3,
+    "dexterite": 2,
+    "intelligence": 3,
+    "charisme": 2,
+    "constitution": 3,
+    "sagesse": 2,
+    "vitesse": 5
+  }
+}

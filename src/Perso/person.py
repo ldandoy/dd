@@ -28,36 +28,35 @@ class Person(DefaultController):
                  taille: tk.IntVar,
                  poids: tk.IntVar,
                  peau: tk.StringVar,
-                 race: tk.StringVar,
+                 race: str,
                  classe: tk.StringVar,
                  alignement: tk.StringVar,
-                 pe: tk.IntVar,
-                 force: tk.IntVar,
-                 dexterite: tk.IntVar,
-                 intelligence: tk.IntVar,
-                 charisme: tk.IntVar,
-                 constitution: tk.IntVar,
-                 sagesse: tk.IntVar,
-                 vitesse: tk.IntVar) -> None:
+                 force: int,
+                 dexterite: int,
+                 intelligence: int,
+                 charisme: int,
+                 constitution: int,
+                 sagesse: int,
+                 vitesse: int) -> None:
         super().__init__()
         self.__allowed_skills_points__ = 25
-        self.name: str = name.get()
-        self.age: int = age.get()
-        self.yeux: str = yeux.get()
-        self.taille: int = taille.get()
-        self.poids: int = poids.get()
-        self.peau: str = peau.get()
-        self.race: str = race.get()
-        self.classe: str = classe.get()
-        self.alignement: str = alignement.get()
-        self.pe: int = pe.get()
-        self.force: int = force.get()
-        self.dexterite: int = dexterite.get()
-        self.intelligence: int = intelligence.get()
-        self.charisme: int = charisme.get()
-        self.constitution: int = constitution.get()
-        self.sagesse: int = sagesse.get()
-        self.vitesse: int = vitesse.get()
+        self.name: str = name
+        self.age: int = age
+        self.yeux: str = yeux
+        self.taille: int = taille
+        self.poids: int = poids
+        self.peau: str = peau
+        self.race: str = race
+        self.classe: str = classe
+        self.alignement: str = alignement
+        self.pe: int = 0
+        self.force: int = force
+        self.dexterite: int = dexterite
+        self.intelligence: int = intelligence
+        self.charisme: int = charisme
+        self.constitution: int = constitution
+        self.sagesse: int = sagesse
+        self.vitesse: int = vitesse
         self.pdv = 100
         self.descriptionDuPeronnage = f"Je m'appelle {self.name}, je suis un {self.classe} et je ne vis que pour servir les miens. Que les {self.race}s vivent à jamais !! "
 
@@ -76,7 +75,7 @@ class Person(DefaultController):
         """
         Get difference between all skills points and maximum allowed.
         """
-        return self.__allowed_skills_points__ - (self.pe + self.force + self.dexterite + self.intelligence + self.charisme + self.constitution + self.sagesse + self.vitesse)
+        return self.__allowed_skills_points__ - (self.force + self.dexterite + self.intelligence + self.charisme + self.constitution + self.sagesse + self.vitesse)
 
     def verify_inputs(self) -> list:
         """
@@ -100,10 +99,8 @@ class Person(DefaultController):
             errors.append('L\'origine ethnique ne peut pas etre vide')
         if not self.classe or self.classe.strip() == '':
             errors.append('La classe ne peut pas etre vide')
-        if not self.alignement or self.alignement.strip() == '':
-            errors.append('L\'alignement ne peut pas etre vide')
-        if not self.pe or self.pe <= 0:
-            errors.append('Les points d\'expérience doit etre supérieur à 0')
+        if not self.alignement or self.alignement < 0 or self.alignement > 100:
+            errors.append('L\'alignement ne peut pas etre vide et doit etre compris entre 0 et 100')
         if not self.force or self.force <= 0:
             errors.append('La force doit etre supérieure à 0')
         if not self.dexterite or self.dexterite <= 0:
@@ -111,11 +108,11 @@ class Person(DefaultController):
 
         # verify skills points attribution
         skill_points_difference = self.skill_points_difference()
-        if skill_points_difference < 0 and not skill_points_difference == -400:
+        if skill_points_difference > 0:
             abs_skill_points_difference = abs(skill_points_difference)
             points_msg = 'point' if abs_skill_points_difference == 1 else 'points'
-            errors.append(f'Points de compétences insuffisant,'
-                          f'vous devez retirer {abs_skill_points_difference} {points_msg}')
+            errors.append(f'Points de compétences manquant,'
+                          f'vous devez ajouter {abs_skill_points_difference} {points_msg}')
         return errors
 
     def save(self):
